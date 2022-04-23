@@ -4,7 +4,21 @@ on:
   push:
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
   unit_tests:
+    needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,9 +27,15 @@ jobs:
         run: ./gradlew test
 
   android_tests:
+    needs: [ setup ]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
 
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -30,14 +50,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Generate Release APK
-        run: ./gradlew assembleRelease
+      - name: Generate Release AAB
+        run: ./gradlew bundleRelease
 
-      - name: Sign APK
+      - name: Sign AAB
         uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
-          releaseDirectory: app/release
+          releaseDirectory: app/build/outputs/bundle/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
