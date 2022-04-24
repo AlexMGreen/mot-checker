@@ -2,6 +2,11 @@ name: Test and deploy
 
 on:
   push:
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
 
 jobs:
   setup:
@@ -65,7 +70,7 @@ jobs:
 
       - uses: actions/upload-artifact@master
         with:
-          name: release.apk
+          name: release.aab
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
       - uses: actions/upload-artifact@master
