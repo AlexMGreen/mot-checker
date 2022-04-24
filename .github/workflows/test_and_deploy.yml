@@ -55,14 +55,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Generate Release AAB
-        run: ./gradlew bundleRelease
+      - name: Generate Release APK
+        run: ./gradlew assembleRelease
 
-      - name: Sign AAB
+      - name: Sign APK
         uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/bundle/release
+          releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -70,7 +70,7 @@ jobs:
 
       - uses: actions/upload-artifact@master
         with:
-          name: release.aab
+          name: release.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
       - uses: actions/upload-artifact@master
