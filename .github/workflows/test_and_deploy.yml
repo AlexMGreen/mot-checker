@@ -22,8 +22,23 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
-  unit_tests:
+  static-analysis:
     needs: [ setup ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Static Analysis
+        run: ./gradlew detekt
+
+      - uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: detekt
+          path: app/build/reports/detekt/
+
+  unit_tests:
+    needs: [ static-analysis ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -32,7 +47,7 @@ jobs:
         run: ./gradlew test
 
   android_tests:
-    needs: [ setup ]
+    needs: [ static-analysis ]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
