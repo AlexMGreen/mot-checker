@@ -14,6 +14,7 @@
 bin/
 gen/
 out/
+app/release
 #  Uncomment the following line in case you need and you don't have the release build type files in your app
 # release/
 
@@ -83,3 +84,6 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+#keystore
+mot-checker-release.keystore
