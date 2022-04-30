@@ -26,7 +26,11 @@ import io.agapps.motchecker.ui.theme.Shapes
 import io.agapps.motchecker.ui.theme.numberPlateTextStyle
 
 @Composable
-fun NumberPlateTextField(initialText: String, modifier: Modifier = Modifier) {
+fun NumberPlateTextField(
+    modifier: Modifier = Modifier,
+    initialText: String,
+    onNumberPlateFocused: (() -> Unit)? = null,
+) {
     var text by rememberSaveable { mutableStateOf(initialText) }
     var textColor by rememberSaveable { mutableStateOf(Black30.toArgb()) }
 
@@ -58,6 +62,7 @@ fun NumberPlateTextField(initialText: String, modifier: Modifier = Modifier) {
             ),
             modifier = modifier
                 .onFocusChanged {
+                    if (it.isFocused) onNumberPlateFocused?.invoke()
                     text = if (it.isFocused) "" else initialText
                     textColor = if (it.isFocused) Color.Black.toArgb() else Black30.toArgb()
 
@@ -70,5 +75,5 @@ fun NumberPlateTextField(initialText: String, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun NumberPlateTextFieldPreview() {
-    NumberPlateTextField("ENTER REG")
+    NumberPlateTextField(initialText = "ENTER REG")
 }
