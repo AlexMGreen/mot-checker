@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import io.agapps.motchecker.search.screens.SearchScreen
+import io.agapps.motchecker.home.screens.HomeScreen
 import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SearchScreen()
+                    HomeScreen()
                 }
             }
         }
@@ -34,6 +34,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MOTCheckerTheme {
-        SearchScreen()
+        HomeScreen()
     }
 }

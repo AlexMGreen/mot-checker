@@ -1,4 +1,4 @@
-package io.agapps.motchecker.search.components
+package io.agapps.motchecker.home.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight

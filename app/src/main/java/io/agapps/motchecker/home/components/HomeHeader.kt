@@ -1,4 +1,4 @@
-package io.agapps.motchecker.search.components
+package io.agapps.motchecker.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,13 +17,13 @@ import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.theme.Black30
 
 @Composable
-fun SearchHeader(
+fun HomeHeader(
     modifier: Modifier = Modifier,
     onNumberPlateFocused: (() -> Unit)? = null,
 ) {
     Box(modifier = modifier) {
         Image(
-            painterResource(id = R.drawable.search_background),
+            painterResource(id = R.drawable.home_header_background),
             contentDescription = "",
             contentScale = ContentScale.Crop, // or some other scale
             modifier = Modifier.matchParentSize()
@@ -59,8 +59,8 @@ fun SearchHeader(
 
 @Preview
 @Composable
-fun SearchHeaderPreview() {
-    SearchHeader(
+fun HomeHeaderPreview() {
+    HomeHeader(
         Modifier
             .fillMaxWidth()
             .height(300.dp)
