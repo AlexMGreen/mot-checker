@@ -19,7 +19,7 @@ import io.agapps.motchecker.ui.theme.Black30
 @Composable
 fun HomeHeader(
     modifier: Modifier = Modifier,
-    onNumberPlateFocused: (() -> Unit)? = null,
+    onNumberPlateClicked: (() -> Unit)? = null,
 ) {
     Box(modifier = modifier) {
         Image(
@@ -50,7 +50,7 @@ fun HomeHeader(
                     .wrapContentHeight()
                     .fillMaxWidth(),
                 stringResource(id = R.string.enter_reg),
-                onNumberPlateFocused
+                onNumberPlateClicked
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
