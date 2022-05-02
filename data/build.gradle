@@ -2,6 +2,8 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id "io.gitlab.arturbosch.detekt"
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -13,6 +15,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField("String", "MOT_API_KEY", MOT_API_KEY)
     }
 
     buildTypes {
@@ -37,9 +41,18 @@ dependencies {
 
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "com.google.android.material:material:$material_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_moshi_converter_version"
 
     testImplementation "junit:junit:$junit_version"
 
     androidTestImplementation "androidx.test.ext:junit:$junit_android_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+}
+
+kapt {
+    correctErrorTypes = true
 }
