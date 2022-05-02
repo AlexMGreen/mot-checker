@@ -2,6 +2,8 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id "io.gitlab.arturbosch.detekt"
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -13,6 +15,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField("String", "MOT_API_KEY", "\"${System.getenv("MOT_API_KEY")}\"")
     }
 
     buildTypes {
@@ -23,12 +27,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
 }
 
@@ -37,9 +41,20 @@ dependencies {
 
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "com.google.android.material:material:$material_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_moshi_converter_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
 
     testImplementation "junit:junit:$junit_version"
 
     androidTestImplementation "androidx.test.ext:junit:$junit_android_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+}
+
+kapt {
+    correctErrorTypes = true
 }

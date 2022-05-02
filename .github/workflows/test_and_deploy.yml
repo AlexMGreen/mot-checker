@@ -12,7 +12,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Set Up JDK
         uses: actions/setup-java@v1
@@ -26,9 +26,11 @@ jobs:
     needs: [ setup ]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Static Analysis
+        env:
+          MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
         run: ./gradlew detekt
 
       - uses: actions/upload-artifact@master
@@ -44,6 +46,8 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Unit tests
+        env:
+          MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
         run: ./gradlew test
 
   android_tests:
@@ -58,6 +62,8 @@ jobs:
           java-version: '11'
 
       - name: Instrumentation Tests
+        env:
+          MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
@@ -71,6 +77,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Generate Release APK
+        env:
+          MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
         run: ./gradlew assembleRelease
 
       - name: Sign APK
