@@ -10,10 +10,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import io.agapps.motchecker.home.components.NumberPlateTextField
 
+@Suppress("UnusedPrivateMember")
 @Composable
 fun SearchScreen(modifier: Modifier = Modifier, navController: NavHostController) {
     // TODO: Account for status bar height
-    Column(modifier = Modifier.padding(vertical = 32.dp, horizontal = 8.dp)) {
+    Column(modifier = modifier.padding(vertical = 32.dp, horizontal = 8.dp)) {
         NumberPlateTextField(initialText = "")
     }
 }
