@@ -13,10 +13,12 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import io.agapps.motchecker.home.screens.HomeScreen
 import io.agapps.motchecker.search.SearchScreen
 import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

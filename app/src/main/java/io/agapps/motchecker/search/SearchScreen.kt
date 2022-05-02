@@ -1,9 +1,12 @@
 package io.agapps.motchecker.search
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -12,10 +15,23 @@ import io.agapps.motchecker.home.components.NumberPlateTextField
 
 @Suppress("UnusedPrivateMember")
 @Composable
-fun SearchScreen(modifier: Modifier = Modifier, navController: NavHostController) {
-    // TODO: Account for status bar height
-    Column(modifier = modifier.padding(vertical = 32.dp, horizontal = 8.dp)) {
-        NumberPlateTextField(initialText = "")
+fun SearchScreen(
+    modifier: Modifier = Modifier,
+    navController: NavHostController
+) {
+    val focusManager = LocalFocusManager.current
+
+    Column(modifier = modifier.padding(8.dp)) {
+        Box(modifier = modifier) {
+            NumberPlateTextField(
+                initialText = "",
+                modifier = modifier.statusBarsPadding(),
+                onCloseClicked = {
+                    focusManager.clearFocus()
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 }
 

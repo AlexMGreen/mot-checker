@@ -67,9 +67,9 @@ dependencies {
     implementation "androidx.activity:activity-compose:$activity_compose_version"
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$viewmodel_compose_version"
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$navigation_compose_version"
+    implementation "com.google.accompanist:accompanist-insets-ui:$accompanist_insets_version"
 
     testImplementation "junit:junit:$junit_version"
 
@@ -78,6 +78,8 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 }
 
 kapt {
