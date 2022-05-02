@@ -44,6 +44,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_moshi_converter_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
 
     testImplementation "junit:junit:$junit_version"
 
@@ -51,6 +52,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 }
 
 kapt {
