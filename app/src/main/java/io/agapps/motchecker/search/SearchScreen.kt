@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import io.agapps.motchecker.home.components.NumberPlateTextField
@@ -17,6 +18,7 @@ import io.agapps.motchecker.home.components.NumberPlateTextField
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
     val focusManager = LocalFocusManager.current
@@ -26,6 +28,9 @@ fun SearchScreen(
             NumberPlateTextField(
                 initialText = "",
                 modifier = modifier.statusBarsPadding(),
+                onTextChanged = {
+                    viewModel.onRegistrationNumberEntered(it)
+                },
                 onCloseClicked = {
                     focusManager.clearFocus()
                     navController.popBackStack()

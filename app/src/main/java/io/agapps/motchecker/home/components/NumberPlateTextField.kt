@@ -42,6 +42,7 @@ import io.agapps.motchecker.ui.theme.numberPlateTextStyle
 fun NumberPlateTextField(
     modifier: Modifier = Modifier,
     initialText: String,
+    onTextChanged: ((String) -> Unit)? = null,
     onNumberPlateClicked: (() -> Unit)? = null,
     onCloseClicked: (() -> Unit)? = null,
 ) {
@@ -60,7 +61,10 @@ fun NumberPlateTextField(
         Box(modifier) {
             TextField(
                 value = text,
-                onValueChange = { text = it },
+                onValueChange = { newText ->
+                    text = newText
+                    onTextChanged?.invoke(newText)
+                },
                 textStyle = numberPlateTextStyle,
                 singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
@@ -101,7 +105,7 @@ fun NumberPlateTextField(
 private fun CloseButton(
     modifier: Modifier = Modifier,
     onCloseClicked: () -> Unit,
-    ) {
+) {
     Icon(
         Icons.Filled.Close,
         stringResource(id = R.string.close_search),

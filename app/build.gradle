@@ -70,6 +70,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-compose:$navigation_compose_version"
     implementation "com.google.accompanist:accompanist-insets-ui:$accompanist_insets_version"
+    implementation "com.github.ajalt:timberkt:$timberkt_version"
 
     testImplementation "junit:junit:$junit_version"
 

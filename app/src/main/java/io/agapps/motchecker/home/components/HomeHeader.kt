@@ -57,7 +57,7 @@ fun HomeHeader(
                     .wrapContentHeight()
                     .fillMaxWidth(),
                 stringResource(id = R.string.enter_reg),
-                onNumberPlateClicked
+                onNumberPlateClicked = onNumberPlateClicked
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
