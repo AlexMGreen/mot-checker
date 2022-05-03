@@ -12,7 +12,7 @@ data class MotHistoryDto(
     @Json(name = "model")
     val model: String,
     @Json(name = "engineSize")
-    val engineSize: String,
+    val engineSize: String?,
     @Json(name = "firstUsedDate")
     val firstUsedDate: String?,
     @Json(name = "fuelType")
