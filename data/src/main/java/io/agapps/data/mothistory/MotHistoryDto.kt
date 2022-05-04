@@ -12,21 +12,21 @@ data class MotHistoryDto(
     @Json(name = "model")
     val model: String,
     @Json(name = "engineSize")
-    val engineSize: String,
+    val engineSize: String?,
     @Json(name = "firstUsedDate")
-    val firstUsedDate: String,
+    val firstUsedDate: String?,
     @Json(name = "fuelType")
     val fuelType: String,
     @Json(name = "manufactureDate")
     val manufactureDate: String,
     @Json(name = "motTests")
-    val motTests: List<MotTest>,
+    val motTests: List<MotTest>?,
     @Json(name = "primaryColour")
     val primaryColour: String,
     @Json(name = "registrationDate")
     val registrationDate: String,
     @Json(name = "vehicleId")
-    val vehicleId: String
+    val vehicleId: String?
 )
 
 @JsonClass(generateAdapter = true)

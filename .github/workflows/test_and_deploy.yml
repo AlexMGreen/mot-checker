@@ -49,28 +49,29 @@ jobs:
         env:
           MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
         run: ./gradlew test
-
-  android_tests:
-    needs: [ static-analysis ]
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set Up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-
-      - name: Instrumentation Tests
-        env:
-          MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          script: ./gradlew connectedAndroidTest
+#
+#  android_tests:
+#    needs: [ static-analysis ]
+#    runs-on: macos-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Set Up JDK
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: '11'
+#
+#      - name: Instrumentation Tests
+#        env:
+#          MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 29
+#          script: ./gradlew connectedAndroidTest
 
   build:
-    needs: [ unit_tests, android_tests ]
+#    needs: [ unit_tests, android_tests ]
+    needs: [ unit_tests ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
