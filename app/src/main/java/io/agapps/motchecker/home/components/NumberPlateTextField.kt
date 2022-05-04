@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -26,6 +27,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -37,7 +39,7 @@ import io.agapps.motchecker.ui.theme.Orange300
 import io.agapps.motchecker.ui.theme.Shapes
 import io.agapps.motchecker.ui.theme.numberPlateTextStyle
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun NumberPlateTextField(
     modifier: Modifier = Modifier,
@@ -48,7 +50,7 @@ fun NumberPlateTextField(
 ) {
     var text by rememberSaveable { mutableStateOf(initialText) }
     val focusRequester = remember { FocusRequester() }
-
+    val keyboardController = LocalSoftwareKeyboardController.current
     Card(
         modifier = modifier
             .wrapContentHeight()
@@ -77,6 +79,7 @@ fun NumberPlateTextField(
                     capitalization = KeyboardCapitalization.Characters,
                     imeAction = ImeAction.Search
                 ),
+                keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() }),
                 enabled = onNumberPlateClicked == null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -93,7 +96,6 @@ fun NumberPlateTextField(
                 }
             }
         }
-
 
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()

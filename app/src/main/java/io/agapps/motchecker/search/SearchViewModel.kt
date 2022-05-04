@@ -30,7 +30,7 @@ class SearchViewModel @Inject constructor(
             debounceState
                 .debounce(SearchDebounceMs)
                 .collect { registrationNumber ->
-                    if (registrationNumber != null) {
+                    if (!registrationNumber.isNullOrBlank()) {
                         Timber.d { "Searching for $registrationNumber" }
                         repository.getVehicleDetails(registrationNumber)
                             .onSuccess {

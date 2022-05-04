@@ -11,7 +11,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,7 +44,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
                     onClick = {
                         // TODO: Navigate to saved vehicles
                     }) {
-                    Icon(Icons.Filled.Favorite, contentDescription = stringResource(id = R.string.saved_vehicles))
+                    Icon(Icons.Default.FavoriteBorder, contentDescription = stringResource(id = R.string.saved_vehicles))
                 }
             }
         }
