@@ -21,6 +21,7 @@ buildscript {
         moshi_version = '1.13.0'
         retrofit_moshi_converter_version = '2.9.0'
         accompanist_insets_version = '0.24.7-alpha'
+        accompanist_flowlayout_version = '0.24.7-alpha'
         timber_version = '0.24.7-alpha'
         timberkt_version = '1.5.1'
 

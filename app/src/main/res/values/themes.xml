@@ -3,5 +3,6 @@
 
     <style name="Theme.MOTChecker" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">#FF1B1E20</item>
     </style>
 </resources>

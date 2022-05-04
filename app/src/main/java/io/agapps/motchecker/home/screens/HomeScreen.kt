@@ -21,10 +21,11 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
         ) {
             navController.navigate(NavRoutes.Search.route)
         }
+        // TODO: Expanding camera card - add border stroke and fade + expand when clicked
     }
 }
 
-@Preview
+@Preview(heightDp = 800)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(navController = rememberNavController())
