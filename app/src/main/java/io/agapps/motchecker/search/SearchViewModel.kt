@@ -32,6 +32,7 @@ class SearchViewModel @Inject constructor(
                 .collect { registrationNumber ->
                     if (!registrationNumber.isNullOrBlank()) {
                         Timber.d { "Searching for $registrationNumber" }
+                        _searchViewState.value = SearchViewState.SearchLoading
                         repository.getVehicleDetails(registrationNumber)
                             .onSuccess {
                                 _searchViewState.value = SearchViewState.SearchResult(it)

@@ -7,7 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +17,8 @@ import com.google.accompanist.flowlayout.FlowRow
 import io.agapps.domain.vehicledetails.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.components.IconLabel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -31,14 +33,17 @@ fun VehicleSummary(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier
 
         FlowRow {
             IconLabel(modifier, vehicleDetails.primaryColour) { Icon(painterResource(id = R.drawable.ic_color), "") }
-            IconLabel(modifier, vehicleDetails.manufactureDate) { Icon(painterResource(id = R.drawable.ic_calendar), "") }
+            IconLabel(modifier, vehicleDetails.parsedManufactureDate.formatDayMonthYear()) { Icon(painterResource(id = R.drawable.ic_calendar), "") }
         }
         FlowRow {
             IconLabel(modifier, vehicleDetails.fuelType) { Icon(painterResource(id = R.drawable.ic_fuel), "") }
             vehicleDetails.engineSizeCc?.let { engineSizeCc ->
-                IconLabel(modifier, "${engineSizeCc}cc") { Icon(Icons.Filled.Info, "") }
+                IconLabel(modifier, "${engineSizeCc}cc") { Icon(Icons.Outlined.Info, "") }
             }
         }
     }
 }
 
+fun LocalDate.formatDayMonthYear(): String = dateFormatter.format(this)
+
+private val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
