@@ -101,7 +101,11 @@ fun SearchResultContent(vehicleDetails: VehicleDetails, modifier: Modifier = Mod
 
         VehicleSummary(vehicleDetails, modifier)
 
-        VehicleMileage(vehicleDetails, modifier)
+        val maxMileage = vehicleDetails.maxMileage
+        val motTests = vehicleDetails.motTests
+        if (maxMileage != null && motTests != null) {
+            VehicleMileage(motTests, vehicleDetails.parsedManufactureDate, maxMileage, modifier)
+        }
     }
 }
 

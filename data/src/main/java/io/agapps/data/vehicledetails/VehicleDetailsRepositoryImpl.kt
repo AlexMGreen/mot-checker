@@ -34,7 +34,7 @@ class VehicleDetailsRepositoryImpl @Inject constructor(private val motHistorySer
         fuelType,
         engineSize,
         manufactureDate,
-        motTests = this.motTests.map { it.toDomain() }
+        motTests = this.motTests?.map { it.toDomain() }
     )
 
     private fun MotTestDto.toDomain() = MotTest(
@@ -43,6 +43,7 @@ class VehicleDetailsRepositoryImpl @Inject constructor(private val motHistorySer
         motTestNumber,
         odometerUnit,
         odometerValue,
+        odometerResultType,
         reasonForRejectionAndComment = rfrAndComments.map { it.toDomain() },
         testResult
     )

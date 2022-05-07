@@ -12,13 +12,15 @@ data class VehicleDetails(
     val fuelType: String,
     val engineSizeCc: String?,
     val manufactureDate: String,
-    val motTests: List<MotTest>,
+    val motTests: List<MotTest>?,
 ) {
     val capitalisedMakeAndModel = "$make $model".capitalizeWords()
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     val parsedManufactureDate: LocalDate
         get() = LocalDate.parse(manufactureDate, dateFormatter)
+
+    val maxMileage = motTests?.maxByOrNull { it.odometerValue.toInt() }?.odometerValue
 
 
     companion object {

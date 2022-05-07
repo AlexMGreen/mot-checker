@@ -17,6 +17,8 @@ import com.google.accompanist.flowlayout.FlowRow
 import io.agapps.domain.vehicledetails.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.components.IconLabel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -31,7 +33,7 @@ fun VehicleSummary(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier
 
         FlowRow {
             IconLabel(modifier, vehicleDetails.primaryColour) { Icon(painterResource(id = R.drawable.ic_color), "") }
-            IconLabel(modifier, vehicleDetails.manufactureDate) { Icon(painterResource(id = R.drawable.ic_calendar), "") }
+            IconLabel(modifier, vehicleDetails.parsedManufactureDate.formatDayMonthYear()) { Icon(painterResource(id = R.drawable.ic_calendar), "") }
         }
         FlowRow {
             IconLabel(modifier, vehicleDetails.fuelType) { Icon(painterResource(id = R.drawable.ic_fuel), "") }
@@ -42,3 +44,6 @@ fun VehicleSummary(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier
     }
 }
 
+fun LocalDate.formatDayMonthYear(): String = dateFormatter.format(this)
+
+private val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")

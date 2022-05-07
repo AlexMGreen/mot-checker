@@ -20,32 +20,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import io.agapps.domain.vehicledetails.VehicleDetails
+import com.github.mikephil.charting.formatter.ValueFormatter
+import io.agapps.domain.vehicledetails.MotTest
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.components.IconLabel
-import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 import io.agapps.motchecker.ui.theme.Shapes
 import io.agapps.motchecker.ui.theme.SurfaceGrey
 import io.agapps.motchecker.ui.theme.Typography
 import io.agapps.motchecker.ui.theme.White50
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun VehicleMileage(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier) {
-    val entries = listOf(
-        Entry(0f, 0f),
-        Entry(1f, 7430f),
-        Entry(2f, 18000f),
-        Entry(3f, 35430f),
-    )
+fun VehicleMileage(motTests: List<MotTest>, parsedManufactureDate: LocalDate, maxMileage: String, modifier: Modifier = Modifier) {
+    val entries = mutableListOf(Entry(parsedManufactureDate.toEpochDay().toFloat(), 0f)) + motTests
+        .filter { !it.odometerUnreadable }
+        .distinctBy { it.parsedCompletedDate }
+        .sortedBy { it.parsedCompletedDate }
+        .map { Entry(it.parsedCompletedDate.toEpochDay().toFloat(), it.odometerValue.toFloat()) }
 
     Column {
         Spacer(modifier = Modifier.size(16.dp))
@@ -60,8 +61,9 @@ fun VehicleMileage(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier
                     .align(Alignment.CenterVertically)
             )
 
+            // TODO: Check odometerUnit for mi/km
             IconLabel(
-                label = "35430 miles",
+                label = stringResource(R.string.total_miles, maxMileage),
                 icon = {
                     Icon(Icons.Outlined.Info, "")
                 }
@@ -75,6 +77,11 @@ fun VehicleMileage(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier
                     .height(196.dp),
                 factory = { context ->
                     getLineChart(context, getDataSet(entries))
+                },
+                update = { lineChart ->
+                    lineChart.data = LineData(getDataSet(entries))
+                    lineChart.notifyDataSetChanged()
+                    lineChart.invalidate()
                 }
             )
         }
@@ -83,6 +90,7 @@ fun VehicleMileage(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier
 
 private fun getDataSet(entries: List<Entry>) = LineDataSet(entries, "").apply {
     mode = LineDataSet.Mode.CUBIC_BEZIER
+    cubicIntensity = 0.1f
     circleColors = listOf(Color.WHITE)
     color = Color.WHITE
     fillDrawable = GradientDrawable(
@@ -98,27 +106,31 @@ private fun getLineChart(context: Context, dataset: LineDataSet) = LineChart(con
     xAxis.position = XAxis.XAxisPosition.BOTTOM
     xAxis.granularity = 1f
     xAxis.enableGridDashedLine(20f, 10f, 10f)
-    axisRight.enableGridDashedLine(20f, 10f, 10f)
     xAxis.textColor = ContextCompat.getColor(context, R.color.white)
     xAxis.yOffset = 8f
+    xAxis.valueFormatter = object : ValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            return LocalDate.ofEpochDay(value.toLong()).formatMonthYear()
+        }
+    }
+    xAxis.setLabelCount(6, true)
+    xAxis.setAvoidFirstLastClipping(true)
     axisRight.xOffset = 8f
-    extraBottomOffset = 12f
+    axisRight.enableGridDashedLine(20f, 10f, 10f)
     axisRight.textColor = ContextCompat.getColor(context, R.color.white)
     axisRight.axisMinimum = 0f
     axisLeft.axisMinimum = 0f
     axisLeft.isEnabled = false
+    extraRightOffset = 8f
+    extraBottomOffset = 12f
     description.isEnabled = false
     legend.isEnabled = false
-    extraRightOffset = 8f
     data = LineData(dataset)
     setScaleEnabled(false)
     invalidate()
 }
 
-@Preview
-@Composable
-fun PreviewVehicleMileage() {
-    MOTCheckerTheme {
-        VehicleMileage(VehicleDetails.vehiclePreview())
-    }
-}
+
+fun LocalDate.formatMonthYear(): String = monthYearFormatter.format(this)
+
+private val monthYearFormatter = DateTimeFormatter.ofPattern("MM-yyyy")
