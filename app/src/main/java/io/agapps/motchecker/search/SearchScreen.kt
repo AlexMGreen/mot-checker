@@ -66,6 +66,7 @@ fun SearchScreen(
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
             val toolbarAlpha = if (listState.firstVisibleItemIndex != 0) 1f else {
+                @Suppress("MagicNumber")
                 (listState.firstVisibleItemScrollOffset / 100f).coerceAtMost(1f)
             }
 

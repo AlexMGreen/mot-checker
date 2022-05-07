@@ -89,9 +89,10 @@ fun VehicleMileage(motTests: List<MotTest>, parsedManufactureDate: LocalDate, ma
     }
 }
 
+private const val LineCubitIntensity = 0.1f
 private fun getDataSet(entries: List<Entry>) = LineDataSet(entries, "").apply {
     mode = LineDataSet.Mode.CUBIC_BEZIER
-    cubicIntensity = 0.1f
+    cubicIntensity = LineCubitIntensity
     circleColors = listOf(Color.WHITE)
     color = Color.WHITE
     fillDrawable = GradientDrawable(
@@ -103,27 +104,38 @@ private fun getDataSet(entries: List<Entry>) = LineDataSet(entries, "").apply {
     setDrawFilled(true)
 }
 
+private const val XAxisGranularity = 1f
+private const val DashedLineLength = 20f
+private const val DashedLineSpaceLength = 10f
+private const val DashedLinePhase = 10f
+private const val XAxisOffset = 8f
+private const val XAxisLabelCount = 6
+private const val RightAxisOffset = 8f
+private const val RightAxisMinimum = 0f
+private const val LeftAxisMinimum = 0f
+private const val ExtraRightOffset = 8f
+private const val ExtraBottomOffset = 12f
 private fun getLineChart(context: Context, dataset: LineDataSet) = LineChart(context).apply {
     xAxis.position = XAxis.XAxisPosition.BOTTOM
-    xAxis.granularity = 1f
-    xAxis.enableGridDashedLine(20f, 10f, 10f)
+    xAxis.granularity = XAxisGranularity
+    xAxis.enableGridDashedLine(DashedLineLength, DashedLineSpaceLength, DashedLinePhase)
     xAxis.textColor = ContextCompat.getColor(context, R.color.white)
-    xAxis.yOffset = 8f
+    xAxis.yOffset = XAxisOffset
     xAxis.valueFormatter = object : ValueFormatter() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             return LocalDate.ofEpochDay(value.toLong()).formatMonthYear()
         }
     }
-    xAxis.setLabelCount(6, true)
+    xAxis.setLabelCount(XAxisLabelCount, true)
     xAxis.setAvoidFirstLastClipping(true)
-    axisRight.xOffset = 8f
-    axisRight.enableGridDashedLine(20f, 10f, 10f)
+    axisRight.xOffset = RightAxisOffset
+    axisRight.enableGridDashedLine(DashedLineSpaceLength, DashedLineSpaceLength, DashedLinePhase)
     axisRight.textColor = ContextCompat.getColor(context, R.color.white)
-    axisRight.axisMinimum = 0f
-    axisLeft.axisMinimum = 0f
+    axisRight.axisMinimum = RightAxisMinimum
+    axisLeft.axisMinimum = LeftAxisMinimum
     axisLeft.isEnabled = false
-    extraRightOffset = 8f
-    extraBottomOffset = 12f
+    extraRightOffset = ExtraRightOffset
+    extraBottomOffset = ExtraBottomOffset
     description.isEnabled = false
     legend.isEnabled = false
     data = LineData(dataset)
