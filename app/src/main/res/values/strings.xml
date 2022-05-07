@@ -3,4 +3,5 @@
 
     <string name="enter_reg">ENTER REG</string>
     <string name="search_vehicle">Search for a vehicle</string>
+    <string name="mileage">Mileage</string>
 </resources>

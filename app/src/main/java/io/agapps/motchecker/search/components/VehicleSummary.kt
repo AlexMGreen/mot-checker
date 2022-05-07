@@ -7,7 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +36,7 @@ fun VehicleSummary(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier
         FlowRow {
             IconLabel(modifier, vehicleDetails.fuelType) { Icon(painterResource(id = R.drawable.ic_fuel), "") }
             vehicleDetails.engineSizeCc?.let { engineSizeCc ->
-                IconLabel(modifier, "${engineSizeCc}cc") { Icon(Icons.Filled.Info, "") }
+                IconLabel(modifier, "${engineSizeCc}cc") { Icon(Icons.Outlined.Info, "") }
             }
         }
     }

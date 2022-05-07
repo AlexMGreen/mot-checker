@@ -31,8 +31,10 @@ import androidx.navigation.NavHostController
 import io.agapps.domain.vehicledetails.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.home.components.NumberPlateTextField
+import io.agapps.motchecker.search.components.VehicleMileage
 import io.agapps.motchecker.search.components.VehicleSummary
 import io.agapps.motchecker.ui.components.AppBottomBar
+import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 import io.agapps.motchecker.ui.theme.SurfaceGrey
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -70,7 +72,7 @@ fun SearchScreen(
                 exit = fadeOut() + slideOutVertically { fullHeight -> fullHeight }
             ) {
                 val searchResultViewState = (viewState as? SearchViewState.SearchResult) ?: return@AnimatedVisibility
-                SearchResultContent(searchResultViewState, modifier)
+                SearchResultContent(searchResultViewState.vehicleDetails, modifier)
             }
         }
     }
@@ -93,28 +95,20 @@ fun SearchFab(searchViewState: SearchViewState) {
 }
 
 @Composable
-fun SearchResultContent(searchResultViewState: SearchViewState.SearchResult, modifier: Modifier = Modifier) {
+fun SearchResultContent(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(8.dp)) {
         Spacer(modifier = Modifier.size(36.dp))
 
-        VehicleSummary(searchResultViewState.vehicleDetails, modifier)
+        VehicleSummary(vehicleDetails, modifier)
+
+        VehicleMileage(vehicleDetails, modifier)
     }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFF121516, widthDp = 300)
 @Composable
 fun SearchResultContentPreview() {
-    SearchResultContent(
-        searchResultViewState = SearchViewState.SearchResult(
-            VehicleDetails(
-                "AB66XYZ",
-                "Ford",
-                "Focus",
-                "Blue",
-                "Petrol",
-                "1600",
-                "12.06.1990"
-            )
-        )
-    )
+    MOTCheckerTheme {
+        SearchResultContent(VehicleDetails.vehiclePreview())
+    }
 }
