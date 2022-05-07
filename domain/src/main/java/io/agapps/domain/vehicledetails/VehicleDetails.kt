@@ -1,5 +1,7 @@
 package io.agapps.domain.vehicledetails
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 data class VehicleDetails(
@@ -10,8 +12,14 @@ data class VehicleDetails(
     val fuelType: String,
     val engineSizeCc: String?,
     val manufactureDate: String,
+    val motTests: List<MotTest>,
 ) {
     val capitalisedMakeAndModel = "$make $model".capitalizeWords()
+
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+    val parsedManufactureDate: LocalDate
+        get() = LocalDate.parse(manufactureDate, dateFormatter)
+
 
     companion object {
         fun vehiclePreview() = VehicleDetails(
@@ -21,7 +29,8 @@ data class VehicleDetails(
             "Blue",
             "Petrol",
             "1600",
-            "12.06.1990"
+            "12.06.1990",
+            emptyList()
         )
     }
 }
