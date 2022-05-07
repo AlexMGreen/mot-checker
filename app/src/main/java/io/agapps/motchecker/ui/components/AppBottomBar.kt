@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.agapps.motchecker.R
-import io.agapps.motchecker.ui.theme.SurfaceGrey
 
 @Composable
 fun AppBottomBar(
@@ -22,7 +21,6 @@ fun AppBottomBar(
 ) {
     BottomAppBar(
         modifier = modifier,
-        backgroundColor = SurfaceGrey,
         cutoutShape = MaterialTheme.shapes.small.copy(CornerSize(percent = 50)),
         elevation = 0.dp
     ) {

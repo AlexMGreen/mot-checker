@@ -60,7 +60,7 @@ fun NumberPlateTextField(
         backgroundColor = Orange300,
         elevation = 8.dp,
     ) {
-        Box(modifier) {
+        Box {
             TextField(
                 value = text,
                 onValueChange = { newText ->

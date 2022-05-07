@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -20,17 +20,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.agapps.motchecker.ui.theme.Shapes
-import io.agapps.motchecker.ui.theme.SurfaceGrey
 
 @Composable
 fun IconLabel(modifier: Modifier = Modifier, label: String, icon: @Composable () -> Unit) {
-    Surface(
+    Card(
         modifier = modifier
             .padding(8.dp)
             .wrapContentHeight()
             .wrapContentWidth(),
         shape = Shapes.medium,
-        color = SurfaceGrey,
+        elevation = 0.dp,
     ) {
         Row(modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
             Box(modifier = Modifier.size(16.dp)) {

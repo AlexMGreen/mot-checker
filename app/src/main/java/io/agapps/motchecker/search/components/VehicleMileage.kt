@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
@@ -34,7 +35,6 @@ import io.agapps.domain.vehicledetails.MotTest
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.components.IconLabel
 import io.agapps.motchecker.ui.theme.Shapes
-import io.agapps.motchecker.ui.theme.SurfaceGrey
 import io.agapps.motchecker.ui.theme.Typography
 import io.agapps.motchecker.ui.theme.White50
 import java.time.LocalDate
@@ -54,7 +54,8 @@ fun VehicleMileage(motTests: List<MotTest>, parsedManufactureDate: LocalDate, ma
         Row {
             Text(
                 text = stringResource(R.string.mileage),
-                style = Typography.subtitle1,
+                style = Typography.overline,
+                fontSize = 14.sp,
                 modifier = modifier
                     .padding(horizontal = 8.dp)
                     .weight(1f)
@@ -70,7 +71,7 @@ fun VehicleMileage(motTests: List<MotTest>, parsedManufactureDate: LocalDate, ma
             )
         }
 
-        Surface(color = SurfaceGrey, modifier = modifier.padding(8.dp), shape = Shapes.medium) {
+        Card(elevation = 0.dp, modifier = modifier.padding(8.dp), shape = Shapes.medium) {
             AndroidView(
                 modifier = Modifier
                     .fillMaxWidth()
