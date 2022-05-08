@@ -79,7 +79,7 @@ fun SearchScreen(
                 NumberPlateTextField(
                     modifier = modifier.statusBarsPadding().padding(horizontal = 16.dp, vertical = 8.dp),
                     onTextChanged = { viewModel.onRegistrationNumberEntered(it) },
-                    onCloseClicked = {
+                    onBackClicked = {
                         focusManager.clearFocus()
                         navController.popBackStack()
                     }
