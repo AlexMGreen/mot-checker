@@ -25,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -43,19 +42,16 @@ import io.agapps.motchecker.ui.theme.numberPlateTextStyle
 @Composable
 fun NumberPlateTextField(
     modifier: Modifier = Modifier,
-    initialText: String,
     onTextChanged: ((String) -> Unit)? = null,
-    onNumberPlateClicked: (() -> Unit)? = null,
     onCloseClicked: (() -> Unit)? = null,
 ) {
-    var text by rememberSaveable { mutableStateOf(initialText) }
+    var text by rememberSaveable { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
     Card(
         modifier = modifier
             .wrapContentHeight()
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(),
         shape = Shapes.medium,
         backgroundColor = Orange300,
         elevation = 8.dp,
@@ -80,18 +76,13 @@ fun NumberPlateTextField(
                     imeAction = ImeAction.Search
                 ),
                 keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() }),
-                enabled = onNumberPlateClicked == null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .onFocusChanged {
-                        text = if (it.isFocused) "" else initialText
-                    }
-                    .clickable { onNumberPlateClicked?.invoke() }
                     .focusRequester(focusRequester)
             )
 
             if (onCloseClicked != null) {
-                CloseButton(modifier.align(Alignment.CenterEnd)) {
+                CloseButton(Modifier.align(Alignment.CenterEnd)) {
                     onCloseClicked()
                 }
             }
@@ -113,15 +104,15 @@ private fun CloseButton(
         stringResource(id = R.string.close_search),
         tint = DarkGrey,
         modifier = modifier
-            .padding(end = 16.dp)
             .clickable {
                 onCloseClicked()
             }
+            .padding(16.dp)
     )
 }
 
 @Preview
 @Composable
 fun NumberPlateTextFieldPreview() {
-    NumberPlateTextField(initialText = "ENTER REG")
+    NumberPlateTextField {}
 }

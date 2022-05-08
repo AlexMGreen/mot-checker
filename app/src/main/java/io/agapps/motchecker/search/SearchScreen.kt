@@ -74,8 +74,7 @@ fun SearchScreen(
 
             Surface(color = LightGrey.copy(alpha = toolbarAlpha)) {
                 NumberPlateTextField(
-                    initialText = "",
-                    modifier = modifier.statusBarsPadding(),
+                    modifier = modifier.statusBarsPadding().padding(horizontal = 16.dp),
                     onTextChanged = { viewModel.onRegistrationNumberEntered(it) },
                     onCloseClicked = {
                         focusManager.clearFocus()
