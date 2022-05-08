@@ -26,6 +26,16 @@ data class MotTest(
 
     val didPass = testResult == "PASSED"
 
+    // TODO: Check for RFRs with type=="USER ENTERED"
+
+    val dangerousDefects = reasonForRejectionAndComment.filter { it.type == "DANGEROUS" || it.dangerous }
+
+    val majorDefects = reasonForRejectionAndComment.filter { it.type == "MAJOR" || it.type == "PRS" || it.type == "FAIL"}
+
+    val minorDefects = reasonForRejectionAndComment.filter { it.type == "MINOR" }
+
+    val advisories = reasonForRejectionAndComment.filter { it.type == "ADVISORY" }
+
     companion object {
         fun motPreview() = MotTest(
             "2021.10.05 08:34:38",

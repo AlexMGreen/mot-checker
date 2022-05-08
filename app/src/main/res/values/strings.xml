@@ -17,4 +17,8 @@
     <string name="total_failed">%s Failed"</string>
     <string name="expiry_date">Expiry Date</string>
     <string name="mot_test_number">MOT Test Number</string>
+    <string name="dangerous_defects">Dangerous Defects</string>
+    <string name="major_defects">Major Defects</string>
+    <string name="minor_defects">Minor Defects</string>
+    <string name="advisories">Advisories</string>
 </resources>

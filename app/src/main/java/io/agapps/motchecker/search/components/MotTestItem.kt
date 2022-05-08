@@ -19,13 +19,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.agapps.domain.vehicledetails.MotTest
+import io.agapps.domain.vehicledetails.ReasonForRejectionAndComment
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.components.IconLabel
 import io.agapps.motchecker.ui.theme.Green50
@@ -61,6 +61,7 @@ fun MotTestItem(
                 Column {
                     MotTestItemHeadline(motTest = motTest, modifier = modifier)
                     MotTestItemBody(motTest = motTest, modifier = modifier)
+                    MotTestItemComments(motTest, modifier)
                     Spacer(modifier = Modifier.size(8.dp))
                     MotTestItemFooter(motTest = motTest, modifier = modifier)
                     Spacer(modifier = Modifier.size(4.dp))
@@ -101,19 +102,53 @@ fun MotTestItemBody(
     motTest: MotTest,
     modifier: Modifier = Modifier
 ) {
+    // TODO: Display mileage diff from last test
+
+    if (!motTest.didPass) return
     Row(modifier = modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
-        if (motTest.didPass) {
-            Column {
-                Text(text = stringResource(R.string.expiry_date), style = Typography.overline)
-                Spacer(modifier = Modifier.size(4.dp))
-                Text(text = motTest.parsedExpiryDate?.formatDayMonthYear().orEmpty(), style = Typography.body2)
+        Column {
+            Text(text = stringResource(R.string.expiry_date), style = Typography.overline)
+            Spacer(modifier = Modifier.size(4.dp))
+            Text(text = motTest.parsedExpiryDate?.formatDayMonthYear().orEmpty(), style = Typography.body2)
+        }
+    }
+}
+
+@Composable
+fun MotTestItemComments(
+    motTest: MotTest,
+    modifier: Modifier = Modifier
+) {
+    Column {
+        MotTestItemCommentsItem( stringResource(R.string.dangerous_defects), motTest.dangerousDefects, modifier)
+        MotTestItemCommentsItem( stringResource(R.string.major_defects), motTest.majorDefects, modifier)
+        MotTestItemCommentsItem( stringResource(R.string.minor_defects), motTest.minorDefects, modifier)
+        MotTestItemCommentsItem( stringResource(R.string.advisories), motTest.advisories, modifier)
+    }
+}
+
+@Composable
+fun MotTestItemCommentsItem(
+    label: String,
+    rfrAndComments: List<ReasonForRejectionAndComment>,
+    modifier: Modifier = Modifier
+) {
+    if (rfrAndComments.isEmpty()) return
+    Column(modifier = modifier) {
+        Spacer(modifier = Modifier.size(12.dp))
+        IconLabel(label = label, elevation = 1.dp) {
+            Icon(Icons.Outlined.Info, "")
+        }
+        Card(
+            elevation = 1.dp,
+            modifier = modifier.padding(horizontal = 8.dp)
+        ) {
+            Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+                rfrAndComments.forEach { major ->
+                    Text(text = major.text, style = Typography.body2, modifier = Modifier.padding(vertical = 8.dp))
+                }
             }
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // TODO: Calculate mileage diff from last test
-        Text(text = "+5620", style = Typography.caption, modifier = Modifier.align(Alignment.Top))
     }
 }
 
