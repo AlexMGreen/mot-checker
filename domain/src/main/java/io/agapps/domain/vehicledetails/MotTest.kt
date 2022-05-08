@@ -25,6 +25,25 @@ data class MotTest(
         }
 
     val didPass = testResult == "PASSED"
+
+    companion object {
+        fun motPreview() = MotTest(
+            "2021.10.05 08:34:38",
+            "2022.10.13",
+            "224288258889",
+            "mi",
+            "105263",
+            "READ",
+            listOf(
+                ReasonForRejectionAndComment(
+                    dangerous = false,
+                    text = "Offside Front Drive shaft joint constant velocity boot severely deteriorated (6.1.7 (g) (i))",
+                    type = "MINOR"
+                )
+            ),
+            "PASSED"
+        )
+    }
 }
 
 data class ReasonForRejectionAndComment(

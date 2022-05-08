@@ -42,7 +42,7 @@ data class VehicleDetails(
             "Petrol",
             "1600",
             "12.06.1990",
-            emptyList()
+            listOf(MotTest.motPreview())
         )
     }
 }

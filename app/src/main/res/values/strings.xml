@@ -5,11 +5,16 @@
     <string name="search_vehicle">Search for a vehicle</string>
     <string name="mileage">Mileage</string>
     <string name="total_miles">%s+ Miles</string>
+    <string name="test_miles">%s Miles</string>
     <string name="loading">Loading</string>
     <string name="error">Error</string>
     <string name="mot_valid_until">MOT valid until %s</string>
     <string name="mot_expired_on">MOT expired on %s</string>
     <string name="mot_history">MOT History"</string>
-    <string name="total_passed">%s Passed"</string>
+    <string name="passed">Passed</string>
+    <string name="failed">Failed</string>
+    <string name="total_passed">%s Passed</string>
     <string name="total_failed">%s Failed"</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="mot_test_number">MOT Test Number</string>
 </resources>

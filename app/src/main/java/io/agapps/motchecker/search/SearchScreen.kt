@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
@@ -35,11 +36,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import io.agapps.domain.vehicledetails.MotTest
 import io.agapps.domain.vehicledetails.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.home.components.NumberPlateTextField
 import io.agapps.motchecker.search.components.MotHistoryTitle
 import io.agapps.motchecker.search.components.MotStatus
+import io.agapps.motchecker.search.components.MotTestItem
 import io.agapps.motchecker.search.components.VehicleMileage
 import io.agapps.motchecker.search.components.VehicleSummary
 import io.agapps.motchecker.ui.components.AppBottomBar
@@ -74,7 +77,7 @@ fun SearchScreen(
 
             Surface(color = LightGrey.copy(alpha = toolbarAlpha)) {
                 NumberPlateTextField(
-                    modifier = modifier.statusBarsPadding().padding(horizontal = 16.dp),
+                    modifier = modifier.statusBarsPadding().padding(horizontal = 16.dp, vertical = 8.dp),
                     onTextChanged = { viewModel.onRegistrationNumberEntered(it) },
                     onCloseClicked = {
                         focusManager.clearFocus()
@@ -135,6 +138,11 @@ fun SearchResultContent(
 
         // TODO: Display 'No MOT information' message
         item { MotHistoryTitle(vehicleDetails, modifier) }
+
+        itemsIndexed(motTests.orEmpty()) { index: Int, motTest: MotTest ->
+            // TODO: Pass in previous item's mileage to diff
+            MotTestItem(motTest = motTest, modifier)
+        }
 
         items(motTests.orEmpty()) { motTest ->
             // TODO: Mot test result items
