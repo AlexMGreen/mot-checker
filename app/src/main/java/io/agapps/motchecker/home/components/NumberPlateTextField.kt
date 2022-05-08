@@ -1,5 +1,8 @@
 package io.agapps.motchecker.home.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +16,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,16 +28,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.agapps.motchecker.R
-import io.agapps.motchecker.ui.theme.DarkGrey
+import io.agapps.motchecker.ui.theme.Black70
 import io.agapps.motchecker.ui.theme.Orange300
 import io.agapps.motchecker.ui.theme.Shapes
 import io.agapps.motchecker.ui.theme.numberPlateTextStyle
@@ -43,19 +47,18 @@ import io.agapps.motchecker.ui.theme.numberPlateTextStyle
 @Composable
 fun NumberPlateTextField(
     modifier: Modifier = Modifier,
-    initialText: String,
     onTextChanged: ((String) -> Unit)? = null,
-    onNumberPlateClicked: (() -> Unit)? = null,
-    onCloseClicked: (() -> Unit)? = null,
+    onBackClicked: (() -> Unit)? = null,
 ) {
-    var text by rememberSaveable { mutableStateOf(initialText) }
+    var text by rememberSaveable { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+
     Card(
         modifier = modifier
             .wrapContentHeight()
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(),
         shape = Shapes.medium,
         backgroundColor = Orange300,
         elevation = 8.dp,
@@ -79,20 +82,26 @@ fun NumberPlateTextField(
                     capitalization = KeyboardCapitalization.Characters,
                     imeAction = ImeAction.Search
                 ),
-                keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() }),
-                enabled = onNumberPlateClicked == null,
+                keyboardActions = KeyboardActions(onSearch = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus(true)
+                }),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .onFocusChanged {
-                        text = if (it.isFocused) "" else initialText
-                    }
-                    .clickable { onNumberPlateClicked?.invoke() }
+                    .padding(horizontal = 32.dp)
                     .focusRequester(focusRequester)
             )
 
-            if (onCloseClicked != null) {
-                CloseButton(modifier.align(Alignment.CenterEnd)) {
-                    onCloseClicked()
+            if (onBackClicked != null) {
+                BackButton(Modifier.align(Alignment.CenterStart)) {
+                    onBackClicked()
+                }
+            }
+
+            AnimatedVisibility(visible = text.isNotBlank(), enter = fadeIn(), exit = fadeOut(), modifier = Modifier.align(Alignment.CenterEnd)) {
+                ClearButton {
+                    text = ""
+                    focusRequester.requestFocus()
                 }
             }
         }
@@ -104,24 +113,41 @@ fun NumberPlateTextField(
 }
 
 @Composable
-private fun CloseButton(
+private fun BackButton(
     modifier: Modifier = Modifier,
-    onCloseClicked: () -> Unit,
+    onBackClicked: () -> Unit,
 ) {
     Icon(
-        Icons.Filled.Close,
+        Icons.Filled.ArrowBack,
         stringResource(id = R.string.close_search),
-        tint = DarkGrey,
+        tint = Black70,
         modifier = modifier
-            .padding(end = 16.dp)
             .clickable {
-                onCloseClicked()
+                onBackClicked()
             }
+            .padding(16.dp)
     )
+}
+
+@Composable
+private fun ClearButton(
+    modifier: Modifier = Modifier,
+    onClearClicked: () -> Unit,
+) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_cross_filled),
+        contentDescription = stringResource(id = R.string.clear_search),
+        tint = Black70,
+        modifier = modifier
+            .clickable {
+                onClearClicked()
+            }
+            .padding(16.dp)
+        )
 }
 
 @Preview
 @Composable
 fun NumberPlateTextFieldPreview() {
-    NumberPlateTextField(initialText = "ENTER REG")
+    NumberPlateTextField {}
 }

@@ -35,30 +35,34 @@ fun HomeHeader(
             contentScale = ContentScale.Crop, // or some other scale
             modifier = Modifier.matchParentSize()
         )
+
         Box(
             modifier = Modifier
                 .matchParentSize()
                 .background(Black30)
         )
+
         Column(
             modifier = Modifier
                 .matchParentSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
             Text(
                 text = stringResource(id = R.string.search_vehicle),
                 fontSize = 28.sp,
                 color = Color.White,
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
+                modifier = Modifier.padding(vertical = 16.dp)
             )
-            NumberPlateTextField(
+
+            NumberPlateText(
+                stringResource(id = R.string.enter_reg),
                 Modifier
                     .wrapContentHeight()
                     .fillMaxWidth(),
-                stringResource(id = R.string.enter_reg),
                 onNumberPlateClicked = onNumberPlateClicked
-            )
+                )
+
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
@@ -73,4 +77,3 @@ fun HomeHeaderPreview() {
             .height(300.dp)
     )
 }
-
