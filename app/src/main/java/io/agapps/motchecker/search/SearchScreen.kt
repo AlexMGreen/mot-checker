@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.FabPosition
@@ -142,10 +141,6 @@ fun SearchResultContent(
         itemsIndexed(motTests.orEmpty()) { index: Int, motTest: MotTest ->
             // TODO: Pass in previous item's mileage to diff
             MotTestItem(motTest = motTest, modifier)
-        }
-
-        items(motTests.orEmpty()) { motTest ->
-            // TODO: Mot test result items
         }
     }
 }
