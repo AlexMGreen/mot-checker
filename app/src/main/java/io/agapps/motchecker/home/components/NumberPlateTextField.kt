@@ -98,11 +98,7 @@ fun NumberPlateTextField(
                 }
             }
 
-            AnimatedVisibility(
-                visible = text.isNotBlank(),
-                enter = fadeIn(),
-                exit = fadeOut(),
-                modifier = Modifier.align(Alignment.CenterEnd)) {
+            AnimatedVisibility(visible = text.isNotBlank(), enter = fadeIn(), exit = fadeOut(), modifier = Modifier.align(Alignment.CenterEnd)) {
                 ClearButton {
                     text = ""
                     focusRequester.requestFocus()
