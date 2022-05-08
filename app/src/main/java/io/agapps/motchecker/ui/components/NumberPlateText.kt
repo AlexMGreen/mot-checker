@@ -1,4 +1,4 @@
-package io.agapps.motchecker.home.components
+package io.agapps.motchecker.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
