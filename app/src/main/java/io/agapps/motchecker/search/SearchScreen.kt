@@ -38,6 +38,7 @@ import androidx.navigation.NavHostController
 import io.agapps.domain.vehicledetails.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.home.components.NumberPlateTextField
+import io.agapps.motchecker.search.components.MotHistoryTitle
 import io.agapps.motchecker.search.components.MotStatus
 import io.agapps.motchecker.search.components.VehicleMileage
 import io.agapps.motchecker.search.components.VehicleSummary
@@ -134,6 +135,8 @@ fun SearchResultContent(
         }
 
         // TODO: Display 'No MOT information' message
+        item { MotHistoryTitle(vehicleDetails, modifier) }
+
         items(motTests.orEmpty()) { motTest ->
             // TODO: Mot test result items
         }

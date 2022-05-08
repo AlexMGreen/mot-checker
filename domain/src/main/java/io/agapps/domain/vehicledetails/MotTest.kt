@@ -23,6 +23,8 @@ data class MotTest(
         get() = expiryDate?.let { expiryDate ->
             LocalDate.parse(expiryDate, expiryDateFormatter)
         }
+
+    val didPass = testResult == "PASSED"
 }
 
 data class ReasonForRejectionAndComment(
