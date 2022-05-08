@@ -13,10 +13,16 @@ data class MotTest(
     val reasonForRejectionAndComment: List<ReasonForRejectionAndComment>,
     val testResult: String
 ) {
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss")
-    val parsedCompletedDate: LocalDate = LocalDate.parse(completedDate, dateFormatter)
+    private val completedDateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss")
+    val parsedCompletedDate: LocalDate = LocalDate.parse(completedDate, completedDateFormatter)
 
     val odometerUnreadable = odometerResultType == "UNREADABLE"
+
+    private val expiryDateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+    val parsedExpiryDate: LocalDate?
+        get() = expiryDate?.let { expiryDate ->
+            LocalDate.parse(expiryDate, expiryDateFormatter)
+        }
 }
 
 data class ReasonForRejectionAndComment(

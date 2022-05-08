@@ -7,4 +7,5 @@
     <string name="total_miles">%s+ miles</string>
     <string name="loading">Loading</string>
     <string name="error">Error</string>
+    <string name="mot_valid_until">MOT valid until %s</string>
 </resources>

@@ -38,6 +38,7 @@ import androidx.navigation.NavHostController
 import io.agapps.domain.vehicledetails.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.home.components.NumberPlateTextField
+import io.agapps.motchecker.search.components.MotStatus
 import io.agapps.motchecker.search.components.VehicleMileage
 import io.agapps.motchecker.search.components.VehicleSummary
 import io.agapps.motchecker.ui.components.AppBottomBar
@@ -122,6 +123,8 @@ fun SearchResultContent(
         item { Spacer(modifier = Modifier.size(48.dp)) }
 
         item { VehicleSummary(vehicleDetails, modifier) }
+
+        item { MotStatus(vehicleDetails, modifier) }
 
         val maxMileage = vehicleDetails.maxMileage
         val motTests = vehicleDetails.motTests

@@ -1,5 +1,6 @@
 package io.agapps.domain.vehicledetails
 
+import java.time.Clock
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -22,6 +23,15 @@ data class VehicleDetails(
 
     val maxMileage = motTests?.maxByOrNull { it.odometerValue.toInt() }?.odometerValue
 
+    private val clock = Clock.systemDefaultZone()
+    // TODO: Check for motTestDueDate if new vehicle without MOT history
+    val hasValidMot = motTests
+        ?.mapNotNull { it.parsedExpiryDate }
+        ?.any { parsedExpiryDate ->
+            parsedExpiryDate.isEqual(LocalDate.now(clock)) || parsedExpiryDate.isAfter(LocalDate.now(clock))
+        }
+
+    val latestExpiryDate = motTests?.sortedByDescending { it.parsedExpiryDate }?.first()?.parsedExpiryDate
 
     companion object {
         fun vehiclePreview() = VehicleDetails(
