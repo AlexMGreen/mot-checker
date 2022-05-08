@@ -14,6 +14,8 @@ import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import io.agapps.domain.vehicledetails.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.theme.Green50
+import io.agapps.motchecker.ui.theme.Red50
 import io.agapps.motchecker.ui.theme.Typography
 
 @Composable
@@ -30,32 +33,48 @@ fun MotStatus(
 ) {
     val validMot = vehicleDetails.hasValidMot ?: return
     if (validMot) {
-        Card(
+        MotStatusCard(
+            text = stringResource(R.string.mot_valid_until, vehicleDetails.latestExpiryDate?.formatDayMonthYear().toString()),
+            icon = { Icon(Icons.Outlined.CheckCircle, "", modifier = Modifier.size(48.dp)) },
+            backgroundColor = Green50,
             modifier = modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            backgroundColor = Green50
-        ) {
-            Row(modifier = Modifier.padding(16.dp)) {
-                Icon(
-                    Icons.Outlined.CheckCircle,
-                    "",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .align(Alignment.CenterVertically)
-                )
+        )
+    } else {
+        MotStatusCard(
+            text = stringResource(R.string.mot_expired_on, vehicleDetails.latestExpiryDate?.formatDayMonthYear().toString()),
+            icon = { Icon(painter = painterResource(id = R.drawable.ic_cross_filled), contentDescription = "", modifier = Modifier.size(48.dp)) },
+            backgroundColor = Red50,
+            modifier = modifier
+        )
+    }
+}
 
-                Spacer(modifier = Modifier.size(16.dp))
+@Composable
+private fun MotStatusCard(
+    text: String,
+    icon: @Composable () -> Unit,
+    backgroundColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        backgroundColor = backgroundColor
+    ) {
+        Row(modifier = Modifier.padding(16.dp)) {
+            icon()
 
-                Text(
-                    text = stringResource(R.string.mot_valid_until, vehicleDetails.latestExpiryDate?.formatDayMonthYear().toString()),
-                    style = Typography.subtitle1,
-                    fontSize = 18.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                )
-            }
+            Spacer(modifier = Modifier.size(16.dp))
+
+            Text(
+                text = text,
+                style = Typography.subtitle1,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
         }
     }
 }
