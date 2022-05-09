@@ -14,16 +14,25 @@ import io.agapps.domain.vehicledetails.VehicleDetailsRepository
 import java.io.IOException
 import javax.inject.Inject
 
-class VehicleDetailsRepositoryImpl @Inject constructor(private val motHistoryService: MotHistoryService) : VehicleDetailsRepository {
+class VehicleDetailsRepositoryImpl @Inject constructor(
+    private val motHistoryService: MotHistoryService,
+    private val vehicleDetailsDao: VehicleDetailsDao,
+) : VehicleDetailsRepository {
 
     override suspend fun getVehicleDetails(registrationNumber: String): Result<VehicleDetails> {
         val response = motHistoryService.getMotHistory(registrationNumber)
         return if (response.isSuccessful) {
-            Success(response.body()!!.first().toDomain())
+            val vehicleDetails = response.body()!!.first().toDomain()
+            vehicleDetailsDao.insertVehicle(vehicleDetails.toEntity())
+            Success(vehicleDetails)
         } else {
             Failure(IOException(response.errorBody().toString()))
         }
     }
+
+    private fun VehicleDetails.toEntity() = VehicleDetailsEntity(
+        registrationNumber, make, model, primaryColour, fuelType, engineSizeCc, manufactureDate
+    )
 
     // TODO: Combine with DVLA Vehicle Enquiry Service API info?
     private fun MotHistoryDto.toDomain() = VehicleDetails(

@@ -38,7 +38,7 @@ import androidx.navigation.NavHostController
 import io.agapps.domain.vehicledetails.MotTest
 import io.agapps.domain.vehicledetails.VehicleDetails
 import io.agapps.motchecker.R
-import io.agapps.motchecker.home.components.NumberPlateTextField
+import io.agapps.motchecker.ui.components.NumberPlateTextField
 import io.agapps.motchecker.search.components.MotHistoryTitle
 import io.agapps.motchecker.search.components.MotStatus
 import io.agapps.motchecker.search.components.MotTestItem

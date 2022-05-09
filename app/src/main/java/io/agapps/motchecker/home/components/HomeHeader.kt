@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.agapps.motchecker.R
+import io.agapps.motchecker.ui.components.NumberPlateText
 import io.agapps.motchecker.ui.theme.Black30
 
 @Composable
