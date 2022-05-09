@@ -16,4 +16,5 @@ val SurfaceGrey = Color(0xFF1B1E20)
 
 val Black30 = Color(0x4D000000)
 val Black70 = Color(0xB3000000)
+val White10 = Color(0x1AFFFFFF)
 val White50 = Color(0x80FFFFFF)

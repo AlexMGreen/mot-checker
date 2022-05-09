@@ -33,7 +33,7 @@ fun HomeHeader(
         Image(
             painterResource(id = R.drawable.home_header_background),
             contentDescription = "",
-            contentScale = ContentScale.Crop, // or some other scale
+            contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
         )
 

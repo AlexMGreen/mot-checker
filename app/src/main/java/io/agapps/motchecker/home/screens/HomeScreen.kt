@@ -1,6 +1,7 @@
 package io.agapps.motchecker.home.screens
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import io.agapps.motchecker.NavRoutes
 import io.agapps.motchecker.R
+import io.agapps.motchecker.home.components.CameraSearchCard
 import io.agapps.motchecker.home.components.HomeHeader
 import io.agapps.motchecker.ui.components.AppBottomBar
 import io.agapps.motchecker.ui.theme.MOTCheckerTheme
@@ -32,7 +34,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
     Scaffold(
         modifier = Modifier.navigationBarsPadding(),
         floatingActionButton = {
-            FloatingActionButton(onClick = {navController.navigate(NavRoutes.Search.route)}) {
+            FloatingActionButton(onClick = { navController.navigate(NavRoutes.Search.route) }) {
                 Icon(Icons.Outlined.Search, stringResource(id = R.string.search), tint = SurfaceGrey)
             }
         },
@@ -50,15 +52,21 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
         }
     ) { paddingValues ->
         Column {
-            HomeHeader(modifier.fillMaxWidth().fillMaxHeight(fraction = 0.30f)) {
+            HomeHeader(
+                modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(fraction = 0.30f)
+            ) {
                 navController.navigate(NavRoutes.Search.route)
             }
+
+            CameraSearchCard { }
             // TODO: Expanding camera card - add border stroke and fade + expand when clicked
         }
     }
 }
 
-@Preview(heightDp = 800)
+@Preview(heightDp = 800, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun HomeScreenPreview() {
     MOTCheckerTheme {
