@@ -47,7 +47,7 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     implementation "com.github.ajalt:timberkt:$timberkt_version"
     implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+    api "androidx.room:room-ktx:$room_version"
 
     testImplementation "junit:junit:$junit_version"
 

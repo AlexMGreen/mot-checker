@@ -75,6 +75,11 @@ dependencies {
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist_flowlayout_version"
     implementation "com.github.ajalt:timberkt:$timberkt_version"
     implementation "com.github.PhilJay:MPAndroidChart:$mpandroidchart_version"
+    implementation "com.google.android.gms:play-services-mlkit-text-recognition:$mlkit_text_version"
+    implementation "androidx.camera:camera-core:$camerax_version"
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    implementation "androidx.camera:camera-view:$camerax_view_version"
 
     testImplementation "junit:junit:$junit_version"
 

@@ -21,4 +21,6 @@
     <string name="major_defects">Major Defects</string>
     <string name="minor_defects">Minor Defects</string>
     <string name="advisories">Advisories</string>
+    <string name="search_using_camera">Search using camera</string>
+    <string name="close">Close</string>
 </resources>
