@@ -30,6 +30,10 @@ gradlePlugin {
             id = "motchecker.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
+        register("androidFeature") {
+            id = "motchecker.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
         register("detekt") {
             id = "motchecker.detekt"
             implementationClass = "DetektConventionPlugin"
