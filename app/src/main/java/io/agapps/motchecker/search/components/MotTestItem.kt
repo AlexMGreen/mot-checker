@@ -24,8 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.agapps.domain.vehicledetails.MotTest
-import io.agapps.domain.vehicledetails.ReasonForRejectionAndComment
+import io.agapps.core.model.MotTest
+import io.agapps.core.model.ReasonForRejectionAndComment
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.components.IconLabel
 import io.agapps.motchecker.ui.theme.Green50

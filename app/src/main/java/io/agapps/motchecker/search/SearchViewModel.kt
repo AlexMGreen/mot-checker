@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.agapps.domain.onFailure
-import io.agapps.domain.onSuccess
-import io.agapps.domain.vehicledetails.VehicleDetailsRepository
+import io.agapps.common.result.onFailure
+import io.agapps.common.result.onSuccess
+import io.agapps.core.data.repository.VehicleDetailsRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

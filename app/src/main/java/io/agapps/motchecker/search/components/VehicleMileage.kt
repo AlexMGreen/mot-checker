@@ -27,7 +27,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import io.agapps.domain.vehicledetails.MotTest
+import io.agapps.core.model.MotTest
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.components.IconLabel
 import io.agapps.motchecker.ui.components.SectionTitle

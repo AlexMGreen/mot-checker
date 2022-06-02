@@ -35,16 +35,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import io.agapps.domain.vehicledetails.MotTest
-import io.agapps.domain.vehicledetails.VehicleDetails
+import io.agapps.core.model.MotTest
+import io.agapps.core.model.VehicleDetails
 import io.agapps.motchecker.R
-import io.agapps.motchecker.ui.components.NumberPlateTextField
 import io.agapps.motchecker.search.components.MotHistoryTitle
 import io.agapps.motchecker.search.components.MotStatus
 import io.agapps.motchecker.search.components.MotTestItem
 import io.agapps.motchecker.search.components.VehicleMileage
 import io.agapps.motchecker.search.components.VehicleSummary
 import io.agapps.motchecker.ui.components.AppBottomBar
+import io.agapps.motchecker.ui.components.NumberPlateTextField
 import io.agapps.motchecker.ui.theme.LightGrey
 import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 import io.agapps.motchecker.ui.theme.SurfaceGrey
@@ -76,7 +76,9 @@ fun SearchScreen(
 
             Surface(color = LightGrey.copy(alpha = toolbarAlpha)) {
                 NumberPlateTextField(
-                    modifier = modifier.statusBarsPadding().padding(horizontal = 16.dp, vertical = 8.dp),
+                    modifier = modifier
+                        .statusBarsPadding()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                     onTextChanged = { viewModel.onRegistrationNumberEntered(it) },
                     onBackClicked = {
                         focusManager.clearFocus()

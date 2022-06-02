@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import io.agapps.domain.vehicledetails.VehicleDetails
+import io.agapps.core.model.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.components.IconLabel
 import io.agapps.motchecker.ui.components.SectionTitle

@@ -21,8 +21,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MOTChecker"
 include ':app'
-include ':domain'
-include ':data'
 include ':core-common'
 include ':core-data'
 include ':core-database'

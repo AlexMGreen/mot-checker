@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.agapps.domain.vehicledetails.VehicleDetails
+import io.agapps.core.model.VehicleDetails
 import io.agapps.motchecker.R
 import io.agapps.motchecker.ui.theme.Green50
 import io.agapps.motchecker.ui.theme.Red50

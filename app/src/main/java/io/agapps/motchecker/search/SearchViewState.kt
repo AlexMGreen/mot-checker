@@ -1,6 +1,6 @@
 package io.agapps.motchecker.search
 
-import io.agapps.domain.vehicledetails.VehicleDetails
+import io.agapps.core.model.VehicleDetails
 
 sealed class SearchViewState {
 
