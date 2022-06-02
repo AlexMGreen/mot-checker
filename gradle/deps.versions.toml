@@ -1,0 +1,74 @@
+[versions]
+android-plugin = "7.1.2"
+kotlin-android = "1.6.10"
+kotlin-jvm = "1.5.30"
+desugarjdklibs = "1.1.5"
+compose = '1.1.1'
+ktx = '1.7.0'
+ktx-lifecycle = '2.4.1'
+material = '1.5.0'
+activity-compose = '1.4.0'
+viewmodel-compose = '2.4.1'
+navigation-compose = '1.0.0'
+nav = '2.4.2'
+hilt = '2.38.1'
+retrofit = '2.9.0'
+moshi = '1.13.0'
+retrofit-moshi-converter = '2.9.0'
+accompanist-insets = '0.24.7-alpha'
+accompanist-flowlayout = '0.24.7-alpha'
+timber = '0.24.7-alpha'
+timberkt = '1.5.1'
+mpandroidchart = 'v3.1.0'
+room = '2.4.2'
+mlkit-text = '18.0.0'
+junit = '4.13.2'
+junit-android-ext = '1.1.3'
+espresso = '3.4.0'
+camerax = "1.0.2"
+camerax-view = "1.0.0-alpha29"
+detekt = "1.20.0"
+
+[libraries]
+android-desugarjdklibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarjdklibs" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "ktx-lifecycle" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "nav" }
+viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "viewmodel-compose" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "navigation-compose" }
+accompanist-insets = { module = "com.google.accompanist:accompanist-insets-ui", version.ref = "accompanist-insets" }
+accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist-flowlayout" }
+timberkt = { module = "com.github.ajalt:timberkt", version.ref = "timberkt" }
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
+mlkit-text-recognition = { module = "com.google.android.gms:play-services-mlkit-text-recognition", version.ref = "mlkit-text" }
+camera-core = { module = "androidx.camera:camera-core", version.ref = "camerax" }
+camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" }
+camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" }
+camera-view = { module = "androidx.camera:camera-view", version.ref = "camerax-view" }
+junit = { module = "junit:junit", version.ref = "junit" }
+junit-ext = { module = "androidx.test.ext:junit", version.ref = "junit-android-ext" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-moshi-converter = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit-moshi-converter" }
+moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-plugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

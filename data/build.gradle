@@ -39,24 +39,24 @@ android {
 dependencies {
     implementation project(':domain')
 
-    implementation "androidx.core:core-ktx:$ktx_version"
-    implementation "com.google.android.material:material:$material_version"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_moshi_converter_version"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-    implementation "com.github.ajalt:timberkt:$timberkt_version"
-    implementation "androidx.room:room-runtime:$room_version"
-    api "androidx.room:room-ktx:$room_version"
+    implementation libs.core.ktx
+    implementation libs.material
+    implementation libs.hilt.android
+    implementation libs.retrofit
+    implementation libs.retrofit.moshi.converter
+    implementation libs.moshi
+    implementation libs.timberkt
+    implementation libs.room.runtime
+    api libs.room.ktx
 
-    testImplementation "junit:junit:$junit_version"
+    testImplementation libs.junit
 
-    androidTestImplementation "androidx.test.ext:junit:$junit_android_ext_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation libs.junit.ext
+    androidTestImplementation libs.espresso.core
 
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    kapt libs.hilt.compiler
+    kapt libs.moshi.codegen
+    kapt libs.room.compiler
 }
 
 kapt {
