@@ -18,5 +18,9 @@ gradlePlugin {
             id = "motchecker.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
+        register("detekt") {
+            id = "motchecker.detekt"
+            implementationClass = "DetektConventionPlugin"
+        }
     }
 }

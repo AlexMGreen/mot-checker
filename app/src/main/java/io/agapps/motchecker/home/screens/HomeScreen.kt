@@ -60,8 +60,8 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
                 navController.navigate(NavRoutes.Search.route)
             }
 
+            // TODO: Permission request handling on click
             CameraSearchCard()
-            // TODO: Expanding camera card - add border stroke and fade + expand when clicked
         }
     }
 }

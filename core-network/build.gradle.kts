@@ -1,5 +1,6 @@
 plugins {
     id("motchecker.android.library")
+    id("motchecker.detekt")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
 }
