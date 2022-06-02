@@ -42,9 +42,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import io.agapps.core.ui.component.IconLabel
 import io.agapps.motchecker.R
 import io.agapps.motchecker.camerasearch.NumberPlateImageAnalyzer
-import io.agapps.motchecker.ui.components.IconLabel
 import io.agapps.motchecker.ui.theme.Shapes
 import io.agapps.motchecker.ui.theme.White10
 import io.agapps.motchecker.ui.theme.White50

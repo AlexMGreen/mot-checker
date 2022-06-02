@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.agapps.core.ui.theme.numberPlateTextStyle
 import io.agapps.motchecker.ui.theme.Orange300
 import io.agapps.motchecker.ui.theme.Shapes
-import io.agapps.motchecker.ui.theme.numberPlateTextStyle
 
 
 @Composable

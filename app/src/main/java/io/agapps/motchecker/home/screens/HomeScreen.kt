@@ -20,11 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import io.agapps.core.ui.component.AppBottomBar
 import io.agapps.motchecker.NavRoutes
 import io.agapps.motchecker.R
 import io.agapps.motchecker.home.components.CameraSearchCard
 import io.agapps.motchecker.home.components.HomeHeader
-import io.agapps.motchecker.ui.components.AppBottomBar
 import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 import io.agapps.motchecker.ui.theme.SurfaceGrey
 

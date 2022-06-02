@@ -1,4 +1,4 @@
-package io.agapps.motchecker.ui.components
+package io.agapps.core.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row

@@ -28,13 +28,15 @@ espresso = '3.4.0'
 camerax = "1.0.2"
 camerax-view = "1.0.0-alpha29"
 detekt = "1.20.0"
+androidx-custom-view = "1.0.0-beta02"
+androidx-saved-state = "1.1.0"
 
 [libraries]
 android-desugarjdklibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarjdklibs" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 compose-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "ktx-lifecycle" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -67,6 +69,8 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-plugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin-android" }
+androidx-customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "androidx-custom-view" }
+androidx-savedstate-ktx = { group = "androidx.savedstate", name = "savedstate-ktx", version.ref = "androidx-saved-state" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-plugin" }

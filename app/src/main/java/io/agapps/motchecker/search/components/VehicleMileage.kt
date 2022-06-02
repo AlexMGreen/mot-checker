@@ -28,9 +28,9 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import io.agapps.core.model.MotTest
+import io.agapps.core.ui.component.IconLabel
+import io.agapps.core.ui.component.SectionTitle
 import io.agapps.motchecker.R
-import io.agapps.motchecker.ui.components.IconLabel
-import io.agapps.motchecker.ui.components.SectionTitle
 import io.agapps.motchecker.ui.theme.Shapes
 import io.agapps.motchecker.ui.theme.White50
 import java.time.LocalDate
@@ -112,7 +112,7 @@ private fun getLineChart(context: Context, dataset: LineDataSet) = LineChart(con
     xAxis.position = XAxis.XAxisPosition.BOTTOM
     xAxis.granularity = XAxisGranularity
     xAxis.enableGridDashedLine(DashedLineLength, DashedLineSpaceLength, DashedLinePhase)
-    xAxis.textColor = ContextCompat.getColor(context, R.color.white)
+    xAxis.textColor = ContextCompat.getColor(context, io.agapps.core.ui.R.color.white)
     xAxis.yOffset = XAxisOffset
     xAxis.valueFormatter = object : ValueFormatter() {
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
@@ -123,7 +123,7 @@ private fun getLineChart(context: Context, dataset: LineDataSet) = LineChart(con
     xAxis.setAvoidFirstLastClipping(true)
     axisRight.xOffset = RightAxisOffset
     axisRight.enableGridDashedLine(DashedLineSpaceLength, DashedLineSpaceLength, DashedLinePhase)
-    axisRight.textColor = ContextCompat.getColor(context, R.color.white)
+    axisRight.textColor = ContextCompat.getColor(context, io.agapps.core.ui.R.color.white)
     axisRight.axisMinimum = RightAxisMinimum
     axisLeft.axisMinimum = LeftAxisMinimum
     axisLeft.isEnabled = false

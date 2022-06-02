@@ -1,4 +1,4 @@
-package io.agapps.motchecker.ui.components
+package io.agapps.core.ui.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.shape.CornerSize
@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import io.agapps.motchecker.R
+import io.agapps.core.ui.R
 
 @Composable
 fun AppBottomBar(

@@ -14,9 +14,21 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("androidApplication") {
+            id = "motchecker.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+        register("androidApplicationCompose") {
+            id = "motchecker.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
         register("androidLibrary") {
             id = "motchecker.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "motchecker.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("detekt") {
             id = "motchecker.detekt"

@@ -15,8 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import io.agapps.core.model.VehicleDetails
+import io.agapps.core.ui.component.IconLabel
 import io.agapps.motchecker.R
-import io.agapps.motchecker.ui.components.IconLabel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
