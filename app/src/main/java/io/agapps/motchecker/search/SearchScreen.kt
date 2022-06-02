@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import io.agapps.core.model.MotTest
 import io.agapps.core.model.VehicleDetails
 import io.agapps.core.ui.component.AppBottomBar
@@ -50,14 +49,29 @@ import io.agapps.motchecker.ui.theme.LightGrey
 import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 import io.agapps.motchecker.ui.theme.SurfaceGrey
 
+@Composable
+fun SearchRoute(
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    viewModel: SearchViewModel = hiltViewModel(),
+) {
+    val viewState by viewModel.searchViewState.collectAsState()
+    SearchScreen(
+        viewState = viewState,
+        onBackClick = onBackClick,
+        onRegistrationEntered = { registration ->
+            viewModel.onRegistrationNumberEntered(registration)
+        })
+}
+
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(
+    viewState: SearchViewState,
+    onBackClick: () -> Unit,
+    onRegistrationEntered: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = hiltViewModel(),
-    navController: NavHostController
 ) {
-    val viewState: SearchViewState by viewModel.searchViewState.collectAsState()
     val focusManager = LocalFocusManager.current
     val listState = rememberLazyListState()
 
@@ -79,10 +93,10 @@ fun SearchScreen(
                     modifier = modifier
                         .statusBarsPadding()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
-                    onTextChanged = { viewModel.onRegistrationNumberEntered(it) },
+                    onTextChanged = { onRegistrationEntered(it) },
                     onBackClicked = {
                         focusManager.clearFocus()
-                        navController.popBackStack()
+                        onBackClick()
                     }
                 )
             }

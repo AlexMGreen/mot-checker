@@ -18,23 +18,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import io.agapps.core.ui.component.AppBottomBar
-import io.agapps.motchecker.NavRoutes
 import io.agapps.motchecker.R
 import io.agapps.motchecker.home.components.CameraSearchCard
 import io.agapps.motchecker.home.components.HomeHeader
 import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 import io.agapps.motchecker.ui.theme.SurfaceGrey
 
+@Composable
+fun HomeRoute(
+    navigateToSearch: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    HomeScreen(navigateToSearch)
+}
+
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+fun HomeScreen(
+    navigateToSearch: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Scaffold(
         modifier = Modifier.navigationBarsPadding(),
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(NavRoutes.Search.route) }) {
+            FloatingActionButton(onClick = { navigateToSearch() }) {
                 Icon(Icons.Outlined.Search, stringResource(id = R.string.search), tint = SurfaceGrey)
             }
         },
@@ -57,7 +65,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
                     .fillMaxWidth()
                     .fillMaxHeight(fraction = 0.30f)
             ) {
-                navController.navigate(NavRoutes.Search.route)
+                navigateToSearch()
             }
 
             // TODO: Permission request handling on click
@@ -70,6 +78,6 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
 @Composable
 fun HomeScreenPreview() {
     MOTCheckerTheme {
-        HomeScreen(navController = rememberNavController())
+        HomeScreen({})
     }
 }

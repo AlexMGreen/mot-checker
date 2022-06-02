@@ -1,5 +1,5 @@
 [versions]
-android-plugin = "7.1.2"
+android-plugin = "7.2.0"
 kotlin-android = "1.6.10"
 kotlin-jvm = "1.5.30"
 desugarjdklibs = "1.1.5"
