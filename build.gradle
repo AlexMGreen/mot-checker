@@ -1,13 +1,4 @@
 buildscript {
-    ext {
-        version_code = 3
-        version_name = "0.3.0"
-
-        min_sdk = 21
-        target_sdk = 32
-        compile_sdk = 32
-    }
-
     dependencies {
         classpath(libs.hilt.plugin)
     }
