@@ -6,6 +6,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":core-model"))
+
     implementation(libs.hilt.android)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)

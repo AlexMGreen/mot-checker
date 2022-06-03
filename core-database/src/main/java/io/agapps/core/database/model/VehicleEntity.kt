@@ -3,6 +3,7 @@ package io.agapps.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import io.agapps.core.model.Vehicle
 
 @Entity(tableName = "vehicle")
 data class VehicleEntity(
@@ -16,3 +17,15 @@ data class VehicleEntity(
 )
 
 // TODO: Persist MOT Tests
+
+fun VehicleEntity.toDomain() = Vehicle(
+    registrationNumber = registrationNumber,
+    make = make,
+    model = model,
+    primaryColour = primaryColour,
+    fuelType = fuelType,
+    engineSizeCc = engineSizeCc,
+    manufactureDate = manufactureDate,
+    // TODO: Persist MOT Tests
+    motTests = emptyList(),
+)

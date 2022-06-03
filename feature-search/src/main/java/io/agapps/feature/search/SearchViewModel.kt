@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.agapps.common.result.onFailure
 import io.agapps.common.result.onSuccess
 import io.agapps.core.data.repository.VehicleRepository
+import io.agapps.feature.recentvehicles.data.RecentVehicleRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +20,8 @@ private const val SearchDebounceMs = 1000L
 @OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: VehicleRepository
+    private val vehicleRepository: VehicleRepository,
+    private val recentVehicleRepository: RecentVehicleRepository,
 ) : ViewModel() {
     private val debounceState = MutableStateFlow<String?>(null)
     private val _searchViewState: MutableStateFlow<SearchViewState> = MutableStateFlow(SearchViewState.SearchLoading)
@@ -33,9 +35,10 @@ class SearchViewModel @Inject constructor(
                     if (!registrationNumber.isNullOrBlank()) {
                         Timber.d { "Searching for $registrationNumber" }
                         _searchViewState.value = SearchViewState.SearchLoading
-                        repository.getVehicle(registrationNumber)
-                            .onSuccess {
-                                _searchViewState.value = SearchViewState.SearchResult(it)
+                        vehicleRepository.getVehicle(registrationNumber)
+                            .onSuccess { vehicle ->
+                                recentVehicleRepository.addRecentVehicle(vehicle)
+                                _searchViewState.value = SearchViewState.SearchResult(vehicle)
                             }
                             .onFailure {
                                 _searchViewState.value = SearchViewState.SearchError(it.toString())

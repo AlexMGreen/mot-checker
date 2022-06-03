@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.IconLabel
-import io.agapps.feature.search.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -32,11 +31,14 @@ fun VehicleSummary(vehicle: Vehicle, modifier: Modifier = Modifier) {
         )
 
         FlowRow {
-            IconLabel(modifier, vehicle.primaryColour) { Icon(painterResource(id = R.drawable.ic_color), "") }
-            IconLabel(modifier, vehicle.parsedManufactureDate.formatDayMonthYear()) { Icon(painterResource(id = R.drawable.ic_calendar), "") }
+            IconLabel(modifier, vehicle.primaryColour) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_color), "") }
+            IconLabel(
+                modifier,
+                vehicle.parsedManufactureDate.formatDayMonthYear()
+            ) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_calendar), "") }
         }
         FlowRow {
-            IconLabel(modifier, vehicle.fuelType) { Icon(painterResource(id = R.drawable.ic_fuel), "") }
+            IconLabel(modifier, vehicle.fuelType) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_fuel), "") }
             vehicle.engineSizeCc?.let { engineSizeCc ->
                 IconLabel(modifier, "${engineSizeCc}cc") { Icon(Icons.Outlined.Info, "") }
             }

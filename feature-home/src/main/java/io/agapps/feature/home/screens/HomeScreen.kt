@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.AppBottomBar
 import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.SurfaceGrey
@@ -29,6 +30,7 @@ import io.agapps.feature.home.HomeViewModel
 import io.agapps.feature.home.HomeViewState
 import io.agapps.feature.home.R
 import io.agapps.feature.home.components.HomeHeader
+import io.agapps.feature.recentvehicles.components.RecentVehicleList
 
 @Composable
 fun HomeRoute(
@@ -36,7 +38,7 @@ fun HomeRoute(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val viewState by viewModel.uiState.collectAsState()
+    val viewState by viewModel.viewState.collectAsState()
     HomeScreen(
         viewState = viewState,
         navigateToSearch = navigateToSearch,
@@ -79,10 +81,21 @@ fun HomeScreen(
                 onNumberPlateClicked = { navigateToSearch() }
             )
 
-            // TODO: Permission request handling on click
-            CameraSearchCard()
-
-            // TODO: Show recent vehicles from viewstate
+            when (viewState) {
+                is HomeViewState.Home -> {
+                    // TODO: Permission request handling on click
+                    CameraSearchCard()
+                    RecentVehicleList(
+                        vehicles = viewState.recentVehicles,
+                        onVehicleClicked = {
+                            // TODO: Navigate to search for vehicle reg
+                        },
+                        onViewAllClicked = {
+                            // TODO: Show all recents
+                        }
+                    )
+                }
+            }
         }
     }
 }
@@ -91,6 +104,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     MOTCheckerTheme {
-        HomeScreen(viewState = HomeViewState.Home(emptyList()), navigateToSearch = {})
+        HomeScreen(viewState = HomeViewState.Home(listOf(Vehicle.vehiclePreview(), Vehicle.vehiclePreview())), navigateToSearch = {})
     }
 }

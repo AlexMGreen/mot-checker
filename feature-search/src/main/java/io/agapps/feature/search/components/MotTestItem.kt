@@ -40,7 +40,7 @@ fun MotTestItem(
 ) {
     Column(modifier = modifier.padding(vertical = 8.dp)) {
         IconLabel(label = motTest.parsedCompletedDate.formatDayMonthYear()) {
-            Icon(painter = painterResource(id = R.drawable.ic_calendar), contentDescription = "")
+            Icon(painter = painterResource(id = io.agapps.core.ui.R.drawable.ic_calendar), contentDescription = "")
         }
 
         Card(

@@ -6,6 +6,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":feature-recentvehicles"))
+
     implementation(libs.timberkt)
     implementation(libs.mpandroidchart)
 }

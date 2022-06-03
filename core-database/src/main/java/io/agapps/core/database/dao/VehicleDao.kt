@@ -6,17 +6,18 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.agapps.core.database.model.VehicleEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface VehicleDao {
     @Query("SELECT * FROM vehicle")
-    suspend fun getAllVehicles(): List<VehicleEntity>
+    fun getAllVehicles(): Flow<List<VehicleEntity>>
 
-    @Query("SELECT * FROM vehicle WHERE registration_number LIKE :registrationNumber LIMIT 1")
-    suspend fun getVehicleByRegistrationNumber(registrationNumber: String): VehicleEntity
+    @Query("SELECT * FROM vehicle WHERE registration_number = :registrationNumber")
+    fun getVehicleByRegistrationNumber(registrationNumber: String): Flow<VehicleEntity>
 
     @Query("SELECT * FROM vehicle WHERE registration_number IN (:registrationNumbers)")
-    suspend fun getAllVehiclesByRegistrationNumbers(registrationNumbers: List<String>): List<VehicleEntity>
+    fun getAllVehiclesByRegistrationNumbers(registrationNumbers: List<String>): Flow<List<VehicleEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertVehicle(vehicle: VehicleEntity)

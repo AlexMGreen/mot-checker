@@ -31,7 +31,7 @@ data class Vehicle(
             parsedExpiryDate.isEqual(LocalDate.now(clock)) || parsedExpiryDate.isAfter(LocalDate.now(clock))
         }
 
-    val latestExpiryDate = motTests?.sortedByDescending { it.parsedExpiryDate }?.first()?.parsedExpiryDate
+    val latestExpiryDate = motTests?.sortedByDescending { it.parsedExpiryDate }?.firstOrNull()?.parsedExpiryDate
 
     companion object {
         fun vehiclePreview() = Vehicle(
