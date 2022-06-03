@@ -5,10 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import io.agapps.motchecker.home.HomeDestination
-import io.agapps.motchecker.home.homeGraph
-import io.agapps.motchecker.search.SearchDestination
-import io.agapps.motchecker.search.searchGraph
+import io.agapps.feature.home.navigation.HomeDestination
+import io.agapps.feature.home.navigation.homeGraph
+import io.agapps.feature.search.navigation.SearchDestination
+import io.agapps.feature.search.navigation.searchGraph
 
 @Composable
 fun AppNavHost(

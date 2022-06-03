@@ -23,6 +23,13 @@ internal fun Project.configureAndroidCompose(
         add("implementation", libs.findLibrary("compose.ui").get())
         add("implementation", libs.findLibrary("compose.material").get())
         add("implementation", libs.findLibrary("compose.tooling.preview").get())
+        add("implementation", libs.findLibrary("hilt.navigation.compose").get())
+        add("implementation", libs.findLibrary("navigation.compose").get())
+        add("implementation", libs.findLibrary("activity.compose").get())
+        add("implementation", libs.findLibrary("viewmodel.compose").get())
+        add("implementation", libs.findLibrary("accompanist.insets").get())
+        add("implementation", libs.findLibrary("accompanist.flowlayout").get())
+
         add("debugImplementation", libs.findLibrary("compose.ui.tooling").get())
 
         // https://developer.android.com/studio/known-issues#error_when_rendering_compose_preview

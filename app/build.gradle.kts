@@ -43,34 +43,23 @@ dependencies {
     implementation(project(":core-data"))
     implementation(project(":core-database"))
     implementation(project(":core-network"))
+    implementation(project(":feature-home"))
+    implementation(project(":feature-search"))
 
     implementation(libs.core.ktx)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material)
-    implementation(libs.compose.tooling.preview)
     implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-    implementation(libs.navigation.compose)
-    implementation(libs.viewmodel.compose)
+
     implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
-    implementation(libs.accompanist.insets)
-    implementation(libs.accompanist.flowlayout)
+
     implementation(libs.timberkt)
-    implementation(libs.mpandroidchart)
-    implementation(libs.mlkit.text.recognition)
     implementation(libs.camera.core)
     implementation(libs.camera2)
-    implementation(libs.camera.lifecycle)
-    implementation(libs.camera.view)
 
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.junit4)
-
-    debugImplementation(libs.compose.ui.tooling)
 
     kapt(libs.hilt.compiler)
 

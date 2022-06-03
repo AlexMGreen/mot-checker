@@ -1,26 +1,3 @@
 <resources>
     <string name="app_name">MOTChecker</string>
-
-    <string name="enter_reg">ENTER REG</string>
-    <string name="search_vehicle">Search for a vehicle</string>
-    <string name="mileage">Mileage</string>
-    <string name="total_miles">%s+ Miles</string>
-    <string name="test_miles">%s Miles</string>
-    <string name="loading">Loading</string>
-    <string name="error">Error</string>
-    <string name="mot_valid_until">MOT valid until %s</string>
-    <string name="mot_expired_on">MOT expired on %s</string>
-    <string name="mot_history">MOT History"</string>
-    <string name="passed">Passed</string>
-    <string name="failed">Failed</string>
-    <string name="total_passed">%s Passed</string>
-    <string name="total_failed">%s Failed"</string>
-    <string name="expiry_date">Expiry Date</string>
-    <string name="mot_test_number">MOT Test Number</string>
-    <string name="dangerous_defects">Dangerous Defects</string>
-    <string name="major_defects">Major Defects</string>
-    <string name="minor_defects">Minor Defects</string>
-    <string name="advisories">Advisories</string>
-    <string name="search_using_camera">Search using camera</string>
-    <string name="close">Close</string>
 </resources>
