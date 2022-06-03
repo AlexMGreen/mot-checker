@@ -15,13 +15,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import io.agapps.core.ui.component.AppBottomBar
 import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.feature.camerasearch.component.CameraSearchCard
+import io.agapps.feature.home.HomeViewModel
+import io.agapps.feature.home.HomeViewState
 import io.agapps.feature.home.R
 import io.agapps.feature.home.components.HomeHeader
 
@@ -29,13 +34,20 @@ import io.agapps.feature.home.components.HomeHeader
 fun HomeRoute(
     navigateToSearch: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-    HomeScreen(navigateToSearch, modifier)
+    val viewState by viewModel.uiState.collectAsState()
+    HomeScreen(
+        viewState = viewState,
+        navigateToSearch = navigateToSearch,
+        modifier = modifier,
+    )
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
+    viewState: HomeViewState,
     navigateToSearch: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -61,15 +73,16 @@ fun HomeScreen(
     ) { paddingValues ->
         Column {
             HomeHeader(
-                modifier
+                modifier = modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(fraction = 0.30f)
-            ) {
-                navigateToSearch()
-            }
+                    .fillMaxHeight(fraction = 0.30f),
+                onNumberPlateClicked = { navigateToSearch() }
+            )
 
             // TODO: Permission request handling on click
             CameraSearchCard()
+
+            // TODO: Show recent vehicles from viewstate
         }
     }
 }
@@ -78,6 +91,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     MOTCheckerTheme {
-        HomeScreen({})
+        HomeScreen(viewState = HomeViewState.Home(emptyList()), navigateToSearch = {})
     }
 }
