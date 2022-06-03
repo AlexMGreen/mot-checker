@@ -1,4 +1,4 @@
-package io.agapps.motchecker.search
+package io.agapps.feature.search.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
@@ -37,6 +37,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.agapps.core.model.MotTest
 import io.agapps.core.model.VehicleDetails
 import io.agapps.core.ui.component.AppBottomBar
+import io.agapps.core.ui.theme.LightGrey
+import io.agapps.core.ui.theme.MOTCheckerTheme
+import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.core.ui.theme.Typography
 import io.agapps.feature.search.R
 import io.agapps.feature.search.SearchViewModel
@@ -47,9 +50,6 @@ import io.agapps.feature.search.components.MotTestItem
 import io.agapps.feature.search.components.NumberPlateTextField
 import io.agapps.feature.search.components.VehicleMileage
 import io.agapps.feature.search.components.VehicleSummary
-import io.agapps.motchecker.ui.theme.LightGrey
-import io.agapps.motchecker.ui.theme.MOTCheckerTheme
-import io.agapps.motchecker.ui.theme.SurfaceGrey
 
 @Composable
 fun SearchRoute(
@@ -63,7 +63,9 @@ fun SearchRoute(
         onBackClick = onBackClick,
         onRegistrationEntered = { registration ->
             viewModel.onRegistrationNumberEntered(registration)
-        })
+        },
+        modifier = modifier
+    )
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

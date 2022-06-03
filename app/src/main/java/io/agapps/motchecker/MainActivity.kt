@@ -12,9 +12,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.feature.home.screens.HomeScreen
 import io.agapps.motchecker.navigation.AppNavHost
-import io.agapps.motchecker.ui.theme.MOTCheckerTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

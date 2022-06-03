@@ -8,7 +8,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import io.agapps.core.ui.R
-import io.agapps.motchecker.ui.theme.DarkGrey
 
 val Typography = Typography(
     body1 = TextStyle(

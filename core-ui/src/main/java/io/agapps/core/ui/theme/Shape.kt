@@ -1,4 +1,4 @@
-package io.agapps.motchecker.ui.theme
+package io.agapps.core.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

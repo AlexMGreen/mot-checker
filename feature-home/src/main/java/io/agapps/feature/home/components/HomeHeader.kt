@@ -20,9 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.agapps.core.ui.theme.Black30
 import io.agapps.feature.home.R
-import io.agapps.motchecker.ui.components.NumberPlateText
-import io.agapps.motchecker.ui.theme.Black30
 
 @Composable
 fun HomeHeader(

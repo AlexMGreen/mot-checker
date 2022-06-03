@@ -3,7 +3,7 @@ package io.agapps.feature.search.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import io.agapps.core.navigation.AppNavigationDestination
-import io.agapps.motchecker.search.SearchRoute
+import io.agapps.feature.search.screens.SearchRoute
 
 object SearchDestination : AppNavigationDestination {
     override val route = "search_route"

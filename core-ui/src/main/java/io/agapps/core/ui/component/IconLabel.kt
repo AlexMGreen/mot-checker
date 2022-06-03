@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.agapps.motchecker.ui.theme.Shapes
+import io.agapps.core.ui.theme.Shapes
 
 @Composable
 fun IconLabel(

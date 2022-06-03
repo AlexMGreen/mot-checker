@@ -30,9 +30,9 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import io.agapps.core.model.MotTest
 import io.agapps.core.ui.component.IconLabel
 import io.agapps.core.ui.component.SectionTitle
+import io.agapps.core.ui.theme.Shapes
+import io.agapps.core.ui.theme.White50
 import io.agapps.feature.search.R
-import io.agapps.motchecker.ui.theme.Shapes
-import io.agapps.motchecker.ui.theme.White50
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

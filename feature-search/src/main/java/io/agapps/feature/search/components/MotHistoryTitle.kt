@@ -12,9 +12,9 @@ import androidx.compose.ui.res.stringResource
 import io.agapps.core.model.VehicleDetails
 import io.agapps.core.ui.component.IconLabel
 import io.agapps.core.ui.component.SectionTitle
+import io.agapps.core.ui.theme.Green50
+import io.agapps.core.ui.theme.Red50
 import io.agapps.feature.search.R
-import io.agapps.motchecker.ui.theme.Green50
-import io.agapps.motchecker.ui.theme.Red50
 
 @Composable
 fun MotHistoryTitle(
@@ -44,4 +44,3 @@ fun MotHistoryTitle(
         }
     }
 }
-

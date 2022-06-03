@@ -43,11 +43,11 @@ import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import io.agapps.core.ui.component.IconLabel
+import io.agapps.core.ui.theme.Shapes
+import io.agapps.core.ui.theme.White10
+import io.agapps.core.ui.theme.White50
 import io.agapps.feature.camerasearch.NumberPlateImageAnalyzer
 import io.agapps.feature.camerasearch.R
-import io.agapps.motchecker.ui.theme.Shapes
-import io.agapps.motchecker.ui.theme.White10
-import io.agapps.motchecker.ui.theme.White50
 import java.util.concurrent.Executors
 
 private const val ImageGradientEnd = 600f

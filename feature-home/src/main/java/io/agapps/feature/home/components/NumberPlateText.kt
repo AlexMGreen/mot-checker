@@ -1,4 +1,4 @@
-package io.agapps.motchecker.ui.components
+package io.agapps.feature.home.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,10 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.agapps.core.ui.theme.Orange300
+import io.agapps.core.ui.theme.Shapes
 import io.agapps.core.ui.theme.numberPlateTextStyle
-import io.agapps.motchecker.ui.theme.Orange300
-import io.agapps.motchecker.ui.theme.Shapes
-
 
 @Composable
 fun NumberPlateText(
@@ -45,4 +44,3 @@ fun NumberPlateText(
 fun NumberPlateTextPreview() {
     NumberPlateText("ENTER REG")
 }
-

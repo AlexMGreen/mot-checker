@@ -19,18 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import io.agapps.core.ui.component.AppBottomBar
+import io.agapps.core.ui.theme.MOTCheckerTheme
+import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.feature.camerasearch.component.CameraSearchCard
 import io.agapps.feature.home.R
 import io.agapps.feature.home.components.HomeHeader
-import io.agapps.motchecker.ui.theme.MOTCheckerTheme
-import io.agapps.motchecker.ui.theme.SurfaceGrey
 
 @Composable
 fun HomeRoute(
     navigateToSearch: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    HomeScreen(navigateToSearch)
+    HomeScreen(navigateToSearch, modifier)
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

@@ -27,11 +27,11 @@ import androidx.compose.ui.unit.dp
 import io.agapps.core.model.MotTest
 import io.agapps.core.model.ReasonForRejectionAndComment
 import io.agapps.core.ui.component.IconLabel
+import io.agapps.core.ui.theme.Green50
+import io.agapps.core.ui.theme.MOTCheckerTheme
+import io.agapps.core.ui.theme.Red50
 import io.agapps.core.ui.theme.Typography
 import io.agapps.feature.search.R
-import io.agapps.motchecker.ui.theme.Green50
-import io.agapps.motchecker.ui.theme.MOTCheckerTheme
-import io.agapps.motchecker.ui.theme.Red50
 
 @Composable
 fun MotTestItem(
