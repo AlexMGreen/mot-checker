@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-data class VehicleDetails(
+data class Vehicle(
     val registrationNumber: String,
     val make: String,
     val model: String,
@@ -34,7 +34,7 @@ data class VehicleDetails(
     val latestExpiryDate = motTests?.sortedByDescending { it.parsedExpiryDate }?.first()?.parsedExpiryDate
 
     companion object {
-        fun vehiclePreview() = VehicleDetails(
+        fun vehiclePreview() = Vehicle(
             "AB66XYZ",
             "Ford",
             "Focus",

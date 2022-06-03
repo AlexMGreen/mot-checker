@@ -4,13 +4,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.agapps.core.data.repository.VehicleDetailsRepository
-import io.agapps.core.data.repository.VehicleDetailsRepositoryImpl
+import io.agapps.core.data.repository.VehicleRepository
+import io.agapps.core.data.repository.VehicleRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
 
     @Binds
-    fun bindsVehicleDetailsRepository(vehicleDetailsRepositoryImpl: VehicleDetailsRepositoryImpl): VehicleDetailsRepository
+    fun bindsVehicleRepository(vehicleRepositoryImpl: VehicleRepositoryImpl): VehicleRepository
 }

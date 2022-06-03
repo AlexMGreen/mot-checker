@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.agapps.core.model.VehicleDetails
+import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.theme.Green50
 import io.agapps.core.ui.theme.Red50
 import io.agapps.core.ui.theme.Typography
@@ -28,20 +28,20 @@ import io.agapps.feature.search.R
 
 @Composable
 fun MotStatus(
-    vehicleDetails: VehicleDetails,
+    vehicle: Vehicle,
     modifier: Modifier = Modifier
 ) {
-    val validMot = vehicleDetails.hasValidMot ?: return
+    val validMot = vehicle.hasValidMot ?: return
     if (validMot) {
         MotStatusCard(
-            text = stringResource(R.string.mot_valid_until, vehicleDetails.latestExpiryDate?.formatDayMonthYear().toString()),
+            text = stringResource(R.string.mot_valid_until, vehicle.latestExpiryDate?.formatDayMonthYear().toString()),
             icon = { Icon(Icons.Outlined.CheckCircle, "", modifier = Modifier.size(48.dp)) },
             backgroundColor = Green50,
             modifier = modifier
         )
     } else {
         MotStatusCard(
-            text = stringResource(R.string.mot_expired_on, vehicleDetails.latestExpiryDate?.formatDayMonthYear().toString()),
+            text = stringResource(R.string.mot_expired_on, vehicle.latestExpiryDate?.formatDayMonthYear().toString()),
             icon = {
                 Icon(
                     painter = painterResource(id = io.agapps.core.ui.R.drawable.ic_cross_filled),

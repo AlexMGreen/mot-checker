@@ -1,11 +1,11 @@
 package io.agapps.feature.search
 
-import io.agapps.core.model.VehicleDetails
+import io.agapps.core.model.Vehicle
 
 sealed class SearchViewState {
 
     data class SearchResult(
-        val vehicleDetails: VehicleDetails
+        val vehicle: Vehicle
     ) : SearchViewState()
 
     object SearchLoading : SearchViewState()

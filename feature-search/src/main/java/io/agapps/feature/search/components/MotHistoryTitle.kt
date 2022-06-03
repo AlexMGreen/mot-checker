@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import io.agapps.core.model.VehicleDetails
+import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.IconLabel
 import io.agapps.core.ui.component.SectionTitle
 import io.agapps.core.ui.theme.Green50
@@ -18,10 +18,10 @@ import io.agapps.feature.search.R
 
 @Composable
 fun MotHistoryTitle(
-    vehicleDetails: VehicleDetails,
+    vehicle: Vehicle,
     modifier: Modifier = Modifier
 ) {
-    val tests = vehicleDetails.motTests
+    val tests = vehicle.motTests
     if (tests.isNullOrEmpty()) return
 
     val totalPassed = tests.count { it.didPass }
