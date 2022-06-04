@@ -11,9 +11,13 @@ object HomeDestination : AppNavigationDestination {
 }
 
 fun NavGraphBuilder.homeGraph(
-    navigateToSearch: () -> Unit,
+    navigateToSearch: (initialRegistration: String?) -> Unit,
+    navigateToRecentVehicle: () -> Unit,
 ) {
     composable(route = HomeDestination.route) {
-        HomeRoute(navigateToSearch)
+        HomeRoute(
+            navigateToSearch = navigateToSearch,
+            navigateToRecentVehicle = navigateToRecentVehicle
+        )
     }
 }

@@ -48,12 +48,11 @@ dependencies {
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
-
     implementation(libs.hilt.android)
-
     implementation(libs.timberkt)
     implementation(libs.camera.core)
     implementation(libs.camera2)
+    implementation(libs.room.runtime)
 
     testImplementation(libs.junit)
 

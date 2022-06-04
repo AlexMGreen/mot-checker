@@ -13,10 +13,10 @@ import dagger.hilt.components.SingletonComponent
 object DatabaseModule {
 
     @Provides
-    fun providesVehicleDetailsDatabase(@ApplicationContext applicationContext: Context) = Room
-        .databaseBuilder(applicationContext, VehicleDetailsDatabase::class.java, "VehicleDetailsDatabase.db")
+    fun providesVehicleDatabase(@ApplicationContext applicationContext: Context) = Room
+        .databaseBuilder(applicationContext, VehicleDatabase::class.java, "VehicleDatabase.db")
         .build()
 
     @Provides
-    fun providesVehicleDetailsDao(vehicleDetailsDatabase: VehicleDetailsDatabase) = vehicleDetailsDatabase.vehicleDetailsDao()
+    fun providesVehicleDao(vehicleDatabase: VehicleDatabase) = vehicleDatabase.vehicleDao()
 }

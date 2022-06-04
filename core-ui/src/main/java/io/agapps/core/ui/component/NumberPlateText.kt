@@ -1,4 +1,4 @@
-package io.agapps.feature.home.components
+package io.agapps.core.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth

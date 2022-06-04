@@ -7,4 +7,5 @@ plugins {
 
 dependencies {
     implementation(project(":feature-camerasearch"))
+    api(project(":feature-recentvehicles"))
 }

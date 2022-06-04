@@ -14,30 +14,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
-import io.agapps.core.model.VehicleDetails
+import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.IconLabel
-import io.agapps.feature.search.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun VehicleSummary(vehicleDetails: VehicleDetails, modifier: Modifier = Modifier) {
+fun VehicleSummary(vehicle: Vehicle, modifier: Modifier = Modifier) {
     Column {
         Text(
-            text = vehicleDetails.capitalisedMakeAndModel,
+            text = vehicle.capitalisedMakeAndModel,
             color = Color.White,
             style = MaterialTheme.typography.h4,
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
         )
 
         FlowRow {
-            IconLabel(modifier, vehicleDetails.primaryColour) { Icon(painterResource(id = R.drawable.ic_color), "") }
-            IconLabel(modifier, vehicleDetails.parsedManufactureDate.formatDayMonthYear()) { Icon(painterResource(id = R.drawable.ic_calendar), "") }
+            IconLabel(modifier, vehicle.primaryColour) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_color), "") }
+            IconLabel(
+                modifier,
+                vehicle.parsedManufactureDate.formatDayMonthYear()
+            ) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_calendar), "") }
         }
         FlowRow {
-            IconLabel(modifier, vehicleDetails.fuelType) { Icon(painterResource(id = R.drawable.ic_fuel), "") }
-            vehicleDetails.engineSizeCc?.let { engineSizeCc ->
+            IconLabel(modifier, vehicle.fuelType) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_fuel), "") }
+            vehicle.engineSizeCc?.let { engineSizeCc ->
                 IconLabel(modifier, "${engineSizeCc}cc") { Icon(Icons.Outlined.Info, "") }
             }
         }

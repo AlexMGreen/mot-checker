@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.agapps.core.model.MotTest
-import io.agapps.core.model.VehicleDetails
+import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.AppBottomBar
 import io.agapps.core.ui.theme.LightGrey
 import io.agapps.core.ui.theme.MOTCheckerTheme
@@ -97,6 +97,7 @@ fun SearchScreen(
                     modifier = modifier
                         .statusBarsPadding()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
+                    initialText = viewState.searchedRegistration,
                     onTextChanged = { onRegistrationEntered(it) },
                     onBackClicked = {
                         focusManager.clearFocus()
@@ -106,7 +107,7 @@ fun SearchScreen(
             }
 
             when (@Suppress("UnnecessaryVariable") val state = viewState) {
-                is SearchViewState.SearchResult -> SearchResultContent(state.vehicleDetails, listState, modifier)
+                is SearchViewState.SearchResult -> SearchResultContent(state.vehicle, listState, modifier)
                 is SearchViewState.SearchError -> SearchErrorContent()
                 is SearchViewState.SearchLoading -> SearchLoadingContent()
             }
@@ -132,7 +133,7 @@ fun SearchFab(searchViewState: SearchViewState) {
 
 @Composable
 fun SearchResultContent(
-    vehicleDetails: VehicleDetails,
+    vehicle: Vehicle,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
@@ -144,19 +145,19 @@ fun SearchResultContent(
     ) {
         item { Spacer(modifier = Modifier.size(48.dp)) }
 
-        item { VehicleSummary(vehicleDetails, modifier) }
+        item { VehicleSummary(vehicle, modifier) }
 
-        item { MotStatus(vehicleDetails, modifier) }
+        item { MotStatus(vehicle, modifier) }
 
-        val maxMileage = vehicleDetails.maxMileage
-        val motTests = vehicleDetails.motTests
+        val maxMileage = vehicle.maxMileage
+        val motTests = vehicle.motTests
         // TODO: Display 'No mileage information' message
         if (maxMileage != null && motTests != null) {
-            item { VehicleMileage(motTests, vehicleDetails.parsedManufactureDate, maxMileage, modifier) }
+            item { VehicleMileage(motTests, vehicle.parsedManufactureDate, maxMileage, modifier) }
         }
 
         // TODO: Display 'No MOT information' message
-        item { MotHistoryTitle(vehicleDetails, modifier) }
+        item { MotHistoryTitle(vehicle, modifier) }
 
         itemsIndexed(motTests.orEmpty()) { index: Int, motTest: MotTest ->
             // TODO: Pass in previous item's mileage to diff
@@ -195,6 +196,6 @@ fun SearchErrorContent() {
 @Composable
 fun SearchResultContentPreview() {
     MOTCheckerTheme {
-        SearchResultContent(VehicleDetails.vehiclePreview(), rememberLazyListState())
+        SearchResultContent(Vehicle.vehiclePreview(), rememberLazyListState())
     }
 }

@@ -3,11 +3,11 @@ package io.agapps.core.data.repository
 import io.agapps.common.result.Failure
 import io.agapps.common.result.Result
 import io.agapps.common.result.Success
-import io.agapps.core.database.dao.VehicleDetailsDao
-import io.agapps.core.database.model.VehicleDetailsEntity
+import io.agapps.core.database.dao.VehicleDao
+import io.agapps.core.database.model.VehicleEntity
 import io.agapps.core.model.MotTest
 import io.agapps.core.model.ReasonForRejectionAndComment
-import io.agapps.core.model.VehicleDetails
+import io.agapps.core.model.Vehicle
 import io.agapps.core.network.model.MotHistoryDto
 import io.agapps.core.network.model.MotTestDto
 import io.agapps.core.network.model.RfrAndCommentDto
@@ -15,28 +15,28 @@ import io.agapps.core.network.service.MotHistoryService
 import java.io.IOException
 import javax.inject.Inject
 
-class VehicleDetailsRepositoryImpl @Inject constructor(
+class VehicleRepositoryImpl @Inject constructor(
     private val motHistoryService: MotHistoryService,
-    private val vehicleDetailsDao: VehicleDetailsDao,
-) : VehicleDetailsRepository {
+    private val vehicleDao: VehicleDao,
+) : VehicleRepository {
 
-    override suspend fun getVehicleDetails(registrationNumber: String): Result<VehicleDetails> {
+    override suspend fun getVehicle(registrationNumber: String): Result<Vehicle> {
         val response = motHistoryService.getMotHistory(registrationNumber)
         return if (response.isSuccessful) {
-            val vehicleDetails = response.body()!!.first().toDomain()
-            vehicleDetailsDao.insertVehicle(vehicleDetails.toEntity())
-            Success(vehicleDetails)
+            val vehicle = response.body()!!.first().toDomain()
+            vehicleDao.insertVehicle(vehicle.toEntity())
+            Success(vehicle)
         } else {
             Failure(IOException(response.errorBody().toString()))
         }
     }
 
-    private fun VehicleDetails.toEntity() = VehicleDetailsEntity(
+    private fun Vehicle.toEntity() = VehicleEntity(
         registrationNumber, make, model, primaryColour, fuelType, engineSizeCc, manufactureDate
     )
 
     // TODO: Combine with DVLA Vehicle Enquiry Service API info?
-    private fun MotHistoryDto.toDomain() = VehicleDetails(
+    private fun MotHistoryDto.toDomain() = Vehicle(
         registration,
         make,
         model,
