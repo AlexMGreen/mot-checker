@@ -35,6 +35,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -79,25 +80,8 @@ fun HomeScreen(
     navigateToRecentVehicle: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold(
-        modifier = Modifier.navigationBarsPadding(),
-        floatingActionButton = {
-            FloatingActionButton(onClick = { navigateToSearch(null) }) {
-                Icon(Icons.Outlined.Search, stringResource(id = io.agapps.core.ui.R.string.search), tint = SurfaceGrey)
-            }
-        },
-        isFloatingActionButtonDocked = true,
-        floatingActionButtonPosition = FabPosition.Center,
-        bottomBar = {
-            AppBottomBar(modifier = Modifier) {
-                IconButton(
-                    onClick = {
-                        // TODO: Navigate to saved vehicles
-                    }) {
-                    Icon(Icons.Default.FavoriteBorder, contentDescription = stringResource(id = R.string.saved_vehicles))
-                }
-            }
-        }
+    HomeScaffold(
+        navigateToSearch = navigateToSearch
     ) {
         val toolbarHeight = 300.dp
         val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
@@ -125,34 +109,12 @@ fun HomeScreen(
         ) {
             when (viewState) {
                 is HomeViewState.Home -> {
-                    LazyColumn(contentPadding = PaddingValues(top = toolbarHeight, bottom = 64.dp)) {
-                        item {
-                            // TODO: Permission request handling on click
-                            CameraSearchCard()
-                        }
-
-                        item {
-                            if (viewState.recentVehicles.isNotEmpty()) {
-                                RecentVehicleSectionHeader(
-                                    onViewAllClicked = { navigateToRecentVehicle() }
-                                )
-                            }
-                        }
-
-                        items(viewState.recentVehicles) {
-                            RecentVehicleCard(
-                                vehicle = it,
-                                modifier = modifier.padding(horizontal = 16.dp),
-                                onClick = { vehicle ->
-                                    navigateToSearch(vehicle.registrationNumber)
-                                }
-                            )
-                        }
-
-                        item {
-                            BottomListItemSpacer(toolbarHeight = 300.dp)
-                        }
-                    }
+                    HomeContent(
+                        toolbarHeight = toolbarHeight,
+                        viewState = viewState,
+                        navigateToSearch = navigateToSearch,
+                        navigateToRecentVehicle = navigateToRecentVehicle
+                    )
 
                     HomeHeader(
                         modifier = Modifier
@@ -164,6 +126,73 @@ fun HomeScreen(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun HomeScaffold(
+    navigateToSearch: (initialRegistration: String?) -> Unit,
+    content: @Composable (PaddingValues) -> Unit
+) {
+    Scaffold(
+        modifier = Modifier.navigationBarsPadding(),
+        floatingActionButton = {
+            FloatingActionButton(onClick = { navigateToSearch(null) }) {
+                Icon(Icons.Outlined.Search, stringResource(id = io.agapps.core.ui.R.string.search), tint = SurfaceGrey)
+            }
+        },
+        isFloatingActionButtonDocked = true,
+        floatingActionButtonPosition = FabPosition.Center,
+        bottomBar = {
+            AppBottomBar(modifier = Modifier) {
+                IconButton(
+                    onClick = {
+                        // TODO: Navigate to saved vehicles
+                    }) {
+                    Icon(Icons.Default.FavoriteBorder, contentDescription = stringResource(id = R.string.saved_vehicles))
+                }
+            }
+        }
+    ) {
+        content(it)
+    }
+}
+
+@Composable
+private fun HomeContent(
+    modifier: Modifier = Modifier,
+    toolbarHeight: Dp,
+    viewState: HomeViewState.Home,
+    navigateToSearch: (initialRegistration: String?) -> Unit,
+    navigateToRecentVehicle: () -> Unit,
+) {
+    LazyColumn(contentPadding = PaddingValues(top = toolbarHeight, bottom = 64.dp)) {
+        item {
+            // TODO: Permission request handling on click
+            CameraSearchCard()
+        }
+
+        item {
+            if (viewState.recentVehicles.isNotEmpty()) {
+                RecentVehicleSectionHeader(
+                    onViewAllClicked = { navigateToRecentVehicle() }
+                )
+            }
+        }
+
+        items(viewState.recentVehicles) {
+            RecentVehicleCard(
+                vehicle = it,
+                modifier = modifier.padding(horizontal = 16.dp),
+                onClick = { vehicle ->
+                    navigateToSearch(vehicle.registrationNumber)
+                }
+            )
+        }
+
+        item {
+            BottomListItemSpacer(toolbarHeight = 300.dp)
         }
     }
 }

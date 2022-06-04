@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-private const val RECENT_VEHICLE_LIMIT = 3
+private const val RecentVehicleLimit = 3
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     recentVehicleRepository: RecentVehicleRepository
 ) : ViewModel() {
-    val viewState: StateFlow<HomeViewState> = recentVehicleRepository.getRecentVehicles(RECENT_VEHICLE_LIMIT)
+    val viewState: StateFlow<HomeViewState> = recentVehicleRepository.getRecentVehicles(RecentVehicleLimit)
         .map { HomeViewState.Home(it) }
         .stateIn(
             scope = viewModelScope,
