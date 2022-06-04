@@ -21,7 +21,13 @@ fun AppNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeGraph(navigateToSearch = { navController.navigate(SearchDestination.route) })
+        homeGraph(navigateToSearch = { initialRegistration ->
+            if (initialRegistration == null) {
+                navController.navigate(SearchDestination.route)
+            } else {
+                navController.navigate("${SearchDestination.route}?${SearchDestination.initialRegistrationArg}=$initialRegistration")
+            }
+        })
         searchGraph(onBackClick = { navController.popBackStack() })
     }
 }

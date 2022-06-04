@@ -52,7 +52,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun HomeRoute(
-    navigateToSearch: () -> Unit,
+    navigateToSearch: (initialRegistration: String?) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -70,13 +70,13 @@ private const val ToolbarCollapseLimit = -525
 @Composable
 fun HomeScreen(
     viewState: HomeViewState,
-    navigateToSearch: () -> Unit,
+    navigateToSearch: (initialRegistration: String?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
         modifier = Modifier.navigationBarsPadding(),
         floatingActionButton = {
-            FloatingActionButton(onClick = { navigateToSearch() }) {
+            FloatingActionButton(onClick = { navigateToSearch(null) }) {
                 Icon(Icons.Outlined.Search, stringResource(id = io.agapps.core.ui.R.string.search), tint = SurfaceGrey)
             }
         },
@@ -92,7 +92,7 @@ fun HomeScreen(
                 }
             }
         }
-    ) { paddingValues ->
+    ) {
         val toolbarHeight = 300.dp
         val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
         var toolbarOffsetHeightPx by rememberSaveable { mutableStateOf(0f) }
@@ -128,8 +128,8 @@ fun HomeScreen(
                         item {
                             RecentVehicleList(
                                 vehicles = viewState.recentVehicles,
-                                onVehicleClicked = {
-                                    // TODO: Navigate to search for vehicle reg
+                                onVehicleClicked = { clickedVehicle ->
+                                    navigateToSearch(clickedVehicle.registrationNumber)
                                 },
                                 onViewAllClicked = {
                                     // TODO: Show all recents
@@ -153,7 +153,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.roundToInt()) },
                         fadeOnCollapseAlpha = toolbarContentsAlpha,
-                        onNumberPlateClicked = { navigateToSearch() }
+                        onNumberPlateClicked = { navigateToSearch(null) }
                     )
                 }
             }

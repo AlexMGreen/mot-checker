@@ -97,6 +97,7 @@ fun SearchScreen(
                     modifier = modifier
                         .statusBarsPadding()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
+                    initialText = viewState.searchedRegistration,
                     onTextChanged = { onRegistrationEntered(it) },
                     onBackClicked = {
                         focusManager.clearFocus()

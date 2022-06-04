@@ -47,10 +47,11 @@ import io.agapps.feature.search.R
 @Composable
 fun NumberPlateTextField(
     modifier: Modifier = Modifier,
+    initialText: String = "",
     onTextChanged: ((String) -> Unit)? = null,
     onBackClicked: (() -> Unit)? = null,
 ) {
-    var text by rememberSaveable { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf(initialText) }
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -107,7 +108,9 @@ fun NumberPlateTextField(
         }
 
         LaunchedEffect(Unit) {
-            focusRequester.requestFocus()
+            if (initialText.isBlank()) {
+                focusRequester.requestFocus()
+            }
         }
     }
 }
