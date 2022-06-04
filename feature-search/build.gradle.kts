@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":core-ui"))
     implementation(project(":feature-recentvehicles"))
 
     implementation(libs.timberkt)

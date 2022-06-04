@@ -15,8 +15,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.agapps.core.ui.component.buttons.BackButton
 import io.agapps.core.ui.theme.Black70
 import io.agapps.core.ui.theme.Orange300
 import io.agapps.core.ui.theme.Shapes
@@ -94,9 +93,13 @@ fun NumberPlateTextField(
             )
 
             if (onBackClicked != null) {
-                BackButton(Modifier.align(Alignment.CenterStart)) {
-                    onBackClicked()
-                }
+                BackButton(
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    tint = Black70,
+                    onBackClicked = {
+                        onBackClicked()
+                    }
+                )
             }
 
             AnimatedVisibility(visible = text.isNotBlank(), enter = fadeIn(), exit = fadeOut(), modifier = Modifier.align(Alignment.CenterEnd)) {
@@ -113,23 +116,6 @@ fun NumberPlateTextField(
             }
         }
     }
-}
-
-@Composable
-private fun BackButton(
-    modifier: Modifier = Modifier,
-    onBackClicked: () -> Unit,
-) {
-    Icon(
-        Icons.Filled.ArrowBack,
-        stringResource(id = io.agapps.core.ui.R.string.close_search),
-        tint = Black70,
-        modifier = modifier
-            .clickable {
-                onBackClicked()
-            }
-            .padding(16.dp)
-    )
 }
 
 @Composable

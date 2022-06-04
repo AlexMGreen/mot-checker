@@ -1,4 +1,4 @@
-package io.agapps.core.ui.component
+package io.agapps.core.ui.component.buttons
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding

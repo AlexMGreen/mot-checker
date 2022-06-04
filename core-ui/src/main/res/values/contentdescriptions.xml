@@ -2,5 +2,6 @@
 <resources>
     <string name="menu">Menu</string>
     <string name="close_search">Close search</string>
+    <string name="navigate_back">Navigate back</string>
     <string name="search">Search</string>
 </resources>

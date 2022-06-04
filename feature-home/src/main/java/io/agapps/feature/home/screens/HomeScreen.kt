@@ -4,13 +4,14 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -31,15 +32,16 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.agapps.common.mapRange
 import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.AppBottomBar
+import io.agapps.core.ui.component.BottomListItemSpacer
 import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.feature.camerasearch.component.CameraSearchCard
@@ -47,12 +49,14 @@ import io.agapps.feature.home.HomeViewModel
 import io.agapps.feature.home.HomeViewState
 import io.agapps.feature.home.R
 import io.agapps.feature.home.components.HomeHeader
-import io.agapps.feature.recentvehicles.components.RecentVehicleList
+import io.agapps.feature.recentvehicles.components.RecentVehicleCard
+import io.agapps.feature.recentvehicles.components.RecentVehicleSectionHeader
 import kotlin.math.roundToInt
 
 @Composable
 fun HomeRoute(
     navigateToSearch: (initialRegistration: String?) -> Unit,
+    navigateToRecentVehicle: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -60,6 +64,7 @@ fun HomeRoute(
     HomeScreen(
         viewState = viewState,
         navigateToSearch = navigateToSearch,
+        navigateToRecentVehicle = navigateToRecentVehicle,
         modifier = modifier,
     )
 }
@@ -71,6 +76,7 @@ private const val ToolbarCollapseLimit = -525
 fun HomeScreen(
     viewState: HomeViewState,
     navigateToSearch: (initialRegistration: String?) -> Unit,
+    navigateToRecentVehicle: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -105,7 +111,7 @@ fun HomeScreen(
                     val newOffset = (toolbarOffsetHeightPx + delta).coerceIn(-toolbarHeightPx, 0f)
                     if (newOffset >= ToolbarCollapseLimit) {
                         toolbarOffsetHeightPx = newOffset
-                        toolbarContentsAlpha = mapRange(newOffset, ToolbarCollapseLimit.toFloat(), 0f, 0f, 1f)
+                        toolbarContentsAlpha = newOffset.mapRange(ToolbarCollapseLimit.toFloat(), 0f, 0f, 1f)
                     }
                     return Offset.Zero
                 }
@@ -126,24 +132,25 @@ fun HomeScreen(
                         }
 
                         item {
-                            RecentVehicleList(
-                                vehicles = viewState.recentVehicles,
-                                onVehicleClicked = { clickedVehicle ->
-                                    navigateToSearch(clickedVehicle.registrationNumber)
-                                },
-                                onViewAllClicked = {
-                                    // TODO: Show all recents
+                            if (viewState.recentVehicles.isNotEmpty()) {
+                                RecentVehicleSectionHeader(
+                                    onViewAllClicked = { navigateToRecentVehicle() }
+                                )
+                            }
+                        }
+
+                        items(viewState.recentVehicles) {
+                            RecentVehicleCard(
+                                vehicle = it,
+                                modifier = modifier.padding(horizontal = 16.dp),
+                                onClick = { vehicle ->
+                                    navigateToSearch(vehicle.registrationNumber)
                                 }
                             )
                         }
 
                         item {
-                            val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(screenHeight - toolbarHeight)
-                            )
+                            BottomListItemSpacer(toolbarHeight = 300.dp)
                         }
                     }
 
@@ -161,15 +168,13 @@ fun HomeScreen(
     }
 }
 
-// Maps a value, x, in one range of values, to the equivalent value in a new range, maintaining ratio
-private fun mapRange(x: Float, inMin: Float, inMax: Float, outMin: Float, outMax: Float): Float {
-    return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
-}
-
 @Preview(heightDp = 800, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun HomeScreenPreview() {
     MOTCheckerTheme {
-        HomeScreen(viewState = HomeViewState.Home(listOf(Vehicle.vehiclePreview(), Vehicle.vehiclePreview())), navigateToSearch = {})
+        HomeScreen(
+            viewState = HomeViewState.Home(listOf(Vehicle.vehiclePreview(), Vehicle.vehiclePreview())),
+            navigateToSearch = {},
+            navigateToRecentVehicle = {})
     }
 }

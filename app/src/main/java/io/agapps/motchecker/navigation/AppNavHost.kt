@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import io.agapps.feature.home.navigation.HomeDestination
 import io.agapps.feature.home.navigation.homeGraph
+import io.agapps.feature.recentvehicles.navigation.RecentVehicleDestination
+import io.agapps.feature.recentvehicles.navigation.recentVehicleGraph
 import io.agapps.feature.search.navigation.SearchDestination
 import io.agapps.feature.search.navigation.searchGraph
 
@@ -21,13 +23,30 @@ fun AppNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeGraph(navigateToSearch = { initialRegistration ->
-            if (initialRegistration == null) {
-                navController.navigate(SearchDestination.route)
-            } else {
-                navController.navigate("${SearchDestination.route}?${SearchDestination.initialRegistrationArg}=$initialRegistration")
-            }
-        })
+        homeGraph(
+            navigateToSearch = { initialRegistration ->
+                navigateToSearch(navController, initialRegistration)
+            },
+            navigateToRecentVehicle = {
+                navController.navigate(RecentVehicleDestination.route)
+            })
         searchGraph(onBackClick = { navController.popBackStack() })
+        recentVehicleGraph(
+            onBackClick = { navController.popBackStack() },
+            navigateToSearch = { initialRegistration ->
+                navigateToSearch(navController, initialRegistration)
+            },
+        )
+    }
+}
+
+private fun navigateToSearch(
+    navController: NavHostController,
+    initialRegistration: String?
+) {
+    if (initialRegistration == null) {
+        navController.navigate(SearchDestination.route)
+    } else {
+        navController.navigate("${SearchDestination.route}?${SearchDestination.initialRegistrationArg}=$initialRegistration")
     }
 }
