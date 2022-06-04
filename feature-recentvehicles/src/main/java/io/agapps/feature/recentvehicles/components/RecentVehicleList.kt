@@ -20,6 +20,7 @@ fun RecentVehicleList(
     onVehicleClicked: (Vehicle) -> Unit,
     onViewAllClicked: () -> Unit,
 ) {
+    if (vehicles.isEmpty()) return
     Row(modifier = Modifier.padding(horizontal = 12.dp)) {
         SectionTitle(title = stringResource(id = R.string.recent_vehicles), modifier = Modifier.align(Alignment.CenterVertically))
         Spacer(modifier = Modifier.weight(1f))

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -22,25 +23,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.agapps.core.ui.component.NumberPlateText
 import io.agapps.core.ui.theme.Black30
+import io.agapps.core.ui.theme.LightGrey
 import io.agapps.feature.home.R
 
 @Composable
 fun HomeHeader(
     modifier: Modifier = Modifier,
+    fadeOnCollapseAlpha: Float,
     onNumberPlateClicked: (() -> Unit)? = null,
 ) {
-    Box(modifier = modifier) {
+    Box(modifier = modifier.background(LightGrey)) {
         Image(
             painterResource(id = R.drawable.home_header_background),
             contentDescription = "",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize()
+            modifier = Modifier
+                .matchParentSize()
+                .alpha(fadeOnCollapseAlpha)
         )
 
         Box(
             modifier = Modifier
                 .matchParentSize()
                 .background(Black30)
+                .alpha(fadeOnCollapseAlpha)
         )
 
         Column(
@@ -53,7 +59,9 @@ fun HomeHeader(
                 text = stringResource(id = R.string.search_vehicle),
                 fontSize = 28.sp,
                 color = Color.White,
-                modifier = Modifier.padding(vertical = 16.dp)
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .alpha(fadeOnCollapseAlpha)
             )
 
             NumberPlateText(
@@ -73,8 +81,9 @@ fun HomeHeader(
 @Composable
 fun HomeHeaderPreview() {
     HomeHeader(
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
+            .height(300.dp),
+        fadeOnCollapseAlpha = 1f
     )
 }

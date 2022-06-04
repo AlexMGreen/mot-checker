@@ -14,8 +14,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -51,8 +51,8 @@ import io.agapps.feature.camerasearch.R
 import java.util.concurrent.Executors
 
 private const val ImageGradientEnd = 600f
-private const val ExpandedCardHeightRatio = 0.5f
-private const val CollapsedCardHeightRatio = 0.25f
+private const val ExpandedCardHeightDp = 320f
+private const val CollapsedCardHeightDp = 144f
 
 @Composable
 fun CameraSearchCard(
@@ -64,10 +64,10 @@ fun CameraSearchCard(
 
     val fadeOutOnExpandAlpha by transition.animateFloat({ tween(durationMillis = 500) }, label = "") { isExpanded -> if (isExpanded) 0f else 1f }
     val fadeInOnExpandAlpha by transition.animateFloat({ tween(durationMillis = 500) }, label = "") { isExpanded -> if (isExpanded) 1f else 0f }
-    val cardHeightRatio by transition.animateFloat(
+    val cardHeightDp by transition.animateFloat(
         { tween(durationMillis = 500) },
         label = ""
-    ) { isExpanded -> if (isExpanded) ExpandedCardHeightRatio else CollapsedCardHeightRatio }
+    ) { isExpanded -> if (isExpanded) ExpandedCardHeightDp else CollapsedCardHeightDp }
 
     Card(
         elevation = 8.dp,
@@ -77,7 +77,7 @@ fun CameraSearchCard(
                 expandedState.targetState = !expandedState.currentState
             }
             .fillMaxWidth()
-            .fillMaxHeight(cardHeightRatio)
+            .height(cardHeightDp.dp)
             .border(width = 1.dp, color = White50, shape = Shapes.medium)
 
     ) {
