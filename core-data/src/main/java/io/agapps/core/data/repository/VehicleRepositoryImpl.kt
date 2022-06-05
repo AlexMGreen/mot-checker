@@ -2,6 +2,8 @@ package io.agapps.core.data.repository
 
 import com.github.ajalt.timberkt.Timber
 import io.agapps.core.database.dao.VehicleDao
+import io.agapps.core.database.model.MotTestEntity
+import io.agapps.core.database.model.RfrAndCommentEntity
 import io.agapps.core.database.model.VehicleEntity
 import io.agapps.core.database.model.toDomain
 import io.agapps.core.model.MotTest
@@ -36,7 +38,31 @@ class VehicleRepositoryImpl @Inject constructor(
     }
 
     private fun Vehicle.toEntity() = VehicleEntity(
-        registrationNumber.uppercase(), make, model, primaryColour, fuelType, engineSizeCc, manufactureDate
+        registrationNumber = registrationNumber.uppercase(),
+        make = make,
+        model = model,
+        primaryColour = primaryColour,
+        fuelType = fuelType,
+        engineSizeCc = engineSizeCc,
+        manufactureDate = manufactureDate,
+        motTests = motTests?.map { it.toEntity() }
+    )
+
+    private fun MotTest.toEntity() = MotTestEntity(
+        completedDate = completedDate,
+        expiryDate = expiryDate,
+        motTestNumber = motTestNumber,
+        odometerUnit = odometerUnit,
+        odometerResultType = odometerResultType,
+        odometerValue = odometerValue,
+        rfrAndComments = reasonForRejectionAndComment.map { it.toEntity() },
+        testResult = testResult,
+    )
+
+    private fun ReasonForRejectionAndComment.toEntity() = RfrAndCommentEntity(
+        dangerous = dangerous,
+        text = text,
+        type = type,
     )
 
     // TODO: Combine with DVLA Vehicle Enquiry Service API info?
