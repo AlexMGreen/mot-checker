@@ -57,7 +57,7 @@ fun SearchRoute(
     onBackClick: () -> Unit,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
-    val viewState by viewModel.searchViewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsState()
     SearchScreen(
         viewState = viewState,
         onBackClick = onBackClick,
@@ -110,6 +110,7 @@ fun SearchScreen(
                 is SearchViewState.SearchResult -> SearchResultContent(state.vehicle, listState, modifier)
                 is SearchViewState.SearchError -> SearchErrorContent()
                 is SearchViewState.SearchLoading -> SearchLoadingContent()
+                is SearchViewState.SearchEmpty -> {}
             }
         }
     }

@@ -18,4 +18,8 @@ sealed class SearchViewState {
         override val searchedRegistration: String,
         val error: String
     ) : SearchViewState()
+
+    data class SearchEmpty(
+        override val searchedRegistration: String = "",
+    ) : SearchViewState()
 }
