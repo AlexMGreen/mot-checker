@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FabPosition
@@ -167,7 +169,10 @@ private fun HomeContent(
     navigateToSearch: (initialRegistration: String?) -> Unit,
     navigateToRecentVehicle: () -> Unit,
 ) {
-    LazyColumn(contentPadding = PaddingValues(top = toolbarHeight, bottom = 64.dp)) {
+    LazyColumn(
+        contentPadding = PaddingValues(top = toolbarHeight, bottom = 64.dp),
+    ) {
+        item { Spacer(modifier = Modifier.size(8.dp)) }
         item {
             // TODO: Permission request handling on click
             CameraSearchCard()

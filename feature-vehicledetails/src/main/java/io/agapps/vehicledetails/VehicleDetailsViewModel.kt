@@ -31,6 +31,7 @@ class VehicleDetailsViewModel @Inject constructor(
             is Result.Error -> VehicleDetailsViewState.VehicleDetailsError(registration, vehicleResult.exception.toString())
             is Result.Loading -> VehicleDetailsViewState.VehicleDetailsLoading(registration)
             is Result.Success -> {
+                // TODO: Only update recent vehicles when viewing details screen
                 recentVehicleRepository.addRecentVehicle(vehicleResult.data)
                 VehicleDetailsViewState.VehicleDetailsResult(
                     registration,

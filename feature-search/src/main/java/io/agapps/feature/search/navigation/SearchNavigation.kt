@@ -16,7 +16,8 @@ object SearchDestination : AppNavigationDestination {
 
 fun NavGraphBuilder.searchGraph(
     onBackClick: () -> Unit,
-    onVehicleClick: (Vehicle) -> Unit
+    onVehicleClick: (Vehicle) -> Unit,
+    onViewAllRecentVehiclesClick: () -> Unit,
 ) {
     composable(
         route = "${SearchDestination.route}?${SearchDestination.initialRegistrationArg}={${SearchDestination.initialRegistrationArg}}",
@@ -30,6 +31,7 @@ fun NavGraphBuilder.searchGraph(
         SearchRoute(
             onBackClick = onBackClick,
             onVehicleClick = onVehicleClick,
+            onViewAllRecentVehiclesClick = onViewAllRecentVehiclesClick,
         )
     }
 }

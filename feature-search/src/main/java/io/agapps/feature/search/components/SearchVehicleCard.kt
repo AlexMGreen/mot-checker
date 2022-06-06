@@ -14,10 +14,10 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.agapps.core.model.Vehicle
+import io.agapps.core.ui.theme.Orange300
 import io.agapps.core.ui.theme.White50
 
 @Composable
@@ -29,7 +29,6 @@ fun SearchVehicleCard(
     Card(
         elevation = 1.dp,
         modifier = modifier
-            .padding(vertical = 6.dp)
             .fillMaxWidth()
             .clickable { onClick(vehicle) }
     ) {
@@ -37,7 +36,7 @@ fun SearchVehicleCard(
             Column(Modifier.weight(1f)) {
                 Text(
                     text = vehicle.registrationNumber,
-                    color = Color.White,
+                    color = Orange300,
                     style = MaterialTheme.typography.subtitle1,
                     modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
                 )

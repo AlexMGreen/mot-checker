@@ -37,6 +37,9 @@ fun AppNavHost(
             onBackClick = { navController.popBackStack() },
             onVehicleClick = { vehicle ->
                 navController.navigate("${VehicleDetailsDestination.route}/${vehicle.registrationNumber}")
+            },
+            onViewAllRecentVehiclesClick = {
+                navController.navigate(RecentVehicleDestination.route)
             }
         )
         vehicleDetailsGraph(
@@ -44,8 +47,8 @@ fun AppNavHost(
         )
         recentVehicleGraph(
             onBackClick = { navController.popBackStack() },
-            navigateToSearch = { initialRegistration ->
-                navigateToSearch(navController, initialRegistration)
+            navigateToVehicleDetails = { registration ->
+                navController.navigate("${VehicleDetailsDestination.route}/$registration")
             },
         )
     }

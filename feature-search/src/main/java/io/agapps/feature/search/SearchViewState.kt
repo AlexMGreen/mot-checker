@@ -21,5 +21,6 @@ sealed class SearchViewState {
 
     data class SearchEmpty(
         override val searchedRegistration: String = "",
+        val recentVehicles: List<Vehicle> = emptyList()
     ) : SearchViewState()
 }

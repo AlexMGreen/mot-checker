@@ -46,13 +46,22 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    private val recentVehiclesResult: Flow<Result<List<Vehicle>>> = recentVehicleRepository.getRecentVehicles(5).asResult()
+
     val viewState: StateFlow<SearchViewState> = combine(
         registrationSearchState,
         searchedVehicleResult,
-    ) { searchedRegistration, searchedVehicle ->
-        Timber.d { "Combining $searchedRegistration with $searchedVehicle" }
+        recentVehiclesResult,
+    ) { searchedRegistration, searchedVehicle, recentVehicles ->
+        Timber.d { "SearchViewModel viewstate: Combining $searchedRegistration with $searchedVehicle with $recentVehicles" }
         when {
-            searchedRegistration.isNullOrBlank() -> SearchViewState.SearchEmpty()
+            searchedRegistration.isNullOrBlank() -> {
+                if (recentVehicles is Result.Success) {
+                    SearchViewState.SearchEmpty(searchedRegistration = searchedRegistration.orEmpty(), recentVehicles = recentVehicles.data)
+                } else {
+                    SearchViewState.SearchEmpty()
+                }
+            }
             searchedVehicle is Result.Error -> SearchViewState.SearchError(searchedRegistration.orEmpty(), searchedVehicle.exception.toString())
             searchedVehicle is Result.Loading -> SearchViewState.SearchLoading(searchedRegistration.orEmpty())
             searchedVehicle is Result.Success -> {

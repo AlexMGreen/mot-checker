@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -30,6 +31,8 @@ import io.agapps.core.ui.component.AppBottomBar
 import io.agapps.core.ui.theme.LightGrey
 import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.Typography
+import io.agapps.feature.recentvehicles.components.RecentVehicleCard
+import io.agapps.feature.recentvehicles.components.RecentVehicleSectionHeader
 import io.agapps.feature.search.SearchViewModel
 import io.agapps.feature.search.SearchViewState
 import io.agapps.feature.search.components.NumberPlateTextField
@@ -40,6 +43,7 @@ fun SearchRoute(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onVehicleClick: (Vehicle) -> Unit,
+    onViewAllRecentVehiclesClick: () -> Unit,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val viewState by viewModel.viewState.collectAsState()
@@ -47,6 +51,7 @@ fun SearchRoute(
         viewState = viewState,
         onBackClick = onBackClick,
         onVehicleClick = onVehicleClick,
+        onViewAllRecentVehiclesClick = onViewAllRecentVehiclesClick,
         onRegistrationEntered = { registration ->
             viewModel.onRegistrationNumberEntered(registration)
         },
@@ -60,6 +65,7 @@ fun SearchScreen(
     viewState: SearchViewState,
     onBackClick: () -> Unit,
     onVehicleClick: (Vehicle) -> Unit,
+    onViewAllRecentVehiclesClick: () -> Unit,
     onRegistrationEntered: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -94,12 +100,26 @@ fun SearchScreen(
                 is SearchViewState.SearchResult -> SearchResultContent(
                     vehicle = state.vehicle,
                     lazyListState = listState,
-                    onVehicleClick = onVehicleClick,
+                    onVehicleClick = { vehicle ->
+                        focusManager.clearFocus(true)
+                        onVehicleClick(vehicle)
+                    },
                     modifier = modifier
                 )
                 is SearchViewState.SearchError -> SearchErrorContent()
                 is SearchViewState.SearchLoading -> SearchLoadingContent()
-                is SearchViewState.SearchEmpty -> {}
+                is SearchViewState.SearchEmpty -> SearchEmptyContent(
+                    recentVehicles = state.recentVehicles,
+                    lazyListState = listState,
+                    onVehicleClick = { vehicle ->
+                        focusManager.clearFocus(true)
+                        onVehicleClick(vehicle)
+                    },
+                    onViewAllRecentVehiclesClick = {
+                        focusManager.clearFocus(true)
+                        onViewAllRecentVehiclesClick()
+                    },
+                )
             }
         }
     }
@@ -114,15 +134,52 @@ fun SearchResultContent(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
             .fillMaxWidth(),
         state = lazyListState
     ) {
         item { Spacer(modifier = Modifier.size(24.dp)) }
 
-        item { SearchVehicleCard(modifier = modifier, vehicle = vehicle, onClick = { onVehicleClick(it) }) }
+        item { SearchVehicleCard(modifier = modifier.padding(horizontal = 16.dp), vehicle = vehicle, onClick = { onVehicleClick(it) }) }
     }
 }
+
+@Composable
+fun SearchEmptyContent(
+    recentVehicles: List<Vehicle>,
+    lazyListState: LazyListState,
+    onVehicleClick: (Vehicle) -> Unit,
+    onViewAllRecentVehiclesClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth(),
+        state = lazyListState
+    ) {
+        item { Spacer(modifier = Modifier.size(24.dp)) }
+
+        item {
+            if (recentVehicles.isNotEmpty()) {
+                RecentVehicleSectionHeader(
+                    onViewAllClicked = {
+                        onViewAllRecentVehiclesClick()
+                    }
+                )
+            }
+        }
+
+        items(recentVehicles) {
+            RecentVehicleCard(
+                vehicle = it,
+                modifier = modifier.padding(horizontal = 16.dp),
+                onClick = { vehicle ->
+                    onVehicleClick(vehicle)
+                }
+            )
+        }
+    }
+}
+
 
 @Composable
 fun SearchLoadingContent() {
