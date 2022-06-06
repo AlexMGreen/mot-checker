@@ -11,6 +11,8 @@ import io.agapps.feature.recentvehicles.navigation.RecentVehicleDestination
 import io.agapps.feature.recentvehicles.navigation.recentVehicleGraph
 import io.agapps.feature.search.navigation.SearchDestination
 import io.agapps.feature.search.navigation.searchGraph
+import io.agapps.vehicledetails.navigation.VehicleDetailsDestination
+import io.agapps.vehicledetails.navigation.vehicleDetailsGraph
 
 @Composable
 fun AppNavHost(
@@ -29,8 +31,17 @@ fun AppNavHost(
             },
             navigateToRecentVehicle = {
                 navController.navigate(RecentVehicleDestination.route)
-            })
-        searchGraph(onBackClick = { navController.popBackStack() })
+            }
+        )
+        searchGraph(
+            onBackClick = { navController.popBackStack() },
+            onVehicleClick = { vehicle ->
+                navController.navigate("${VehicleDetailsDestination.route}/${vehicle.registrationNumber}")
+            }
+        )
+        vehicleDetailsGraph(
+            onBackClick = { navController.popBackStack() }
+        )
         recentVehicleGraph(
             onBackClick = { navController.popBackStack() },
             navigateToSearch = { initialRegistration ->

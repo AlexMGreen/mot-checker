@@ -4,5 +4,7 @@ import io.agapps.core.model.Vehicle
 import kotlinx.coroutines.flow.Flow
 
 interface VehicleRepository {
-    suspend fun getVehicle(registrationNumber: String, shouldUpdate: Boolean = true): Flow<Vehicle>
+    fun getVehicle(registrationNumber: String): Flow<Vehicle>
+
+    suspend fun updateVehicle(registrationNumber: String)
 }

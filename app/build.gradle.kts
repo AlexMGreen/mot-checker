@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":core-network"))
     implementation(project(":feature-home"))
     implementation(project(":feature-search"))
+    implementation(project(":feature-vehicledetails"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)

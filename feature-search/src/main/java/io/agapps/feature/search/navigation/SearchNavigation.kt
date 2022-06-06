@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import io.agapps.core.model.Vehicle
 import io.agapps.core.navigation.AppNavigationDestination
 import io.agapps.feature.search.screens.SearchRoute
 
@@ -14,7 +15,8 @@ object SearchDestination : AppNavigationDestination {
 }
 
 fun NavGraphBuilder.searchGraph(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onVehicleClick: (Vehicle) -> Unit
 ) {
     composable(
         route = "${SearchDestination.route}?${SearchDestination.initialRegistrationArg}={${SearchDestination.initialRegistrationArg}}",
@@ -25,6 +27,9 @@ fun NavGraphBuilder.searchGraph(
             }
         )
     ) {
-        SearchRoute(onBackClick = onBackClick)
+        SearchRoute(
+            onBackClick = onBackClick,
+            onVehicleClick = onVehicleClick,
+        )
     }
 }

@@ -3,6 +3,7 @@ package io.agapps.feature.search
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.ajalt.timberkt.Timber
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.agapps.common.result.Result
 import io.agapps.common.result.asResult
@@ -40,6 +41,7 @@ class SearchViewModel @Inject constructor(
         if (searchedRegistration.isNullOrBlank()) {
             flowOf(Result.Error())
         } else {
+            vehicleRepository.updateVehicle(searchedRegistration)
             vehicleRepository.getVehicle(searchedRegistration).asResult()
         }
     }
@@ -48,6 +50,7 @@ class SearchViewModel @Inject constructor(
         registrationSearchState,
         searchedVehicleResult,
     ) { searchedRegistration, searchedVehicle ->
+        Timber.d { "Combining $searchedRegistration with $searchedVehicle" }
         when {
             searchedRegistration.isNullOrBlank() -> SearchViewState.SearchEmpty()
             searchedVehicle is Result.Error -> SearchViewState.SearchError(searchedRegistration.orEmpty(), searchedVehicle.exception.toString())

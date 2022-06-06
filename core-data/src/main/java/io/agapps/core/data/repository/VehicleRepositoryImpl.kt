@@ -23,17 +23,20 @@ class VehicleRepositoryImpl @Inject constructor(
     private val vehicleDao: VehicleDao,
 ) : VehicleRepository {
 
-    override suspend fun getVehicle(registrationNumber: String, shouldUpdate: Boolean): Flow<Vehicle> {
-        if (shouldUpdate) {
-            val response = motHistoryService.getMotHistory(registrationNumber)
-            if (response.isSuccessful) {
-                val vehicle = response.body()!!.first().toDomain()
-                vehicleDao.insertVehicle(vehicle.toEntity())
-            }
-        }
+    override fun getVehicle(registrationNumber: String): Flow<Vehicle> {
         return vehicleDao.getVehicleByRegistrationNumber(registrationNumber.uppercase()).distinctUntilChanged().map {
             Timber.d { "Retrieved vehicle from db: $it" }
             it.toDomain()
+        }
+    }
+
+    override suspend fun updateVehicle(registrationNumber: String) {
+        Timber.d { "Updating vehicle from API: $registrationNumber" }
+        val response = motHistoryService.getMotHistory(registrationNumber)
+        if (response.isSuccessful) {
+            val vehicle = response.body()!!.first().toDomain()
+            Timber.d { "API response successful, saving vehicle in DB: $registrationNumber" }
+            vehicleDao.insertVehicle(vehicle.toEntity())
         }
     }
 

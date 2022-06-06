@@ -1,4 +1,4 @@
-package io.agapps.feature.search.components
+package io.agapps.vehicledetails.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Icon
@@ -14,7 +14,7 @@ import io.agapps.core.ui.component.IconLabel
 import io.agapps.core.ui.component.SectionTitle
 import io.agapps.core.ui.theme.Green50
 import io.agapps.core.ui.theme.Red50
-import io.agapps.feature.search.R
+import io.agapps.vehicledetails.R
 
 @Composable
 fun MotHistoryTitle(
