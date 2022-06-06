@@ -31,7 +31,7 @@ private const val SearchDebounceMs = 1000L
 class SearchViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val vehicleRepository: VehicleRepository,
-    private val recentVehicleRepository: RecentVehicleRepository,
+    recentVehicleRepository: RecentVehicleRepository,
 ) : ViewModel() {
     private val initialRegistration: String? = savedStateHandle[SearchDestination.initialRegistrationArg]
     private val registrationSearchState = MutableStateFlow(initialRegistration)
@@ -53,30 +53,22 @@ class SearchViewModel @Inject constructor(
         searchedVehicleResult,
         recentVehiclesResult,
     ) { searchedRegistration, searchedVehicle, recentVehicles ->
-        Timber.d { "SearchViewModel viewstate: Combining $searchedRegistration with $searchedVehicle with $recentVehicles" }
-        when {
-            searchedRegistration.isNullOrBlank() -> {
-                if (recentVehicles is Result.Success) {
-                    SearchViewState.SearchEmpty(searchedRegistration = searchedRegistration.orEmpty(), recentVehicles = recentVehicles.data)
-                } else {
-                    SearchViewState.SearchEmpty()
-                }
-            }
-            searchedVehicle is Result.Error -> SearchViewState.SearchError(searchedRegistration.orEmpty(), searchedVehicle.exception.toString())
-            searchedVehicle is Result.Loading -> SearchViewState.SearchLoading(searchedRegistration.orEmpty())
-            searchedVehicle is Result.Success -> {
-                recentVehicleRepository.addRecentVehicle(searchedVehicle.data)
-                SearchViewState.SearchResult(
-                    searchedRegistration.orEmpty(),
-                    searchedVehicle.data
-                )
-            }
-            else -> SearchViewState.SearchEmpty()
+        Timber.d { "Combining $searchedRegistration with $searchedVehicle with $recentVehicles" }
+        val vehicle: SearchVehicleViewState = if (searchedRegistration.isNullOrBlank()) SearchVehicleViewState.Empty else when (searchedVehicle) {
+            is Result.Loading -> SearchVehicleViewState.Loading
+            is Result.Error -> SearchVehicleViewState.Error
+            is Result.Success -> SearchVehicleViewState.Success(searchedVehicle.data)
         }
+        val recents: SearchRecentsViewState = when (recentVehicles) {
+            is Result.Loading -> SearchRecentsViewState.Loading
+            is Result.Error -> SearchRecentsViewState.Error
+            is Result.Success -> SearchRecentsViewState.Success(recentVehicles.data)
+        }
+        SearchViewState(vehicle, recents)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = SearchViewState.SearchEmpty()
+        initialValue = SearchViewState(SearchVehicleViewState.Loading, SearchRecentsViewState.Loading)
     )
 
     init {

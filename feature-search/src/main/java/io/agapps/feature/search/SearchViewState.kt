@@ -2,25 +2,20 @@ package io.agapps.feature.search
 
 import io.agapps.core.model.Vehicle
 
-sealed class SearchViewState {
-    abstract val searchedRegistration: String
+data class SearchViewState(
+    val vehicleState: SearchVehicleViewState,
+    val recentVehiclesState: SearchRecentsViewState,
+)
 
-    data class SearchResult(
-        override val searchedRegistration: String,
-        val vehicle: Vehicle,
-    ) : SearchViewState()
+sealed interface SearchVehicleViewState {
+    data class Success(val vehicle: Vehicle) : SearchVehicleViewState
+    object Error : SearchVehicleViewState
+    object Loading : SearchVehicleViewState
+    object Empty : SearchVehicleViewState
+}
 
-    data class SearchLoading(
-        override val searchedRegistration: String,
-    ) : SearchViewState()
-
-    data class SearchError(
-        override val searchedRegistration: String,
-        val error: String
-    ) : SearchViewState()
-
-    data class SearchEmpty(
-        override val searchedRegistration: String = "",
-        val recentVehicles: List<Vehicle> = emptyList()
-    ) : SearchViewState()
+sealed interface SearchRecentsViewState {
+    data class Success(val recentVehicles: List<Vehicle>) : SearchRecentsViewState
+    object Error : SearchRecentsViewState
+    object Loading : SearchRecentsViewState
 }

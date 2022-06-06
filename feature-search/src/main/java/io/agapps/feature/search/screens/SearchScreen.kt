@@ -1,6 +1,7 @@
 package io.agapps.feature.search.screens
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,8 +35,9 @@ import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.Typography
 import io.agapps.feature.recentvehicles.components.RecentVehicleCard
 import io.agapps.feature.recentvehicles.components.RecentVehicleSectionHeader
+import io.agapps.feature.search.SearchRecentsViewState
+import io.agapps.feature.search.SearchVehicleViewState
 import io.agapps.feature.search.SearchViewModel
-import io.agapps.feature.search.SearchViewState
 import io.agapps.feature.search.components.NumberPlateTextField
 import io.agapps.feature.search.components.SearchVehicleCard
 
@@ -48,7 +51,8 @@ fun SearchRoute(
 ) {
     val viewState by viewModel.viewState.collectAsState()
     SearchScreen(
-        viewState = viewState,
+        vehicleState = viewState.vehicleState,
+        recentVehicleState = viewState.recentVehiclesState,
         onBackClick = onBackClick,
         onVehicleClick = onVehicleClick,
         onViewAllRecentVehiclesClick = onViewAllRecentVehiclesClick,
@@ -62,7 +66,8 @@ fun SearchRoute(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(
-    viewState: SearchViewState,
+    vehicleState: SearchVehicleViewState,
+    recentVehicleState: SearchRecentsViewState,
     onBackClick: () -> Unit,
     onVehicleClick: (Vehicle) -> Unit,
     onViewAllRecentVehiclesClick: () -> Unit,
@@ -87,7 +92,6 @@ fun SearchScreen(
                     modifier = modifier
                         .statusBarsPadding()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
-                    initialText = viewState.searchedRegistration,
                     onTextChanged = { onRegistrationEntered(it) },
                     onBackClicked = {
                         focusManager.clearFocus()
@@ -96,38 +100,36 @@ fun SearchScreen(
                 )
             }
 
-            when (@Suppress("UnnecessaryVariable") val state = viewState) {
-                is SearchViewState.SearchResult -> SearchResultContent(
-                    vehicle = state.vehicle,
-                    lazyListState = listState,
-                    onVehicleClick = { vehicle ->
-                        focusManager.clearFocus(true)
-                        onVehicleClick(vehicle)
-                    },
-                    modifier = modifier
-                )
-                is SearchViewState.SearchError -> SearchErrorContent()
-                is SearchViewState.SearchLoading -> SearchLoadingContent()
-                is SearchViewState.SearchEmpty -> SearchEmptyContent(
-                    recentVehicles = state.recentVehicles,
-                    lazyListState = listState,
-                    onVehicleClick = { vehicle ->
-                        focusManager.clearFocus(true)
-                        onVehicleClick(vehicle)
-                    },
-                    onViewAllRecentVehiclesClick = {
-                        focusManager.clearFocus(true)
-                        onViewAllRecentVehiclesClick()
-                    },
-                )
-            }
+            SearchResultContent(
+                vehicleState = vehicleState,
+                lazyListState = listState,
+                onVehicleClick = { vehicle ->
+                    focusManager.clearFocus(true)
+                    onVehicleClick(vehicle)
+                },
+                modifier = modifier
+            )
+
+            SearchRecentVehiclesContent(
+                recentVehicleState = recentVehicleState,
+                lazyListState = listState,
+                onVehicleClick = { vehicle ->
+                    focusManager.clearFocus(true)
+                    onVehicleClick(vehicle)
+                },
+                onViewAllRecentVehiclesClick = {
+                    focusManager.clearFocus(true)
+                    onViewAllRecentVehiclesClick()
+                },
+                modifier = modifier
+            )
         }
     }
 }
 
 @Composable
 fun SearchResultContent(
-    vehicle: Vehicle,
+    vehicleState: SearchVehicleViewState,
     lazyListState: LazyListState,
     onVehicleClick: (Vehicle) -> Unit,
     modifier: Modifier = Modifier,
@@ -137,80 +139,91 @@ fun SearchResultContent(
             .fillMaxWidth(),
         state = lazyListState
     ) {
-        item { Spacer(modifier = Modifier.size(24.dp)) }
+        item { Spacer(modifier = Modifier.size(18.dp)) }
 
-        item { SearchVehicleCard(modifier = modifier.padding(horizontal = 16.dp), vehicle = vehicle, onClick = { onVehicleClick(it) }) }
+        when (vehicleState) {
+            is SearchVehicleViewState.Empty -> {
+                item { SearchBodyText(text = "Enter reg to search") }
+            }
+            is SearchVehicleViewState.Loading -> {
+                item { SearchBodyText(stringResource(id = io.agapps.core.ui.R.string.loading)) }
+            }
+            is SearchVehicleViewState.Error -> {
+                item { SearchBodyText(stringResource(id = io.agapps.core.ui.R.string.error)) }
+            }
+            is SearchVehicleViewState.Success -> {
+                item {
+                    SearchVehicleCard(
+                        modifier = modifier.padding(horizontal = 16.dp),
+                        vehicle = vehicleState.vehicle,
+                        onClick = { onVehicleClick(it) }
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun SearchEmptyContent(
-    recentVehicles: List<Vehicle>,
+private fun SearchBodyText(text: String) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp)
+            .alpha(0.5f),
+        textAlign = TextAlign.Center,
+        fontSize = 18.sp,
+        style = Typography.overline
+    )
+}
+
+@Composable
+private fun SearchRecentVehiclesContent(
+    recentVehicleState: SearchRecentsViewState,
     lazyListState: LazyListState,
     onVehicleClick: (Vehicle) -> Unit,
     onViewAllRecentVehiclesClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth(),
-        state = lazyListState
-    ) {
-        item { Spacer(modifier = Modifier.size(24.dp)) }
+    LazyColumn(modifier = Modifier.fillMaxWidth(), state = lazyListState) {
+        if (recentVehicleState is SearchRecentsViewState.Success) {
+            item { Spacer(modifier = Modifier.size(24.dp)) }
 
-        item {
-            if (recentVehicles.isNotEmpty()) {
-                RecentVehicleSectionHeader(
-                    onViewAllClicked = {
-                        onViewAllRecentVehiclesClick()
+            item {
+                if (recentVehicleState.recentVehicles.isNotEmpty()) {
+                    RecentVehicleSectionHeader(
+                        onViewAllClicked = {
+                            onViewAllRecentVehiclesClick()
+                        }
+                    )
+                }
+            }
+
+            items(recentVehicleState.recentVehicles) {
+                RecentVehicleCard(
+                    vehicle = it,
+                    modifier = modifier.padding(horizontal = 16.dp),
+                    onClick = { vehicle ->
+                        onVehicleClick(vehicle)
                     }
                 )
             }
         }
-
-        items(recentVehicles) {
-            RecentVehicleCard(
-                vehicle = it,
-                modifier = modifier.padding(horizontal = 16.dp),
-                onClick = { vehicle ->
-                    onVehicleClick(vehicle)
-                }
-            )
-        }
     }
 }
 
-
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun SearchLoadingContent() {
-    Text(
-        text = stringResource(id = io.agapps.core.ui.R.string.loading),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(32.dp),
-        textAlign = TextAlign.Center,
-        fontSize = 24.sp,
-        style = Typography.overline
-    )
-}
-
-@Composable
-fun SearchErrorContent() {
-    Text(
-        text = stringResource(id = io.agapps.core.ui.R.string.error),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(32.dp),
-        textAlign = TextAlign.Center,
-        fontSize = 24.sp,
-        style = Typography.overline
-    )
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFF121516, widthDp = 300)
-@Composable
-fun SearchResultContentPreview() {
+fun SearchScreenPreview() {
     MOTCheckerTheme {
-        SearchResultContent(Vehicle.vehiclePreview(), rememberLazyListState(), {})
+        SearchScreen(
+            vehicleState = SearchVehicleViewState.Success(Vehicle.vehiclePreview()),
+            recentVehicleState = SearchRecentsViewState.Success(listOf(Vehicle.vehiclePreview())),
+            {},
+            {},
+            {},
+            {}
+        )
     }
 }
