@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FabPosition
@@ -46,18 +48,19 @@ import io.agapps.core.ui.component.BottomListItemSpacer
 import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.feature.camerasearch.component.CameraSearchCard
+import io.agapps.feature.favouritevehicles.components.FavouriteVehicleCard
+import io.agapps.feature.favouritevehicles.components.FavouriteVehicleSectionHeader
 import io.agapps.feature.home.HomeViewModel
 import io.agapps.feature.home.HomeViewState
 import io.agapps.feature.home.R
 import io.agapps.feature.home.components.HomeHeader
-import io.agapps.feature.recentvehicles.components.RecentVehicleCard
-import io.agapps.feature.recentvehicles.components.RecentVehicleSectionHeader
 import kotlin.math.roundToInt
 
 @Composable
 fun HomeRoute(
-    navigateToSearch: (initialRegistration: String?) -> Unit,
-    navigateToRecentVehicle: () -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToFavouriteVehicles: () -> Unit,
+    navigateToVehicleDetails: (registration: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -65,7 +68,8 @@ fun HomeRoute(
     HomeScreen(
         viewState = viewState,
         navigateToSearch = navigateToSearch,
-        navigateToRecentVehicle = navigateToRecentVehicle,
+        navigateToFavouriteVehicles = navigateToFavouriteVehicles,
+        navigateToVehicleDetails = navigateToVehicleDetails,
         modifier = modifier,
     )
 }
@@ -76,13 +80,12 @@ private const val ToolbarCollapseLimit = -525
 @Composable
 fun HomeScreen(
     viewState: HomeViewState,
-    navigateToSearch: (initialRegistration: String?) -> Unit,
-    navigateToRecentVehicle: () -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToFavouriteVehicles: () -> Unit,
+    navigateToVehicleDetails: (registration: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    HomeScaffold(
-        navigateToSearch = navigateToSearch
-    ) {
+    HomeScaffold(navigateToSearch = navigateToSearch) {
         val toolbarHeight = 300.dp
         val toolbarHeightPx = with(LocalDensity.current) { toolbarHeight.roundToPx().toFloat() }
         var toolbarOffsetHeightPx by rememberSaveable { mutableStateOf(0f) }
@@ -112,8 +115,8 @@ fun HomeScreen(
                     HomeContent(
                         toolbarHeight = toolbarHeight,
                         viewState = viewState,
-                        navigateToSearch = navigateToSearch,
-                        navigateToRecentVehicle = navigateToRecentVehicle
+                        navigateToVehicleDetails = navigateToVehicleDetails,
+                        navigateToFavouriteVehicles = navigateToFavouriteVehicles
                     )
 
                     HomeHeader(
@@ -122,7 +125,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .offset { IntOffset(x = 0, y = toolbarOffsetHeightPx.roundToInt()) },
                         fadeOnCollapseAlpha = toolbarContentsAlpha,
-                        onNumberPlateClicked = { navigateToSearch(null) }
+                        onNumberPlateClicked = { navigateToSearch() }
                     )
                 }
             }
@@ -132,13 +135,13 @@ fun HomeScreen(
 
 @Composable
 private fun HomeScaffold(
-    navigateToSearch: (initialRegistration: String?) -> Unit,
+    navigateToSearch: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.navigationBarsPadding(),
         floatingActionButton = {
-            FloatingActionButton(onClick = { navigateToSearch(null) }) {
+            FloatingActionButton(onClick = { navigateToSearch() }) {
                 Icon(Icons.Outlined.Search, stringResource(id = io.agapps.core.ui.R.string.search), tint = SurfaceGrey)
             }
         },
@@ -164,29 +167,30 @@ private fun HomeContent(
     modifier: Modifier = Modifier,
     toolbarHeight: Dp,
     viewState: HomeViewState.Home,
-    navigateToSearch: (initialRegistration: String?) -> Unit,
-    navigateToRecentVehicle: () -> Unit,
+    navigateToVehicleDetails: (registration: String) -> Unit,
+    navigateToFavouriteVehicles: () -> Unit,
 ) {
-    LazyColumn(contentPadding = PaddingValues(top = toolbarHeight, bottom = 64.dp)) {
+    LazyColumn(
+        contentPadding = PaddingValues(top = toolbarHeight, bottom = 64.dp),
+    ) {
+        item { Spacer(modifier = Modifier.size(8.dp)) }
         item {
             // TODO: Permission request handling on click
             CameraSearchCard()
         }
 
         item {
-            if (viewState.recentVehicles.isNotEmpty()) {
-                RecentVehicleSectionHeader(
-                    onViewAllClicked = { navigateToRecentVehicle() }
-                )
+            if (viewState.favouriteVehicles.isNotEmpty()) {
+                FavouriteVehicleSectionHeader(onViewAllClicked = { navigateToFavouriteVehicles() })
             }
         }
 
-        items(viewState.recentVehicles) {
-            RecentVehicleCard(
+        items(viewState.favouriteVehicles) {
+            FavouriteVehicleCard(
                 vehicle = it,
                 modifier = modifier.padding(horizontal = 16.dp),
                 onClick = { vehicle ->
-                    navigateToSearch(vehicle.registrationNumber)
+                    navigateToVehicleDetails(vehicle.registrationNumber)
                 }
             )
         }
@@ -203,7 +207,9 @@ fun HomeScreenPreview() {
     MOTCheckerTheme {
         HomeScreen(
             viewState = HomeViewState.Home(listOf(Vehicle.vehiclePreview(), Vehicle.vehiclePreview())),
+            navigateToVehicleDetails = {},
             navigateToSearch = {},
-            navigateToRecentVehicle = {})
+            navigateToFavouriteVehicles = {}
+        )
     }
 }

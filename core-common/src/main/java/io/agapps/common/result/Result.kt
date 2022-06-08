@@ -1,14 +1,21 @@
 package io.agapps.common.result
 
-sealed class Result<out T : Any>
-data class Success<out T : Any>(val data: T) : Result<T>()
-data class Failure(val exception: Exception) : Result<Nothing>()
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
-inline fun <T : Any> Result<T>.onSuccess(action: (T) -> Unit): Result<T> {
-    if (this is Success) action(data)
-    return this
+sealed interface Result<out T> {
+    data class Success<T>(val data: T) : Result<T>
+    data class Error(val exception: Throwable? = null) : Result<Nothing>
+    object Loading : Result<Nothing>
 }
 
-inline fun <T : Any> Result<T>.onFailure(action: (Exception) -> Unit) {
-    if (this is Failure) action(exception)
+fun <T> Flow<T>.asResult(): Flow<Result<T>> {
+    return this
+        .map<T, Result<T>> {
+            Result.Success(it)
+        }
+        .onStart { emit(Result.Loading) }
+        .catch { emit(Result.Error(it)) }
 }

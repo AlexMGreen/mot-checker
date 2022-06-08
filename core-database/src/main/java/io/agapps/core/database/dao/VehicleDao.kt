@@ -14,7 +14,7 @@ interface VehicleDao {
     fun getAllVehicles(): Flow<List<VehicleEntity>>
 
     @Query("SELECT * FROM vehicle WHERE registration_number = :registrationNumber")
-    fun getVehicleByRegistrationNumber(registrationNumber: String): Flow<VehicleEntity>
+    fun getVehicleByRegistrationNumber(registrationNumber: String): Flow<VehicleEntity?>
 
     @Query("SELECT * FROM vehicle WHERE registration_number IN (:registrationNumbers)")
     fun getAllVehiclesByRegistrationNumbers(registrationNumbers: List<String>): Flow<List<VehicleEntity>>

@@ -20,7 +20,7 @@ fun RecentVehicleSectionHeader(
     Row(modifier = Modifier.padding(horizontal = 12.dp)) {
         SectionTitle(title = stringResource(id = R.string.recent_vehicles), modifier = Modifier.align(Alignment.CenterVertically))
         Spacer(modifier = Modifier.weight(1f))
-        LabelButton(text = stringResource(id = R.string.view_all)) {
+        LabelButton(text = stringResource(id = io.agapps.core.ui.R.string.view_all)) {
             onViewAllClicked()
         }
     }

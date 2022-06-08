@@ -5,7 +5,7 @@ import io.agapps.core.model.Vehicle
 sealed interface HomeViewState {
 
     data class Home(
-        val recentVehicles: List<Vehicle>
+        val favouriteVehicles: List<Vehicle>
     ) : HomeViewState
 
 }

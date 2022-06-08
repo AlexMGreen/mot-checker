@@ -30,6 +30,7 @@ camerax-view = "1.0.0-alpha29"
 detekt = "1.20.0"
 androidx-custom-view = "1.0.0-beta02"
 androidx-saved-state = "1.1.0"
+kotlinx-coroutines = "1.6.0"
 
 [libraries]
 android-desugarjdklibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarjdklibs" }
@@ -71,6 +72,7 @@ android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", ve
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin-android" }
 androidx-customview-poolingcontainer = { group = "androidx.customview", name = "customview-poolingcontainer", version.ref = "androidx-custom-view" }
 androidx-savedstate-ktx = { group = "androidx.savedstate", name = "savedstate-ktx", version.ref = "androidx-saved-state" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-plugin" }

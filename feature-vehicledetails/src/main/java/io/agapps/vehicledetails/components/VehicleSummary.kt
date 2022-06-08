@@ -1,4 +1,4 @@
-package io.agapps.feature.search.components
+package io.agapps.vehicledetails.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

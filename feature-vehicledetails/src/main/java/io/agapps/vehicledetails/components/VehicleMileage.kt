@@ -1,4 +1,4 @@
-package io.agapps.feature.search.components
+package io.agapps.vehicledetails.components
 
 import android.content.Context
 import android.graphics.Color
@@ -32,7 +32,7 @@ import io.agapps.core.ui.component.IconLabel
 import io.agapps.core.ui.component.SectionTitle
 import io.agapps.core.ui.theme.Shapes
 import io.agapps.core.ui.theme.White50
-import io.agapps.feature.search.R
+import io.agapps.vehicledetails.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

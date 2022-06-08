@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId = "io.agapps.motchecker"
         versionCode = 3
-        versionName = "0.3.0"
+        versionName = "0.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -45,6 +45,9 @@ dependencies {
     implementation(project(":core-network"))
     implementation(project(":feature-home"))
     implementation(project(":feature-search"))
+    implementation(project(":feature-vehicledetails"))
+    implementation(project(":feature-recentvehicles"))
+    implementation(project(":feature-favouritevehicles"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)

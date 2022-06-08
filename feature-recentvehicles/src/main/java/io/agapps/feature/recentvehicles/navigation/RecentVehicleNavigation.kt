@@ -11,13 +11,13 @@ object RecentVehicleDestination : AppNavigationDestination {
 }
 
 fun NavGraphBuilder.recentVehicleGraph(
-    navigateToSearch: (initialRegistration: String?) -> Unit,
+    navigateToVehicleDetails: (registration: String) -> Unit,
     onBackClick: () -> Unit,
 ) {
     composable(route = RecentVehicleDestination.route) {
         RecentVehicleRoute(
             onBackClick = { onBackClick() },
-            navigateToSearch = { initialRegistration -> navigateToSearch(initialRegistration) }
+            navigateToVehicleDetails = { registration -> navigateToVehicleDetails(registration) }
         )
     }
 }

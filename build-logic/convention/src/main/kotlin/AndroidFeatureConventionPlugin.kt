@@ -22,6 +22,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core-data"))
                 add("implementation", project(":core-common"))
 
+                add("implementation", libs.findLibrary("timberkt").get())
+                add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
                 add("implementation", libs.findLibrary("hilt.android").get())
                 add("kapt", libs.findLibrary("hilt.compiler").get())
 

@@ -11,6 +11,7 @@ dependencies {
     implementation(project(":core-database"))
     implementation(project(":core-network"))
 
+    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.hilt.android)
     implementation(libs.retrofit)
 

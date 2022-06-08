@@ -39,14 +39,14 @@ import io.agapps.feature.recentvehicles.components.RecentVehicleCard
 @Composable
 fun RecentVehicleRoute(
     modifier: Modifier = Modifier,
-    navigateToSearch: (initialRegistration: String?) -> Unit,
+    navigateToVehicleDetails: (registration: String) -> Unit,
     onBackClick: () -> Unit,
     viewModel: RecentVehicleViewModel = hiltViewModel(),
 ) {
     val viewState by viewModel.viewState.collectAsState()
     RecentVehicleScreen(
         viewState = viewState,
-        navigateToSearch = navigateToSearch,
+        navigateToVehicleDetails = navigateToVehicleDetails,
         onBackClick = onBackClick,
         modifier = modifier,
     )
@@ -58,7 +58,7 @@ private const val ToolbarCollapseLimit = 300f
 @Composable
 fun RecentVehicleScreen(
     viewState: RecentVehicleViewState,
-    navigateToSearch: (initialRegistration: String?) -> Unit,
+    navigateToVehicleDetails: (registration: String) -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -78,7 +78,6 @@ fun RecentVehicleScreen(
                 is RecentVehicleViewState.RecentVehicle -> {
                     LazyColumn(
                         modifier = Modifier
-                            .padding(horizontal = 8.dp)
                             .fillMaxWidth(),
                         state = listState
                     ) {
@@ -91,7 +90,7 @@ fun RecentVehicleScreen(
                                 vehicle = it,
                                 modifier = modifier.padding(horizontal = 16.dp),
                                 onClick = { vehicle ->
-                                    navigateToSearch(vehicle.registrationNumber)
+                                    navigateToVehicleDetails(vehicle.registrationNumber)
                                 }
                             )
                         }

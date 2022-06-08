@@ -1,4 +1,4 @@
-package io.agapps.feature.search.components
+package io.agapps.vehicledetails.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -31,7 +31,7 @@ import io.agapps.core.ui.theme.Green50
 import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.Red50
 import io.agapps.core.ui.theme.Typography
-import io.agapps.feature.search.R
+import io.agapps.vehicledetails.R
 
 @Composable
 fun MotTestItem(
