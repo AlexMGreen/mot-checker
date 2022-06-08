@@ -46,6 +46,8 @@ dependencies {
     implementation(project(":feature-home"))
     implementation(project(":feature-search"))
     implementation(project(":feature-vehicledetails"))
+    implementation(project(":feature-recentvehicles"))
+    implementation(project(":feature-favouritevehicles"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)

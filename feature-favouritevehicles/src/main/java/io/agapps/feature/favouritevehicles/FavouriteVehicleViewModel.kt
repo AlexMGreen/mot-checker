@@ -1,4 +1,4 @@
-package io.agapps.feature.home
+package io.agapps.feature.favouritevehicles
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,17 +10,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-private const val FavouriteVehicleLimit = 5
-
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    favouriteVehicleRepository: FavouriteVehicleRepository,
-) : ViewModel() {
-    val viewState: StateFlow<HomeViewState> = favouriteVehicleRepository.getFavouriteVehicles(FavouriteVehicleLimit)
-        .map { HomeViewState.Home(it) }
+class FavouriteVehicleViewModel @Inject constructor(favouriteVehicleRepository: FavouriteVehicleRepository) : ViewModel() {
+    val viewState: StateFlow<FavouriteVehicleViewState> = favouriteVehicleRepository.getFavouriteVehicles()
+        .map { favouriteVehicles -> FavouriteVehicleViewState.FavouriteVehicle(favouriteVehicles) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = HomeViewState.Home(emptyList())
+            initialValue = FavouriteVehicleViewState.Empty
         )
 }

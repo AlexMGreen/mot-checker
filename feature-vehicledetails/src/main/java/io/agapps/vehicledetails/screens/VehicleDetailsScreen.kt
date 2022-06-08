@@ -21,7 +21,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,10 +38,12 @@ import io.agapps.core.model.MotTest
 import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.AppBottomBar
 import io.agapps.core.ui.component.NumberPlateText
+import io.agapps.core.ui.theme.Black70
 import io.agapps.core.ui.theme.LightGrey
 import io.agapps.core.ui.theme.MOTCheckerTheme
-import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.core.ui.theme.Typography
+import io.agapps.vehicledetails.VehicleDetailsFavouriteViewState
+import io.agapps.vehicledetails.VehicleDetailsVehicleViewState
 import io.agapps.vehicledetails.VehicleDetailsViewModel
 import io.agapps.vehicledetails.VehicleDetailsViewState
 import io.agapps.vehicledetails.components.MotHistoryTitle
@@ -58,6 +62,9 @@ fun VehicleDetailsRoute(
     VehicleDetailsScreen(
         viewState = viewState,
         onBackClick = onBackClick,
+        setFavouriteState = { vehicle, isFavourite ->
+            viewModel.setFavouriteState(vehicle, isFavourite)
+        },
         modifier = modifier
     )
 }
@@ -66,13 +73,19 @@ fun VehicleDetailsRoute(
 fun VehicleDetailsScreen(
     viewState: VehicleDetailsViewState,
     onBackClick: () -> Unit,
+    setFavouriteState: (vehicle: Vehicle, isFavourite: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
 
     Scaffold(
         modifier = Modifier.navigationBarsPadding(),
-        floatingActionButton = { VehicleDetailsFab(viewState) },
+        floatingActionButton = {
+            VehicleDetailsFab(
+                viewState = viewState,
+                setFavouriteState = setFavouriteState
+            )
+        },
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center,
         bottomBar = { AppBottomBar(modifier = Modifier) }
@@ -88,39 +101,57 @@ fun VehicleDetailsScreen(
                     modifier = modifier
                         .statusBarsPadding()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
-                    text = viewState.registration,
+                    text = viewState.vehicleState.registration,
                     onBackClicked = { onBackClick() }
                 )
             }
 
-            when (@Suppress("UnnecessaryVariable") val state = viewState) {
-                is VehicleDetailsViewState.VehicleDetailsResult -> VehicleDetailsResultContent(state.vehicle, listState, modifier)
-                is VehicleDetailsViewState.VehicleDetailsError -> VehicleDetailsErrorContent()
-                is VehicleDetailsViewState.VehicleDetailsLoading -> VehicleDetailsLoadingContent()
+            when (@Suppress("UnnecessaryVariable") val state = viewState.vehicleState) {
+                is VehicleDetailsVehicleViewState.Success -> VehicleDetailsResultContent(state, listState, modifier)
+                is VehicleDetailsVehicleViewState.Error -> VehicleDetailsErrorContent()
+                is VehicleDetailsVehicleViewState.Loading -> VehicleDetailsLoadingContent()
             }
         }
     }
 }
 
 @Composable
-fun VehicleDetailsFab(searchViewState: VehicleDetailsViewState) {
+fun VehicleDetailsFab(
+    viewState: VehicleDetailsViewState,
+    setFavouriteState: (vehicle: Vehicle, isFavourite: Boolean) -> Unit,
+) {
+    val icon = when (viewState.favouriteState) {
+        is VehicleDetailsFavouriteViewState.Favourite -> if (viewState.favouriteState.isFavourite) {
+            Icons.Default.Favorite
+        } else {
+            Icons.Default.FavoriteBorder
+        }
+        is VehicleDetailsFavouriteViewState.Loading -> Icons.Default.Refresh
+    }
+    val vehicle = (viewState.vehicleState as? VehicleDetailsVehicleViewState.Success)?.vehicle
+
     AnimatedVisibility(
-        visible = searchViewState is VehicleDetailsViewState.VehicleDetailsResult,
+        visible = viewState.vehicleState is VehicleDetailsVehicleViewState.Success,
         enter = fadeIn(),
         exit = fadeOut(),
     ) {
         FloatingActionButton(
             onClick = {
-                // TODO: Save vehicle
+                vehicle?.let {
+                    val isFavourite = (viewState.favouriteState as? VehicleDetailsFavouriteViewState.Favourite)?.isFavourite ?: return@let
+                    setFavouriteState(it, !isFavourite)
+                }
             }) {
-            Icon(Icons.Default.FavoriteBorder, stringResource(id = io.agapps.core.ui.R.string.search), tint = SurfaceGrey)
+            if (viewState.favouriteState is VehicleDetailsFavouriteViewState.Favourite) {
+                Icon(icon, "", tint = Black70)
+            }
         }
     }
 }
 
 @Composable
 fun VehicleDetailsResultContent(
-    vehicle: Vehicle,
+    state: VehicleDetailsVehicleViewState.Success,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
@@ -132,19 +163,19 @@ fun VehicleDetailsResultContent(
     ) {
         item { Spacer(modifier = Modifier.size(48.dp)) }
 
-        item { VehicleSummary(vehicle, modifier) }
+        item { VehicleSummary(state.vehicle, modifier) }
 
-        item { MotStatus(vehicle, modifier) }
+        item { MotStatus(state.vehicle, modifier) }
 
-        val maxMileage = vehicle.maxMileage
-        val motTests = vehicle.motTests
+        val maxMileage = state.vehicle.maxMileage
+        val motTests = state.vehicle.motTests
         // TODO: Display 'No mileage information' message
         if (maxMileage != null && motTests != null) {
-            item { VehicleMileage(motTests, vehicle.parsedManufactureDate, maxMileage, modifier) }
+            item { VehicleMileage(motTests, state.vehicle.parsedManufactureDate, maxMileage, modifier) }
         }
 
         // TODO: Display 'No MOT information' message
-        item { MotHistoryTitle(vehicle, modifier) }
+        item { MotHistoryTitle(state.vehicle, modifier) }
 
         itemsIndexed(motTests.orEmpty()) { index: Int, motTest: MotTest ->
             // TODO: Pass in previous item's mileage to diff
@@ -183,6 +214,13 @@ fun VehicleDetailsErrorContent() {
 @Composable
 fun VehicleDetailsResultContentPreview() {
     MOTCheckerTheme {
-        VehicleDetailsResultContent(Vehicle.vehiclePreview(), rememberLazyListState())
+        VehicleDetailsScreen(
+            viewState = VehicleDetailsViewState(
+                vehicleState = VehicleDetailsVehicleViewState.Success("AB12 ABC", Vehicle.vehiclePreview()),
+                favouriteState = VehicleDetailsFavouriteViewState.Favourite(false)
+            ),
+            {},
+            { x, y -> }
+        )
     }
 }

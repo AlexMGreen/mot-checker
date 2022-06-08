@@ -8,6 +8,7 @@ import io.agapps.feature.recentvehicles.database.RecentVehicleEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -24,7 +25,7 @@ class RecentVehicleRepositoryImpl @Inject constructor(
             .distinctUntilChanged()
             .flatMapMerge { recentVehicleEntities ->
                 val entities = recentVehicleEntities.map { recentEntity ->
-                    vehicleDao.getVehicleByRegistrationNumber(recentEntity.vehicleRegistrationNumber).map { vehicleEntity ->
+                    vehicleDao.getVehicleByRegistrationNumber(recentEntity.vehicleRegistrationNumber).filterNotNull().map { vehicleEntity ->
                         recentEntity to vehicleEntity
                     }
                 }

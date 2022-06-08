@@ -8,6 +8,7 @@ plugins {
 dependencies {
     implementation(project(":core-ui"))
     implementation(project(":feature-recentvehicles"))
+    implementation(project(":feature-favouritevehicles"))
 
     implementation(libs.timberkt)
     implementation(libs.mpandroidchart)

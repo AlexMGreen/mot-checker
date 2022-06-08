@@ -1,12 +1,12 @@
-package io.agapps.feature.search.components
+package io.agapps.feature.favouritevehicles.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -15,14 +15,15 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.agapps.core.model.Vehicle
-import io.agapps.core.ui.theme.Orange300
 import io.agapps.core.ui.theme.White50
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SearchVehicleCard(
+fun FavouriteVehicleCard(
     modifier: Modifier = Modifier,
     vehicle: Vehicle,
     onClick: (Vehicle) -> Unit,
@@ -30,15 +31,15 @@ fun SearchVehicleCard(
     Card(
         elevation = 1.dp,
         modifier = modifier
+            .padding(vertical = 6.dp)
             .fillMaxWidth()
-            .border(width = 1.dp, color = Orange300, shape = MaterialTheme.shapes.medium)
             .clickable { onClick(vehicle) }
     ) {
         Row(modifier = Modifier.padding(8.dp)) {
             Column(Modifier.weight(1f)) {
                 Text(
                     text = vehicle.registrationNumber,
-                    color = Orange300,
+                    color = Color.White,
                     style = MaterialTheme.typography.subtitle1,
                     modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
                 )
@@ -63,5 +64,4 @@ fun SearchVehicleCard(
 
 @Preview
 @Composable
-fun SearchVehicleCardPreview() = SearchVehicleCard(vehicle = Vehicle.vehiclePreview()) {}
-
+fun FavouriteVehicleCardPreview() = FavouriteVehicleCard(vehicle = Vehicle.vehiclePreview()) {}

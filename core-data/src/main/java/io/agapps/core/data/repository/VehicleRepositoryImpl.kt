@@ -23,10 +23,10 @@ class VehicleRepositoryImpl @Inject constructor(
     private val vehicleDao: VehicleDao,
 ) : VehicleRepository {
 
-    override fun getVehicle(registrationNumber: String): Flow<Vehicle> {
+    override fun getVehicle(registrationNumber: String): Flow<Vehicle?> {
         return vehicleDao.getVehicleByRegistrationNumber(registrationNumber.uppercase()).distinctUntilChanged().map {
             Timber.d { "Retrieved vehicle from db: $it" }
-            it.toDomain()
+            it?.toDomain()
         }
     }
 

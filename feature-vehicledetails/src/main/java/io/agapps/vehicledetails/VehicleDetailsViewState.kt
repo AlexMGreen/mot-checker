@@ -2,20 +2,25 @@ package io.agapps.vehicledetails
 
 import io.agapps.core.model.Vehicle
 
-sealed class VehicleDetailsViewState {
-    abstract val registration: String
+data class VehicleDetailsViewState(
+    val vehicleState: VehicleDetailsVehicleViewState,
+    val favouriteState: VehicleDetailsFavouriteViewState,
+)
 
-    data class VehicleDetailsResult(
-        override val registration: String,
-        val vehicle: Vehicle,
-    ) : VehicleDetailsViewState()
+sealed interface VehicleDetailsVehicleViewState {
+    val registration: String
 
-    data class VehicleDetailsLoading(
+    data class Success(
         override val registration: String,
-    ) : VehicleDetailsViewState()
+        val vehicle: Vehicle
+    ) : VehicleDetailsVehicleViewState
 
-    data class VehicleDetailsError(
-        override val registration: String,
-        val error: String
-    ) : VehicleDetailsViewState()
+    data class Error(override val registration: String) : VehicleDetailsVehicleViewState
+
+    data class Loading(override val registration: String) : VehicleDetailsVehicleViewState
+}
+
+sealed interface VehicleDetailsFavouriteViewState {
+    data class Favourite(val isFavourite: Boolean) : VehicleDetailsFavouriteViewState
+    object Loading : VehicleDetailsFavouriteViewState
 }

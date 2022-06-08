@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import io.agapps.feature.favouritevehicles.navigation.FavouriteVehicleDestination
+import io.agapps.feature.favouritevehicles.navigation.favouriteVehicleGraph
 import io.agapps.feature.home.navigation.HomeDestination
 import io.agapps.feature.home.navigation.homeGraph
 import io.agapps.feature.recentvehicles.navigation.RecentVehicleDestination
@@ -26,11 +28,14 @@ fun AppNavHost(
         modifier = modifier,
     ) {
         homeGraph(
-            navigateToSearch = { initialRegistration ->
-                navigateToSearch(navController, initialRegistration)
+            navigateToFavouriteVehicles = {
+                navController.navigate(FavouriteVehicleDestination.route)
             },
-            navigateToRecentVehicle = {
-                navController.navigate(RecentVehicleDestination.route)
+            navigateToVehicleDetails = { registration ->
+                navController.navigate("${VehicleDetailsDestination.route}/${registration}")
+            },
+            navigateToSearch = {
+                navController.navigate(SearchDestination.route)
             }
         )
         searchGraph(
@@ -42,6 +47,12 @@ fun AppNavHost(
                 navController.navigate(RecentVehicleDestination.route)
             }
         )
+        favouriteVehicleGraph(
+            navigateToVehicleDetails = { registration ->
+                navController.navigate("${VehicleDetailsDestination.route}/${registration}")
+            },
+            onBackClick = { navController.popBackStack() }
+        )
         vehicleDetailsGraph(
             onBackClick = { navController.popBackStack() }
         )
@@ -51,16 +62,5 @@ fun AppNavHost(
                 navController.navigate("${VehicleDetailsDestination.route}/$registration")
             },
         )
-    }
-}
-
-private fun navigateToSearch(
-    navController: NavHostController,
-    initialRegistration: String?
-) {
-    if (initialRegistration == null) {
-        navController.navigate(SearchDestination.route)
-    } else {
-        navController.navigate("${SearchDestination.route}?${SearchDestination.initialRegistrationArg}=$initialRegistration")
     }
 }

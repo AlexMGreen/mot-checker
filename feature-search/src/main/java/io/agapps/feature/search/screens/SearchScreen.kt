@@ -2,6 +2,11 @@ package io.agapps.feature.search.screens
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +24,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalFocusManager
@@ -149,7 +155,21 @@ fun SearchResultContent(
                 item { SearchBodyText(stringResource(id = io.agapps.core.ui.R.string.loading)) }
             }
             is SearchVehicleViewState.Error -> {
-                item { SearchBodyText(stringResource(id = io.agapps.core.ui.R.string.error)) }
+                item {
+                    val state = remember {
+                        MutableTransitionState(false).apply {
+                            // Start the animation immediately.
+                            targetState = true
+                        }
+                    }
+                    AnimatedVisibility(
+                        visibleState = state,
+                        enter = fadeIn(animationSpec = tween(durationMillis = 1000)),
+                        exit = fadeOut()
+                    ) {
+                        SearchBodyText(stringResource(id = io.agapps.core.ui.R.string.error))
+                    }
+                }
             }
             is SearchVehicleViewState.Success -> {
                 item {
@@ -164,6 +184,8 @@ fun SearchResultContent(
     }
 }
 
+private const val BodyTextAlpha = 0.5f
+
 @Composable
 private fun SearchBodyText(text: String) {
     Text(
@@ -171,7 +193,7 @@ private fun SearchBodyText(text: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(24.dp)
-            .alpha(0.5f),
+            .alpha(BodyTextAlpha),
         textAlign = TextAlign.Center,
         fontSize = 18.sp,
         style = Typography.overline
