@@ -30,6 +30,10 @@ gradlePlugin {
             id = "motchecker.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
+        register("androidLibraryTest") {
+            id = "motchecker.android.library.test"
+            implementationClass = "AndroidLibraryTestConventionPlugin"
+        }
         register("androidFeature") {
             id = "motchecker.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
