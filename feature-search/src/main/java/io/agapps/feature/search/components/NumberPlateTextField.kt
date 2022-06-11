@@ -67,8 +67,10 @@ fun NumberPlateTextField(
             TextField(
                 value = text,
                 onValueChange = { newText ->
-                    text = newText
-                    onTextChanged?.invoke(newText)
+                    if (!newText.contains(" ")) {
+                        text = newText
+                        onTextChanged?.invoke(newText)
+                    }
                 },
                 textStyle = numberPlateTextStyle,
                 singleLine = true,
