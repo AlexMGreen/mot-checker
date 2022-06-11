@@ -12,10 +12,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":core-common"))
+
     implementation(libs.hilt.android)
     implementation(libs.retrofit)
     implementation(libs.retrofit.moshi.converter)
     implementation(libs.moshi)
+    implementation(libs.okhttp.logging.interceptor)
 
     kapt(libs.hilt.compiler)
     kapt(libs.moshi.codegen)
