@@ -17,10 +17,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -52,7 +50,6 @@ import io.agapps.feature.favouritevehicles.components.FavouriteVehicleCard
 import io.agapps.feature.favouritevehicles.components.FavouriteVehicleSectionHeader
 import io.agapps.feature.home.HomeViewModel
 import io.agapps.feature.home.HomeViewState
-import io.agapps.feature.home.R
 import io.agapps.feature.home.components.HomeHeader
 import kotlin.math.roundToInt
 
@@ -147,16 +144,7 @@ private fun HomeScaffold(
         },
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center,
-        bottomBar = {
-            AppBottomBar(modifier = Modifier) {
-                IconButton(
-                    onClick = {
-                        // TODO: Navigate to saved vehicles
-                    }) {
-                    Icon(Icons.Default.FavoriteBorder, contentDescription = stringResource(id = R.string.saved_vehicles))
-                }
-            }
-        }
+        bottomBar = { AppBottomBar(modifier = Modifier) }
     ) {
         content(it)
     }
