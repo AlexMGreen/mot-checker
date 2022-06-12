@@ -5,6 +5,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":core-test"))
     implementation(project(":core-database"))
 
     kapt(libs.hilt.compiler)

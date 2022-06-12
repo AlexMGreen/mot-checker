@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 
 class FakeVehicleDao : VehicleDao {
 
@@ -21,16 +22,16 @@ class FakeVehicleDao : VehicleDao {
         }
     )
 
-    override fun getAllVehiclesByRegistrationNumbers(registrationNumbers: List<String>) = fakeVehicleEntities.map { entities ->
-        entities.filter { registrationNumbers.contains(it.registrationNumber) }
+    override fun getAllVehiclesByRegistrationNumbers(registrationNumbers: List<String>) = fakeVehicleEntities.map { vehicleEntities ->
+        vehicleEntities.filter { registrationNumbers.contains(it.registrationNumber) }.toList()
     }
 
     override suspend fun insertVehicle(vehicle: VehicleEntity) {
-        fakeVehicleEntities.value = fakeVehicleEntities.value.plus(vehicle)
+        fakeVehicleEntities.update { it.plus(vehicle) }
     }
 
     override suspend fun delete(vehicle: VehicleEntity) {
-        fakeVehicleEntities.value.minus(vehicle)
+        fakeVehicleEntities.update { it.minus(vehicle) }
     }
 }
 
