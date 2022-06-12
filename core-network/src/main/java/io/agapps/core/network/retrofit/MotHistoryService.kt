@@ -1,4 +1,4 @@
-package io.agapps.core.network.service
+package io.agapps.core.network.retrofit
 
 import io.agapps.core.network.model.MotHistoryDto
 import retrofit2.Response

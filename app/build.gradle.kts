@@ -57,12 +57,6 @@ dependencies {
     implementation(libs.camera2)
     implementation(libs.room.runtime)
 
-    testImplementation(libs.junit)
-
-    androidTestImplementation(libs.junit.ext)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.junit4)
-
     kapt(libs.hilt.compiler)
 
     coreLibraryDesugaring(libs.android.desugarjdklibs)

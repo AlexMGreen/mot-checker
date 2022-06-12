@@ -15,5 +15,10 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.retrofit)
 
+    testImplementation(project(":core-network-test"))
+    testImplementation(project(":core-database-test"))
+
+    testImplementation(libs.junit)
+
     kapt(libs.hilt.compiler)
 }
