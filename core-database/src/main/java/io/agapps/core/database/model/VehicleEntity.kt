@@ -3,11 +3,8 @@ package io.agapps.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import io.agapps.core.database.model.converters.VehicleEntityConverters
 import io.agapps.core.model.MotTest
 import io.agapps.core.model.ReasonForRejectionAndComment
 import io.agapps.core.model.Vehicle
@@ -21,7 +18,7 @@ data class VehicleEntity(
     @ColumnInfo(name = "fuel_type") val fuelType: String,
     @ColumnInfo(name = "engine_size_cc") val engineSizeCc: String?,
     @ColumnInfo(name = "manufacture_date") val manufactureDate: String,
-    @TypeConverters(Converters::class)
+    @TypeConverters(VehicleEntityConverters::class)
     val motTests: List<MotTestEntity>?,
 )
 
@@ -38,7 +35,7 @@ data class MotTestEntity(
     val odometerUnit: String?,
     @ColumnInfo(name = "odometer_value")
     val odometerValue: String,
-    @TypeConverters(Converters::class)
+    @TypeConverters(VehicleEntityConverters::class)
     val rfrAndComments: List<RfrAndCommentEntity>,
     @ColumnInfo(name = "test_result")
     val testResult: String
@@ -52,37 +49,6 @@ data class RfrAndCommentEntity(
     @ColumnInfo(name = "type")
     val type: String
 )
-
-object Converters {
-
-    private val rfrAdapter by lazy {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-        val rfrListType = Types.newParameterizedType(List::class.java, RfrAndCommentEntity::class.java)
-        return@lazy moshi.adapter<List<RfrAndCommentEntity>>(rfrListType)
-    }
-
-    private val motTestAdapter by lazy {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-        val motTestListType = Types.newParameterizedType(List::class.java, MotTestEntity::class.java)
-        return@lazy moshi.adapter<List<MotTestEntity>>(motTestListType)
-    }
-
-    @TypeConverter
-    fun rfrAndCommentEntitiesToJson(rfrAndCommentEntities: List<RfrAndCommentEntity>?) = rfrAdapter.toJson(rfrAndCommentEntities)
-
-    @TypeConverter
-    fun rfrAndCommentEntitiesFromJson(rfrAndCommentJson: String) = rfrAdapter.fromJson(rfrAndCommentJson)
-
-    @TypeConverter
-    fun motTestEntitiesToJson(motTestEntities: List<MotTestEntity>?) = motTestAdapter.toJson(motTestEntities)
-
-    @TypeConverter
-    fun motTestEntitiesFromJson(motTestJson: String) = motTestAdapter.fromJson(motTestJson)
-}
 
 fun VehicleEntity.toDomain() = Vehicle(
     registrationNumber = registrationNumber,

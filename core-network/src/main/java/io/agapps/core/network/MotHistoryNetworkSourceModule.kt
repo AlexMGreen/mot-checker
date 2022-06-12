@@ -8,7 +8,7 @@ import io.agapps.core.network.retrofit.RetrofitMotHistoryNetworkSource
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface MotHistoryModule {
+interface MotHistoryNetworkSourceModule {
 
     @Binds
     fun bindsMotHistoryNetworkSource(motHistoryNetworkSource: RetrofitMotHistoryNetworkSource): MotHistoryNetworkSource
