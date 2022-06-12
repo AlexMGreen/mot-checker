@@ -12,4 +12,15 @@ dependencies {
 
     implementation(libs.timberkt)
     implementation(libs.mpandroidchart)
+
+    testImplementation(project(":core-test"))
+    testImplementation(project(":core-database"))
+    testImplementation(project(":core-database-test"))
+    testImplementation(project(":core-network"))
+    testImplementation(project(":core-network-test"))
+    testImplementation(project(":feature-recentvehicles-test"))
+    testImplementation(project(":feature-favouritevehicles-test"))
+
+    testImplementation(libs.turbine)
+
 }

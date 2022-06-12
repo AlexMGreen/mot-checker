@@ -6,7 +6,6 @@ import io.agapps.core.database.model.RfrAndCommentEntity
 import io.agapps.core.database.model.VehicleEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
@@ -16,11 +15,11 @@ class FakeVehicleDao : VehicleDao {
 
     override fun getAllVehicles(): Flow<List<VehicleEntity>> = fakeVehicleEntities.map { it.toList() }
 
-    override fun getVehicleByRegistrationNumber(registrationNumber: String) = flowOf(
-        fakeVehicleEntities.value.firstOrNull { vehicleEntity ->
-            vehicleEntity.registrationNumber == registrationNumber
+    override fun getVehicleByRegistrationNumber(registrationNumber: String) = fakeVehicleEntities.map { entities ->
+        entities.firstOrNull { entity ->
+            entity.registrationNumber == registrationNumber
         }
-    )
+    }
 
     override fun getAllVehiclesByRegistrationNumbers(registrationNumbers: List<String>) = fakeVehicleEntities.map { vehicleEntities ->
         vehicleEntities.filter { registrationNumbers.contains(it.registrationNumber) }.toList()
