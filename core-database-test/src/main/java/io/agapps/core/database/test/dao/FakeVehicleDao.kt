@@ -58,7 +58,7 @@ object FakeVehicleEntity {
         testResult = "PASSED"
     )
 
-    fun fakeVehicleEntity(registrationNumber: String) = VehicleEntity(
+    fun fakeVehicleEntityForRegistration(registrationNumber: String) = VehicleEntity(
         registrationNumber = registrationNumber,
         make = "Ford",
         model = "Focus",

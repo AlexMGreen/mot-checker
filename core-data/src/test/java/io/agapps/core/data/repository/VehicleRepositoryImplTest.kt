@@ -33,7 +33,7 @@ class VehicleRepositoryImplTest {
     fun vehicle_repository_retrieves_from_database_when_present() = runTest {
         val registration = "ABC123"
 
-        fakeVehicleDao.insertVehicle(FakeVehicleEntity.fakeVehicleEntity(registration))
+        fakeVehicleDao.insertVehicle(FakeVehicleEntity.fakeVehicleEntityForRegistration(registration))
 
         val expected = fakeVehicleDao.getVehicleByRegistrationNumber(registration).first()?.toDomain()
         val actual = subject.getVehicle(registration).first()
@@ -61,6 +61,5 @@ class VehicleRepositoryImplTest {
 
         Assert.assertNotNull(actual)
         Assert.assertEquals(expected, actual)
-
     }
 }
