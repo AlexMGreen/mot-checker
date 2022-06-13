@@ -33,8 +33,9 @@ androidx-custom-view = "1.0.0-beta02"
 androidx-saved-state = "1.1.0"
 kotlinx-coroutines = "1.6.0"
 kotlinx-coroutines-test = "1.6.1"
-hilt-testing = "2.38.1"
+hilt-testing = "2.42"
 turbine = "0.8.0"
+androidx-test-core = "1.4.0"
 
 [libraries]
 android-desugarjdklibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarjdklibs" }
@@ -80,6 +81,9 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt-testing" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-plugin" }

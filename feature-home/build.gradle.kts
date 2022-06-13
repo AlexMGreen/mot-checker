@@ -16,4 +16,7 @@ dependencies {
 
     testImplementation(libs.turbine)
 
+    androidTestImplementation(project(":core-test"))
+    androidTestImplementation(project(":core-ui"))
+    androidTestImplementation(project(":feature-favouritevehicles"))
 }

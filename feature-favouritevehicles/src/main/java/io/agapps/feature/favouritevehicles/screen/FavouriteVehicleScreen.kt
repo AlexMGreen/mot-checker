@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,6 +33,7 @@ import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.core.ui.theme.Typography
 import io.agapps.feature.favouritevehicles.FavouriteVehicleViewModel
 import io.agapps.feature.favouritevehicles.FavouriteVehicleViewState
+import io.agapps.feature.favouritevehicles.R
 import io.agapps.feature.favouritevehicles.components.FavouriteVehicleCard
 
 @Composable
@@ -124,7 +126,7 @@ private fun FavouriteVehicleToolbar(
         ) {
             BackButton(modifier = Modifier.align(Alignment.CenterVertically), onBackClicked = { onBackClick() })
             Text(
-                text = "Favourite Vehicles",
+                text = stringResource(id = R.string.favourite_vehicles),
                 style = Typography.overline,
                 fontSize = 18.sp,
                 modifier = modifier
@@ -139,7 +141,7 @@ private fun FavouriteVehicleToolbar(
 @Composable
 private fun FavouriteVehicleHeading(fadeOutAlpha: Float) {
     Text(
-        text = "Favourite Vehicles",
+        text = stringResource(id = R.string.favourite_vehicles),
         color = Color.White,
         style = MaterialTheme.typography.h4,
         modifier = Modifier
