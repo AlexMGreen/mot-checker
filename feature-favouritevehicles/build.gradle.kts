@@ -11,5 +11,11 @@ dependencies {
 
     implementation(libs.room.ktx)
 
+    testImplementation(project(":core-test"))
+    testImplementation(project(":core-database-test"))
+    testImplementation(project(":feature-favouritevehicles-test"))
+
+    testImplementation(libs.turbine)
+
     kapt(libs.room.compiler)
 }

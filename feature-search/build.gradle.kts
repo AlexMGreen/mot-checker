@@ -10,4 +10,13 @@ dependencies {
     implementation(project(":feature-recentvehicles"))
 
     implementation(libs.timberkt)
+
+    testImplementation(project(":core-test"))
+    testImplementation(project(":core-database"))
+    testImplementation(project(":core-database-test"))
+    testImplementation(project(":core-network"))
+    testImplementation(project(":core-network-test"))
+    testImplementation(project(":feature-recentvehicles-test"))
+
+    testImplementation(libs.turbine)
 }

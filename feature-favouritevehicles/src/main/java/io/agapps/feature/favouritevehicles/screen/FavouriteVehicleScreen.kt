@@ -83,7 +83,7 @@ fun FavouriteVehicleScreen(
                             FavouriteVehicleHeading(fadeOutAlpha)
                         }
 
-                        items(viewState.recentVehicles) {
+                        items(viewState.favouriteVehicles) {
                             FavouriteVehicleCard(
                                 vehicle = it,
                                 modifier = modifier.padding(horizontal = 16.dp),

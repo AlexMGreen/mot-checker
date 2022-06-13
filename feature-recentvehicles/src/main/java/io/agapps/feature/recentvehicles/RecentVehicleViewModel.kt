@@ -19,6 +19,6 @@ class RecentVehicleViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = RecentVehicleViewState.RecentVehicle(emptyList())
+            initialValue = RecentVehicleViewState.Empty
         )
 }

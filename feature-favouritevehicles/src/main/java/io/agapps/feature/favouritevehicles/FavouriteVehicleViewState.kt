@@ -5,7 +5,7 @@ import io.agapps.core.model.Vehicle
 sealed interface FavouriteVehicleViewState {
 
     data class FavouriteVehicle(
-        val recentVehicles: List<Vehicle>
+        val favouriteVehicles: List<Vehicle>
     ) : FavouriteVehicleViewState
 
     object Empty : FavouriteVehicleViewState

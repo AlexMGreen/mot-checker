@@ -25,6 +25,7 @@ class AndroidLibraryTestConventionPlugin : Plugin<Project> {
                 add("api", libs.findLibrary("kotlinx.coroutines.android").get())
                 add("api", libs.findLibrary("kotlinx.coroutines.test").get())
                 add("api", libs.findLibrary("hilt.android").get())
+                add("api", libs.findLibrary("hilt.testing").get())
             }
         }
     }

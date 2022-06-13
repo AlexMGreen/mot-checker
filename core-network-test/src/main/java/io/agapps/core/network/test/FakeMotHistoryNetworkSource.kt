@@ -7,7 +7,10 @@ import io.agapps.core.network.test.model.MotHistoryDtoConverters
 
 class FakeMotHistoryNetworkSource : MotHistoryNetworkSource {
 
+    var shouldSucceed = true
+
     override suspend fun getMotHistory(registrationNumber: String): Result<MotHistoryDto> {
+        if (!shouldSucceed) return Result.Error(Exception("FakeMotHistoryNetworkSource shouldSucceed == false"))
         val dto = MotHistoryDtoConverters.motHistoryDtoFromJson(FakeMotHistoryDto.fakeVehicleJson(registrationNumber))
         return Result.Success(data = dto!!)
     }

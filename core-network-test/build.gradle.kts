@@ -5,11 +5,11 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":core-test"))
     implementation(project(":core-common"))
     implementation(project(":core-network"))
 
     implementation(libs.moshi)
 
     kapt(libs.hilt.compiler)
-    kapt(libs.hilt.testing)
 }
