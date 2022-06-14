@@ -14,6 +14,8 @@ private val DarkColorPalette = darkColors(
     surface = SurfaceGrey
 )
 
+// TODO: Add light theme support
+@Suppress("UnusedPrivateMember")
 private val LightColorPalette = lightColors(
     primary = Orange500,
     primaryVariant = Orange700,
@@ -25,7 +27,9 @@ fun MOTCheckerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
-        LightColorPalette
+        // TODO: Add light theme support
+//        LightColorPalette
+        DarkColorPalette
     }
 
     MaterialTheme(
