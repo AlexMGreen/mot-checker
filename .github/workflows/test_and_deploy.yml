@@ -29,8 +29,6 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Static Analysis
-        env:
-          MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
         run: ./gradlew detekt
 
       - uses: actions/upload-artifact@master
@@ -39,7 +37,7 @@ jobs:
           name: detekt
           path: app/build/reports/detekt/
 
-  unit_tests:
+  unit-tests:
     needs: [ static-analysis ]
     runs-on: ubuntu-latest
     steps:
@@ -53,29 +51,60 @@ jobs:
         with:
           name: unit-test-reports
           path: '**/build/reports/tests/testDebugUnitTest'
-#
-#  android_tests:
-#    needs: [ static-analysis ]
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - name: Set Up JDK
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: '11'
-#
-#      - name: Instrumentation Tests
-#        env:
-#          MOT_API_KEY: ${{ secrets.MOT_API_KEY }}
-#        uses: reactivecircus/android-emulator-runner@v2
-#        with:
-#          api-level: 29
-#          script: ./gradlew connectedAndroidTest
+
+  android-tests:
+    needs: [ static-analysis ]
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        api-level:
+          - 29
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: Instrumentation Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
+          script: ./gradlew connectedAndroidTest
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: instrumentation-test-reports
+          path: ./**/build/reports/androidTests/connected/**
 
   build:
-#    needs: [ unit_tests, android_tests ]
-    needs: [ unit_tests ]
+    needs: [ unit-tests, android-tests ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

@@ -38,8 +38,13 @@ These convention plugins have a single responsibility, and can be composed and u
 * [`motchecker.android.application`](build-logic/convention/src/main/kotlin/AndroidApplicationConventionPlugin.kt): Defines common Android `Application` configurations
 * [`motchecker.android.application.compose`](build-logic/convention/src/main/kotlin/AndroidApplicationComposeConventionPlugin.kt): Defines compose configuration for an Android `Application`
 * [`motchecker.android.library`](build-logic/convention/src/main/kotlin/AndroidLibraryConventionPlugin.kt): Defines the configuration for an Android library which is to be consumed by other modules
-* [`motchecker.android.library.compose`](build-logic/convention/src/main/kotlin/AndroidLibraryComposeConventionPlugin.kt): Defines compose configuration for an Android library
-* [`motchecker.android.feature`](build-logic/convention/src/main/kotlin/AndroidFeatureConventionPlugin.kt): Defines the configuration for a feature module within the application
+* [`motchecker.android.library.compose`](build-logic/convention/src/main/kotlin/AndroidLibraryComposeConventionPlugin.kt):
+  Defines compose configuration for an Android library
+* [`motchecker.android.library.test`](build-logic/convention/src/main/kotlin/AndroidLibraryTestConventionPlugin.kt):
+  Defines the configuration for an Android library, providing test helper classes and dependencies,
+  which is to be consumed by other modules
+* [`motchecker.android.feature`](build-logic/convention/src/main/kotlin/AndroidFeatureConventionPlugin.kt):
+  Defines the configuration for a feature module within the application
 * [`motchecker.detekt`](build-logic/convention/src/main/kotlin/DetektConventionPlugin.kt): Configures [detekt](https://github.com/detekt/detekt) for a module, allowing static analysis to be ran against the module when running the root `:detekt` task
   
 

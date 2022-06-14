@@ -41,6 +41,7 @@ import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.Typography
 import io.agapps.feature.recentvehicles.components.RecentVehicleCard
 import io.agapps.feature.recentvehicles.components.RecentVehicleSectionHeader
+import io.agapps.feature.search.R
 import io.agapps.feature.search.SearchRecentsViewState
 import io.agapps.feature.search.SearchVehicleViewState
 import io.agapps.feature.search.SearchViewModel
@@ -149,7 +150,7 @@ fun SearchResultContent(
 
         when (vehicleState) {
             is SearchVehicleViewState.Empty -> {
-                item { SearchBodyText(text = "Enter reg to search") }
+                item { SearchBodyText(text = stringResource(id = R.string.enter_reg_to_search)) }
             }
             is SearchVehicleViewState.Loading -> {
                 item { SearchBodyText(stringResource(id = io.agapps.core.ui.R.string.loading)) }
