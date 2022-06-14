@@ -37,7 +37,7 @@ jobs:
           name: detekt
           path: app/build/reports/detekt/
 
-  unit_tests:
+  unit-tests:
     needs: [ static-analysis ]
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +52,7 @@ jobs:
           name: unit-test-reports
           path: '**/build/reports/tests/testDebugUnitTest'
 
-  android_tests:
+  android-tests:
     needs: [ static-analysis ]
     runs-on: macos-latest
     strategy:
@@ -104,7 +104,7 @@ jobs:
           path: ./**/build/reports/androidTests/connected/**
 
   build:
-    needs: [ unit_tests, android_tests ]
+    needs: [ unit-tests, android-tests ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

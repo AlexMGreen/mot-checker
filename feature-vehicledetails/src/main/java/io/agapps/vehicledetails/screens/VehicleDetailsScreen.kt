@@ -23,7 +23,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,6 +41,7 @@ import io.agapps.core.ui.theme.Black70
 import io.agapps.core.ui.theme.LightGrey
 import io.agapps.core.ui.theme.MOTCheckerTheme
 import io.agapps.core.ui.theme.Typography
+import io.agapps.vehicledetails.R
 import io.agapps.vehicledetails.VehicleDetailsFavouriteViewState
 import io.agapps.vehicledetails.VehicleDetailsVehicleViewState
 import io.agapps.vehicledetails.VehicleDetailsViewModel
@@ -120,14 +120,7 @@ fun VehicleDetailsFab(
     viewState: VehicleDetailsViewState,
     setFavouriteState: (vehicle: Vehicle, isFavourite: Boolean) -> Unit,
 ) {
-    val icon = when (viewState.favouriteState) {
-        is VehicleDetailsFavouriteViewState.Favourite -> if (viewState.favouriteState.isFavourite) {
-            Icons.Default.Favorite
-        } else {
-            Icons.Default.FavoriteBorder
-        }
-        is VehicleDetailsFavouriteViewState.Loading -> Icons.Default.Refresh
-    }
+
     val vehicle = (viewState.vehicleState as? VehicleDetailsVehicleViewState.Success)?.vehicle
 
     AnimatedVisibility(
@@ -143,7 +136,11 @@ fun VehicleDetailsFab(
                 }
             }) {
             if (viewState.favouriteState is VehicleDetailsFavouriteViewState.Favourite) {
-                Icon(icon, "", tint = Black70)
+                if (viewState.favouriteState.isFavourite) {
+                    Icon(Icons.Default.Favorite, stringResource(id = R.string.select_to_un_favourite), tint = Black70)
+                } else {
+                    Icon(Icons.Default.FavoriteBorder, stringResource(id = R.string.select_to_favourite), tint = Black70)
+                }
             }
         }
     }
