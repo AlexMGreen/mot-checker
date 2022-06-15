@@ -52,8 +52,8 @@ class FavouriteVehicleScreenTest {
         }
 
         composeTestRule
-            .onNodeWithText(favouriteVehicles)
-            .assertIsDisplayed()
+            .onAllNodesWithText(favouriteVehicles)
+            .assertCountEquals(2)
     }
 
     @Test

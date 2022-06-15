@@ -52,8 +52,8 @@ class RecentVehicleScreenTest {
         }
 
         composeTestRule
-            .onNodeWithText(recentVehicles)
-            .assertIsDisplayed()
+            .onAllNodesWithText(recentVehicles)
+            .assertCountEquals(2)
     }
 
     @Test

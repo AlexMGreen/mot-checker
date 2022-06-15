@@ -70,7 +70,7 @@ fun HomeHeader(
                     .wrapContentHeight()
                     .fillMaxWidth(),
                 onNumberPlateClicked = onNumberPlateClicked
-                )
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
         }
