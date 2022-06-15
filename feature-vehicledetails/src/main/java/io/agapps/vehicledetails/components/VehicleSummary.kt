@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun VehicleSummary(vehicle: Vehicle, modifier: Modifier = Modifier) {
-    Column {
+    Column(modifier = modifier) {
         Text(
             text = vehicle.capitalisedMakeAndModel,
             color = Color.White,
@@ -31,16 +31,15 @@ fun VehicleSummary(vehicle: Vehicle, modifier: Modifier = Modifier) {
         )
 
         FlowRow {
-            IconLabel(modifier, vehicle.primaryColour) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_color), "") }
-            IconLabel(
-                modifier,
-                vehicle.parsedManufactureDate.formatDayMonthYear()
-            ) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_calendar), "") }
+            IconLabel(label = vehicle.primaryColour) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_color), "") }
+            IconLabel(label = vehicle.parsedManufactureDate.formatDayMonthYear()) {
+                Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_calendar), "")
+            }
         }
         FlowRow {
-            IconLabel(modifier, vehicle.fuelType) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_fuel), "") }
+            IconLabel(label = vehicle.fuelType) { Icon(painterResource(id = io.agapps.core.ui.R.drawable.ic_fuel), "") }
             vehicle.engineSizeCc?.let { engineSizeCc ->
-                IconLabel(modifier, "${engineSizeCc}cc") { Icon(Icons.Outlined.Info, "") }
+                IconLabel(label = "${engineSizeCc}cc") { Icon(Icons.Outlined.Info, "") }
             }
         }
     }

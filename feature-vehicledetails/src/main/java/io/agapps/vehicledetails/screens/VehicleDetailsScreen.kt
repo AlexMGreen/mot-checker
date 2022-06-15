@@ -4,11 +4,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -37,9 +35,10 @@ import io.agapps.core.model.MotTest
 import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.AppBottomBar
 import io.agapps.core.ui.component.NumberPlateText
+import io.agapps.core.ui.extensions.toFadeInOnScrollAlpha
 import io.agapps.core.ui.theme.Black70
-import io.agapps.core.ui.theme.LightGrey
 import io.agapps.core.ui.theme.MOTCheckerTheme
+import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.core.ui.theme.Typography
 import io.agapps.vehicledetails.R
 import io.agapps.vehicledetails.VehicleDetailsFavouriteViewState
@@ -80,23 +79,14 @@ fun VehicleDetailsScreen(
 
     Scaffold(
         modifier = Modifier.navigationBarsPadding(),
-        floatingActionButton = {
-            VehicleDetailsFab(
-                viewState = viewState,
-                setFavouriteState = setFavouriteState
-            )
-        },
+        floatingActionButton = { VehicleDetailsFab(viewState = viewState, setFavouriteState = setFavouriteState) },
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center,
         bottomBar = { AppBottomBar(modifier = Modifier) }
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
-            val toolbarAlpha = if (listState.firstVisibleItemIndex != 0) 1f else {
-                @Suppress("MagicNumber")
-                (listState.firstVisibleItemScrollOffset / 100f).coerceAtMost(1f)
-            }
 
-            Surface(color = LightGrey.copy(alpha = toolbarAlpha)) {
+            Surface(color = SurfaceGrey.copy(alpha = listState.toFadeInOnScrollAlpha())) {
                 NumberPlateText(
                     modifier = modifier
                         .statusBarsPadding()
@@ -158,9 +148,7 @@ fun VehicleDetailsResultContent(
             .fillMaxWidth(),
         state = lazyListState
     ) {
-        item { Spacer(modifier = Modifier.size(48.dp)) }
-
-        item { VehicleSummary(state.vehicle, modifier) }
+        item { VehicleSummary(state.vehicle, modifier.padding(top = 48.dp)) }
 
         item { MotStatus(state.vehicle, modifier) }
 

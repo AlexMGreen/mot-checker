@@ -36,8 +36,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.agapps.core.model.Vehicle
 import io.agapps.core.ui.component.AppBottomBar
-import io.agapps.core.ui.theme.LightGrey
+import io.agapps.core.ui.extensions.toFadeInOnScrollAlpha
 import io.agapps.core.ui.theme.MOTCheckerTheme
+import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.core.ui.theme.Typography
 import io.agapps.feature.recentvehicles.components.RecentVehicleCard
 import io.agapps.feature.recentvehicles.components.RecentVehicleSectionHeader
@@ -89,23 +90,15 @@ fun SearchScreen(
         bottomBar = { AppBottomBar(modifier = Modifier) }
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
-            val toolbarAlpha = if (listState.firstVisibleItemIndex != 0) 1f else {
-                @Suppress("MagicNumber")
-                (listState.firstVisibleItemScrollOffset / 100f).coerceAtMost(1f)
-            }
 
-            Surface(color = LightGrey.copy(alpha = toolbarAlpha)) {
-                NumberPlateTextField(
-                    modifier = modifier
-                        .statusBarsPadding()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    onTextChanged = { onRegistrationEntered(it) },
-                    onBackClicked = {
-                        focusManager.clearFocus()
-                        onBackClick()
-                    }
-                )
-            }
+            SearchToolbar(
+                toolbarAlpha = listState.toFadeInOnScrollAlpha(),
+                onBackClick = {
+                    focusManager.clearFocus()
+                    onBackClick()
+                },
+                onRegistrationEntered = onRegistrationEntered
+            )
 
             SearchResultContent(
                 vehicleState = vehicleState,
@@ -135,7 +128,25 @@ fun SearchScreen(
 }
 
 @Composable
-fun SearchResultContent(
+private fun SearchToolbar(
+    toolbarAlpha: Float,
+    onBackClick: () -> Unit,
+    onRegistrationEntered: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(color = SurfaceGrey.copy(alpha = toolbarAlpha)) {
+        NumberPlateTextField(
+            modifier = modifier
+                .statusBarsPadding()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            onTextChanged = onRegistrationEntered,
+            onBackClicked = onBackClick
+        )
+    }
+}
+
+@Composable
+private fun SearchResultContent(
     vehicleState: SearchVehicleViewState,
     lazyListState: LazyListState,
     onVehicleClick: (Vehicle) -> Unit,

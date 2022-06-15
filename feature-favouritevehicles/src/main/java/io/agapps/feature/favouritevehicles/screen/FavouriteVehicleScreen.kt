@@ -25,10 +25,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.agapps.common.mapRange
 import io.agapps.core.ui.component.AppBottomBar
 import io.agapps.core.ui.component.BottomListItemSpacer
 import io.agapps.core.ui.component.buttons.BackButton
+import io.agapps.core.ui.extensions.toFadeInOnScrollAlpha
+import io.agapps.core.ui.extensions.toFadeOutOnScrollAlpha
 import io.agapps.core.ui.theme.SurfaceGrey
 import io.agapps.core.ui.theme.Typography
 import io.agapps.feature.favouritevehicles.FavouriteVehicleViewModel
@@ -52,8 +53,6 @@ fun FavouriteVehicleRoute(
     )
 }
 
-private const val ToolbarCollapseLimit = 300f
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun FavouriteVehicleScreen(
@@ -62,50 +61,40 @@ fun FavouriteVehicleScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val listState = rememberLazyListState()
     Scaffold(
         modifier = Modifier.navigationBarsPadding(),
         bottomBar = { AppBottomBar(modifier = Modifier) }
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
-            val fadeInAlpha = if (listState.firstVisibleItemIndex > 0) 1f else
-                listState.firstVisibleItemScrollOffset.toFloat().mapRange(0f, ToolbarCollapseLimit, 0f, 1f).coerceIn(0f, 1f)
-            val fadeOutAlpha = 1f - fadeInAlpha
-            FavouriteVehicleToolbar(fadeInAlpha = fadeInAlpha, onBackClick = { onBackClick() })
+            val listState = rememberLazyListState()
 
-            when (viewState) {
-                is FavouriteVehicleViewState.FavouriteVehicle -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .fillMaxWidth(),
-                        state = listState
-                    ) {
-                        item {
-                            FavouriteVehicleHeading(fadeOutAlpha)
-                        }
+            FavouriteVehicleToolbar(fadeInAlpha = listState.toFadeInOnScrollAlpha(), onBackClick = { onBackClick() })
 
-                        items(viewState.favouriteVehicles) {
-                            FavouriteVehicleCard(
-                                vehicle = it,
-                                modifier = modifier.padding(horizontal = 16.dp),
-                                onClick = { vehicle ->
-                                    navigateToVehicleDetails(vehicle.registrationNumber)
-                                }
-                            )
-                        }
+            LazyColumn(modifier = Modifier.fillMaxWidth(), state = listState) {
+                item {
+                    FavouriteVehicleHeading(Modifier.alpha(listState.toFadeOutOnScrollAlpha()))
+                }
 
-                        item {
-                            BottomListItemSpacer(toolbarHeight = 64.dp)
-                        }
+                when (viewState) {
+                    is FavouriteVehicleViewState.FavouriteVehicle -> items(viewState.favouriteVehicles) {
+                        FavouriteVehicleCard(
+                            vehicle = it,
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            onClick = { vehicle ->
+                                navigateToVehicleDetails(vehicle.registrationNumber)
+                            }
+                        )
+                    }
+
+                    is FavouriteVehicleViewState.Empty -> {
+                        // TODO: Show empty state (e.g. when favourites list cleared)
                     }
                 }
 
-                is FavouriteVehicleViewState.Empty -> {
-                    // TODO: Show empty state (e.g. when recent list cleared)
+                item {
+                    BottomListItemSpacer(toolbarHeight = 64.dp)
                 }
             }
-
         }
     }
 }
@@ -116,9 +105,7 @@ private fun FavouriteVehicleToolbar(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Surface(
-        color = SurfaceGrey.copy(alpha = fadeInAlpha),
-    ) {
+    Surface(color = SurfaceGrey.copy(alpha = fadeInAlpha)) {
         Row(
             modifier = Modifier
                 .statusBarsPadding()
@@ -139,13 +126,11 @@ private fun FavouriteVehicleToolbar(
 }
 
 @Composable
-private fun FavouriteVehicleHeading(fadeOutAlpha: Float) {
+private fun FavouriteVehicleHeading(modifier: Modifier = Modifier) {
     Text(
         text = stringResource(id = R.string.favourite_vehicles),
         color = Color.White,
         style = MaterialTheme.typography.h4,
-        modifier = Modifier
-            .padding(top = 64.dp, bottom = 16.dp, start = 12.dp, end = 12.dp)
-            .alpha(fadeOutAlpha)
+        modifier = modifier.padding(top = 64.dp, bottom = 16.dp, start = 12.dp, end = 12.dp)
     )
 }
